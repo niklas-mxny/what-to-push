@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Search as SearchIcon, User } from "lucide-react";
+import { ChevronRight, Search as SearchIcon, User } from "lucide-react";
+import { FavoriteButton } from "@/components/FavoriteButton";
+import { PlayerAvatar } from "@/components/PlayerAvatar";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent } from "@/components/ui/Card";
@@ -15,6 +17,7 @@ interface SearchUser {
 interface TagMatch {
   tag: string;
   name: string;
+  iconUrl: string;
   trophies: number;
   linkedUsername: string | null;
 }
@@ -71,22 +74,28 @@ export default function SearchPage() {
               <p className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-2">
                 {t("search.tagHeading")}
               </p>
-              <Card interactive>
-                <CardContent className="flex items-center justify-between">
-                  <div>
-                    <p className="font-display text-base font-bold">{tagMatch.name}</p>
-                    <p className="text-xs text-muted">{tagMatch.tag}</p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Badge tone="accent">🏆 {tagMatch.trophies.toLocaleString()}</Badge>
-                    {tagMatch.linkedUsername && (
-                      <Link href={`/profile/${tagMatch.linkedUsername}`}>
-                        <Button size="sm" variant="secondary">
-                          {tagMatch.linkedUsername}
-                        </Button>
-                      </Link>
-                    )}
-                  </div>
+              <Card interactive className="group">
+                <CardContent className="flex items-center gap-3">
+                  <Link href={`/player/${tagMatch.tag}`} className="flex min-w-0 flex-1 items-center gap-3">
+                    <PlayerAvatar
+                      src={tagMatch.iconUrl}
+                      name={tagMatch.name}
+                      size={44}
+                      className="ring-1 ring-border-strong"
+                    />
+                    <div className="min-w-0">
+                      <p className="truncate font-display text-base font-bold">{tagMatch.name}</p>
+                      <p className="truncate text-xs text-muted">
+                        #{tagMatch.tag}
+                        {tagMatch.linkedUsername && <> · @{tagMatch.linkedUsername}</>}
+                      </p>
+                    </div>
+                    <Badge tone="accent" className="ms-auto shrink-0">
+                      🏆 {tagMatch.trophies.toLocaleString()}
+                    </Badge>
+                    <ChevronRight className="h-4 w-4 shrink-0 text-muted transition-transform group-hover:translate-x-0.5 rtl:rotate-180" />
+                  </Link>
+                  <FavoriteButton player={{ tag: tagMatch.tag, name: tagMatch.name, iconUrl: tagMatch.iconUrl }} />
                 </CardContent>
               </Card>
             </div>

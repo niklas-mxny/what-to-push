@@ -50,27 +50,18 @@ const pt: Record<DictionaryKey, string> = {
   "settings.tag.save": "Salvar",
   "settings.goal.title": "Sua meta",
   "settings.goal.description":
-    "Determina quais brawlers são recomendados primeiro — ex.: levar todos ao Prestígio 1 (1000 troféus), ou definir sua própria meta por nível de poder ou rank.",
-  "settings.goal.active": "Ativo",
-  "settings.goal.custom.title": "Meta personalizada",
-  "settings.goal.custom.apply": "Aplicar",
+    "Define quais brawlers são recomendados primeiro — ex.: levar todos ao Prestígio 1 (1000 troféus). Você também pode trocar direto no painel.",
   "settings.language.title": "Idioma",
   "settings.language.description": "Escolha o idioma da interface.",
 
-  "goal.metric.power": "Poder",
   "goal.metric.trophies": "Troféus",
-  "goal.metric.rank": "Rank",
-
-  "goal.type.power": "Nível de poder",
-  "goal.type.trophies": "Troféus (níveis de Prestígio: 1000/2000/3000)",
-  "goal.type.rank": "Rank",
 
   "goal.preset.prestige": "Todos os brawlers no Prestígio {n}",
   "goal.preset.none": "Classificação geral (melhor winrate, sem meta)",
   "goal.progressLabel": "{done}/{total} brawlers na meta",
-  "goal.custom.power": "Todos os brawlers no Poder {target}",
-  "goal.custom.trophies": "Todos os brawlers com {target} troféus",
-  "goal.custom.rank": "Todos os brawlers no Rank {target}",
+  "goal.select": "Escolher meta",
+  "goal.hint.prestige": "{target} troféus em cada brawler",
+  "goal.hint.none": "Melhor escolha para a rotação, sem meta",
 
   "build.hypercharge": "Hypercharge",
 
@@ -136,6 +127,7 @@ const pt: Record<DictionaryKey, string> = {
   "profile.linkTagPlaceholder": "2Y8VQGCCV",
   "profile.linkTagButton": "Vincular tag",
   "profile.linkedTag": "Tag vinculada: {tag}",
+  "profile.registeredAs": "Registrado como @{username}",
   "profile.stats.trophies": "Troféus",
   "profile.stats.prestigeTotal": "Prestígio total",
   "profile.stats.victories3v3": "Vitórias 3v3",
@@ -147,6 +139,20 @@ const pt: Record<DictionaryKey, string> = {
   "profile.ranked.highest": "Máxima (histórico)",
   "profile.ranked.elo": "{elo} ELO",
   "profile.fame.title": "Fama",
+
+  "favorites.title": "Jogadores salvos",
+  "favorites.empty": "Nenhum jogador salvo ainda — toque no coração em um perfil.",
+  "favorites.save": "Salvar jogador",
+  "favorites.remove": "Remover dos salvos",
+  "favorites.loginRequired": "Entre para salvar jogadores",
+
+  "compare.title": "Progresso da meta",
+  "compare.you": "Você",
+  "compare.noGoal": "Escolha uma meta de Prestígio para comparar o progresso.",
+  "compare.noOwnTag": "Defina sua própria tag de jogador para se comparar.",
+  "compare.ahead": "Você está {count} brawlers à frente.",
+  "compare.behind": "Você está {count} brawlers atrás.",
+  "compare.tied": "Vocês estão empatados.",
 };
 
 export default pt;

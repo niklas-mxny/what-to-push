@@ -48,27 +48,18 @@ const ar: Record<DictionaryKey, string> = {
   "settings.tag.save": "حفظ",
   "settings.goal.title": "هدفك",
   "settings.goal.description":
-    "يحدد أي المقاتلين تتم التوصية بهم أولاً — مثل الوصول بالجميع إلى المكانة 1 (1000 كأس)، أو تعيين هدفك الخاص حسب مستوى القوة أو الرتبة.",
-  "settings.goal.active": "نشط",
-  "settings.goal.custom.title": "هدف مخصص",
-  "settings.goal.custom.apply": "تطبيق",
+    "يحدد أي المقاتلين تتم التوصية بهم أولاً — مثل الوصول بالجميع إلى المكانة 1 (1000 كأس). يمكنك أيضًا تغييره مباشرةً من لوحة التحكم.",
   "settings.language.title": "اللغة",
   "settings.language.description": "اختر لغة الواجهة.",
 
-  "goal.metric.power": "القوة",
   "goal.metric.trophies": "الكؤوس",
-  "goal.metric.rank": "الرتبة",
-
-  "goal.type.power": "مستوى القوة",
-  "goal.type.trophies": "الكؤوس (مستويات المكانة: 1000/2000/3000)",
-  "goal.type.rank": "الرتبة",
 
   "goal.preset.prestige": "جميع المقاتلين إلى المكانة {n}",
   "goal.preset.none": "ترتيب عام (أفضل معدل فوز، بلا هدف)",
   "goal.progressLabel": "{done}/{total} مقاتل عند الهدف",
-  "goal.custom.power": "جميع المقاتلين إلى القوة {target}",
-  "goal.custom.trophies": "جميع المقاتلين إلى {target} كأس",
-  "goal.custom.rank": "جميع المقاتلين إلى الرتبة {target}",
+  "goal.select": "اختر الهدف",
+  "goal.hint.prestige": "{target} كأس لكل مقاتل",
+  "goal.hint.none": "أفضل اختيار للدورة، بلا هدف",
 
   "build.hypercharge": "الشحن الفائق",
 
@@ -133,6 +124,7 @@ const ar: Record<DictionaryKey, string> = {
   "profile.linkTagPlaceholder": "2Y8VQGCCV",
   "profile.linkTagButton": "ربط التاق",
   "profile.linkedTag": "التاق المرتبط: {tag}",
+  "profile.registeredAs": "مسجَّل باسم @{username}",
   "profile.stats.trophies": "الكؤوس",
   "profile.stats.prestigeTotal": "إجمالي المكانة",
   "profile.stats.victories3v3": "انتصارات 3v3",
@@ -144,6 +136,20 @@ const ar: Record<DictionaryKey, string> = {
   "profile.ranked.highest": "الأعلى (كل العصور)",
   "profile.ranked.elo": "{elo} ELO",
   "profile.fame.title": "الشهرة",
+
+  "favorites.title": "اللاعبون المحفوظون",
+  "favorites.empty": "لا يوجد لاعبون محفوظون بعد — اضغط على القلب في أي ملف شخصي.",
+  "favorites.save": "حفظ اللاعب",
+  "favorites.remove": "إزالة من المحفوظين",
+  "favorites.loginRequired": "سجّل الدخول لحفظ اللاعبين",
+
+  "compare.title": "التقدم نحو الهدف",
+  "compare.you": "أنت",
+  "compare.noGoal": "اختر هدف مكانة لمقارنة التقدم.",
+  "compare.noOwnTag": "عيّن تاق اللاعب الخاص بك لتقارن نفسك.",
+  "compare.ahead": "أنت متقدم بـ {count} مقاتل.",
+  "compare.behind": "أنت متأخر بـ {count} مقاتل.",
+  "compare.tied": "أنتما متعادلان.",
 };
 
 export default ar;

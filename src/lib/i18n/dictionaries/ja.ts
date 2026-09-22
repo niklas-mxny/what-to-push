@@ -49,27 +49,18 @@ const ja: Record<DictionaryKey, string> = {
   "settings.tag.save": "保存",
   "settings.goal.title": "あなたの目標",
   "settings.goal.description":
-    "どのブロウラーを優先的におすすめするかを決めます — 例: 全員をプレステージ1(1000トロフィー)にする、またはパワーレベルやランクで独自の目標を設定します。",
-  "settings.goal.active": "有効",
-  "settings.goal.custom.title": "カスタム目標",
-  "settings.goal.custom.apply": "適用",
+    "どのブロウラーを優先的におすすめするかを決めます — 例: 全員をプレステージ1(1000トロフィー)にする。ダッシュボードから直接切り替えることもできます。",
   "settings.language.title": "言語",
   "settings.language.description": "インターフェースの言語を選択してください。",
 
-  "goal.metric.power": "パワー",
   "goal.metric.trophies": "トロフィー",
-  "goal.metric.rank": "ランク",
-
-  "goal.type.power": "パワーレベル",
-  "goal.type.trophies": "トロフィー(プレステージ段階: 1000/2000/3000)",
-  "goal.type.rank": "ランク",
 
   "goal.preset.prestige": "全ブロウラーをプレステージ{n}に",
   "goal.preset.none": "総合ランキング(ベストウィンレート、目標なし)",
   "goal.progressLabel": "目標達成 {done}/{total} 体",
-  "goal.custom.power": "全ブロウラーをパワー{target}に",
-  "goal.custom.trophies": "全ブロウラーを{target}トロフィーに",
-  "goal.custom.rank": "全ブロウラーをランク{target}に",
+  "goal.select": "目標を選択",
+  "goal.hint.prestige": "全ブロウラーで{target}トロフィー",
+  "goal.hint.none": "ローテーションのベストな選択、目標なし",
 
   "build.hypercharge": "ハイパーチャージ",
 
@@ -134,6 +125,7 @@ const ja: Record<DictionaryKey, string> = {
   "profile.linkTagPlaceholder": "2Y8VQGCCV",
   "profile.linkTagButton": "タグを連携",
   "profile.linkedTag": "連携済みタグ: {tag}",
+  "profile.registeredAs": "@{username} として登録済み",
   "profile.stats.trophies": "トロフィー",
   "profile.stats.prestigeTotal": "合計プレステージ",
   "profile.stats.victories3v3": "3v3勝利数",
@@ -145,6 +137,20 @@ const ja: Record<DictionaryKey, string> = {
   "profile.ranked.highest": "最高(歴代)",
   "profile.ranked.elo": "{elo} ELO",
   "profile.fame.title": "フェイム",
+
+  "favorites.title": "保存したプレイヤー",
+  "favorites.empty": "保存したプレイヤーはまだいません — プロフィールのハートをタップしてください。",
+  "favorites.save": "プレイヤーを保存",
+  "favorites.remove": "保存から削除",
+  "favorites.loginRequired": "プレイヤーを保存するにはログインしてください",
+
+  "compare.title": "目標の進捗",
+  "compare.you": "あなた",
+  "compare.noGoal": "進捗を比較するにはプレステージの目標を選んでください。",
+  "compare.noOwnTag": "自分と比較するには、自分のプレイヤータグを設定してください。",
+  "compare.ahead": "あなたが{count}体リードしています。",
+  "compare.behind": "あなたは{count}体遅れています。",
+  "compare.tied": "互角です。",
 };
 
 export default ja;

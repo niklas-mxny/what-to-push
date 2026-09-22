@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LayoutGrid, LogOut, Search, Settings, Swords, Trophy, User } from "lucide-react";
+import { FavoritesMenu } from "@/components/FavoritesMenu";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { cn } from "@/lib/cn";
 import { useAuth } from "@/lib/auth-context";
@@ -58,6 +59,7 @@ export function NavBar() {
             <div className="flex items-center gap-1 rounded-full border border-border bg-card/60 p-1">
               {user ? (
                 <>
+                  <FavoritesMenu />
                   <Link
                     href={`/profile/${user.username}`}
                     className="nav-link-glow flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-muted hover:bg-white/5 hover:text-foreground"

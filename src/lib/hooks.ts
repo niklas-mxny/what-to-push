@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { normalizePlayerTag } from "@/lib/tag";
 import type { MergedBrawler, ActiveSlot } from "@/types/domain";
+import type { PlayerResponse } from "@/types/profile";
 
 export interface ApiError {
   message: string;
@@ -94,4 +96,35 @@ export function useRoster(tag: string, hydrated: boolean): ApiState<RosterRespon
   }, [tag, hydrated]);
 
   return state;
+}
+
+/** Full public stats for any player tag (or nothing, for a null/empty tag). */
+export function usePublicPlayer(tag: string | null): ApiState<PlayerResponse> {
+  const key = tag ? normalizePlayerTag(tag) : "";
+  // Results are stored with the tag they belong to; a stale entry for another
+  // tag just reads as "loading" — no synchronous reset needed in the effect.
+  const [state, setState] = useState<{ key: string; data: PlayerResponse | null; error: ApiError | null }>({
+    key: "",
+    data: null,
+    error: null,
+  });
+
+  useEffect(() => {
+    if (!key) return;
+    let cancelled = false;
+    fetchJson<PlayerResponse>(`/api/player/${encodeURIComponent(key)}`)
+      .then((res) => {
+        if (!cancelled) setState({ key, data: res, error: null });
+      })
+      .catch((err: unknown) => {
+        if (!cancelled) setState({ key, data: null, error: toApiError(err) });
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [key]);
+
+  if (!key) return { data: null, error: null, loading: false };
+  if (state.key !== key) return { data: null, error: null, loading: true };
+  return { data: state.data, error: state.error, loading: false };
 }

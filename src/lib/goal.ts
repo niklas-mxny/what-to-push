@@ -7,14 +7,11 @@ export function isGoalless(goal: GoalConfig): boolean {
 
 /** Per-brawler value for the goal's metric. Meaningless for "none" — callers must branch on isGoalless() first. */
 export function goalMetricValue(b: MergedBrawler, goal: GoalConfig): number {
-  switch (goal.type) {
-    case "power":
-      return b.power;
-    case "trophies":
-      return b.trophies;
-    case "rank":
-      return b.rank;
-    case "none":
-      return 0;
-  }
+  return goal.type === "trophies" ? b.trophies : 0;
+}
+
+/** How many of a player's brawlers (given as their trophy counts) have reached the goal. */
+export function countReached(brawlerTrophies: number[], goal: GoalConfig): number {
+  if (isGoalless(goal)) return 0;
+  return brawlerTrophies.filter((trophies) => trophies >= goal.target).length;
 }

@@ -50,27 +50,18 @@ const es: Record<DictionaryKey, string> = {
   "settings.tag.save": "Guardar",
   "settings.goal.title": "Tu objetivo",
   "settings.goal.description":
-    "Determina qué brawlers se recomiendan primero — p. ej. llevar a todos a Prestigio 1 (1000 trofeos), o fijar tu propio objetivo por nivel de poder o rango.",
-  "settings.goal.active": "Activo",
-  "settings.goal.custom.title": "Objetivo personalizado",
-  "settings.goal.custom.apply": "Aplicar",
+    "Determina qué brawlers se recomiendan primero — p. ej., llevar a todos a Prestigio 1 (1000 trofeos). También puedes cambiarlo directamente en el panel.",
   "settings.language.title": "Idioma",
   "settings.language.description": "Elige el idioma de la interfaz.",
 
-  "goal.metric.power": "Poder",
   "goal.metric.trophies": "Trofeos",
-  "goal.metric.rank": "Rango",
-
-  "goal.type.power": "Nivel de poder",
-  "goal.type.trophies": "Trofeos (niveles de Prestigio: 1000/2000/3000)",
-  "goal.type.rank": "Rango",
 
   "goal.preset.prestige": "Todos los brawlers a Prestigio {n}",
   "goal.preset.none": "Clasificación general (mejor winrate, sin objetivo)",
   "goal.progressLabel": "{done}/{total} brawlers en el objetivo",
-  "goal.custom.power": "Todos los brawlers a Poder {target}",
-  "goal.custom.trophies": "Todos los brawlers a {target} trofeos",
-  "goal.custom.rank": "Todos los brawlers a Rango {target}",
+  "goal.select": "Elegir objetivo",
+  "goal.hint.prestige": "{target} trofeos en cada brawler",
+  "goal.hint.none": "Mejor opción para la rotación, sin objetivo",
 
   "build.hypercharge": "Hypercharge",
 
@@ -136,6 +127,7 @@ const es: Record<DictionaryKey, string> = {
   "profile.linkTagPlaceholder": "2Y8VQGCCV",
   "profile.linkTagButton": "Vincular tag",
   "profile.linkedTag": "Tag vinculado: {tag}",
+  "profile.registeredAs": "Registrado como @{username}",
   "profile.stats.trophies": "Trofeos",
   "profile.stats.prestigeTotal": "Prestigio total",
   "profile.stats.victories3v3": "Victorias 3v3",
@@ -147,6 +139,20 @@ const es: Record<DictionaryKey, string> = {
   "profile.ranked.highest": "Máximo (histórico)",
   "profile.ranked.elo": "{elo} ELO",
   "profile.fame.title": "Fama",
+
+  "favorites.title": "Jugadores guardados",
+  "favorites.empty": "Aún no hay jugadores guardados — toca el corazón en un perfil.",
+  "favorites.save": "Guardar jugador",
+  "favorites.remove": "Quitar de guardados",
+  "favorites.loginRequired": "Inicia sesión para guardar jugadores",
+
+  "compare.title": "Progreso del objetivo",
+  "compare.you": "Tú",
+  "compare.noGoal": "Elige un objetivo de Prestigio para comparar el progreso.",
+  "compare.noOwnTag": "Indica tu propio tag de jugador para compararte.",
+  "compare.ahead": "Vas {count} brawlers por delante.",
+  "compare.behind": "Vas {count} brawlers por detrás.",
+  "compare.tied": "Estáis empatados.",
 };
 
 export default es;

@@ -48,27 +48,18 @@ const ko: Record<DictionaryKey, string> = {
   "settings.tag.save": "저장",
   "settings.goal.title": "목표",
   "settings.goal.description":
-    "어떤 브롤러를 우선 추천할지 결정합니다 — 예: 모든 브롤러를 프레스티지 1(트로피 1000개)로 만들거나, 파워 레벨이나 랭크로 나만의 목표를 설정하세요.",
-  "settings.goal.active": "활성",
-  "settings.goal.custom.title": "맞춤 목표",
-  "settings.goal.custom.apply": "적용",
+    "어떤 브롤러를 우선 추천할지 결정합니다 — 예: 모든 브롤러를 프레스티지 1(트로피 1000개)로 만들기. 대시보드에서 바로 변경할 수도 있습니다.",
   "settings.language.title": "언어",
   "settings.language.description": "인터페이스 언어를 선택하세요.",
 
-  "goal.metric.power": "파워",
   "goal.metric.trophies": "트로피",
-  "goal.metric.rank": "랭크",
-
-  "goal.type.power": "파워 레벨",
-  "goal.type.trophies": "트로피 (프레스티지 단계: 1000/2000/3000)",
-  "goal.type.rank": "랭크",
 
   "goal.preset.prestige": "모든 브롤러 프레스티지 {n}",
   "goal.preset.none": "전체 순위 (최고 승률, 목표 없음)",
   "goal.progressLabel": "목표 달성 {done}/{total}",
-  "goal.custom.power": "모든 브롤러 파워 {target}",
-  "goal.custom.trophies": "모든 브롤러 트로피 {target}개",
-  "goal.custom.rank": "모든 브롤러 랭크 {target}",
+  "goal.select": "목표 선택",
+  "goal.hint.prestige": "모든 브롤러 트로피 {target}개",
+  "goal.hint.none": "로테이션 최고의 선택, 목표 없음",
 
   "build.hypercharge": "하이퍼차지",
 
@@ -133,6 +124,7 @@ const ko: Record<DictionaryKey, string> = {
   "profile.linkTagPlaceholder": "2Y8VQGCCV",
   "profile.linkTagButton": "태그 연결",
   "profile.linkedTag": "연결된 태그: {tag}",
+  "profile.registeredAs": "@{username}(으)로 가입됨",
   "profile.stats.trophies": "트로피",
   "profile.stats.prestigeTotal": "총 프레스티지",
   "profile.stats.victories3v3": "3v3 승리",
@@ -144,6 +136,20 @@ const ko: Record<DictionaryKey, string> = {
   "profile.ranked.highest": "최고 (역대)",
   "profile.ranked.elo": "{elo} ELO",
   "profile.fame.title": "페임",
+
+  "favorites.title": "저장한 플레이어",
+  "favorites.empty": "아직 저장한 플레이어가 없습니다 — 프로필에서 하트를 누르세요.",
+  "favorites.save": "플레이어 저장",
+  "favorites.remove": "저장 목록에서 제거",
+  "favorites.loginRequired": "플레이어를 저장하려면 로그인하세요",
+
+  "compare.title": "목표 진행도",
+  "compare.you": "나",
+  "compare.noGoal": "진행도를 비교하려면 프레스티지 목표를 선택하세요.",
+  "compare.noOwnTag": "나와 비교하려면 내 플레이어 태그를 설정하세요.",
+  "compare.ahead": "내가 브롤러 {count}명 앞서 있습니다.",
+  "compare.behind": "내가 브롤러 {count}명 뒤처져 있습니다.",
+  "compare.tied": "막상막하입니다.",
 };
 
 export default ko;

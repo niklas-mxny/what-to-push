@@ -47,27 +47,18 @@ const zh: Record<DictionaryKey, string> = {
   "settings.tag.save": "保存",
   "settings.goal.title": "你的目标",
   "settings.goal.description":
-    "决定优先推荐哪些角色——例如让所有角色达到荣誉等级1(1000奖杯),或按力量等级或段位自定义目标。",
-  "settings.goal.active": "当前",
-  "settings.goal.custom.title": "自定义目标",
-  "settings.goal.custom.apply": "应用",
+    "决定优先推荐哪些角色——例如让所有角色达到荣誉等级1(1000奖杯)。也可以直接在仪表盘中切换。",
   "settings.language.title": "语言",
   "settings.language.description": "选择界面语言。",
 
-  "goal.metric.power": "力量",
   "goal.metric.trophies": "奖杯",
-  "goal.metric.rank": "段位",
-
-  "goal.type.power": "力量等级",
-  "goal.type.trophies": "奖杯(荣誉等级:1000/2000/3000)",
-  "goal.type.rank": "段位",
 
   "goal.preset.prestige": "所有角色达到荣誉等级{n}",
   "goal.preset.none": "综合排名(最佳胜率,无目标)",
   "goal.progressLabel": "已达成 {done}/{total}",
-  "goal.custom.power": "所有角色达到力量{target}",
-  "goal.custom.trophies": "所有角色达到{target}奖杯",
-  "goal.custom.rank": "所有角色达到段位{target}",
+  "goal.select": "选择目标",
+  "goal.hint.prestige": "每个角色{target}奖杯",
+  "goal.hint.none": "当前轮换的最佳选择,无目标",
 
   "build.hypercharge": "超能量",
 
@@ -132,6 +123,7 @@ const zh: Record<DictionaryKey, string> = {
   "profile.linkTagPlaceholder": "2Y8VQGCCV",
   "profile.linkTagButton": "关联标签",
   "profile.linkedTag": "已关联标签:{tag}",
+  "profile.registeredAs": "已注册为 @{username}",
   "profile.stats.trophies": "奖杯",
   "profile.stats.prestigeTotal": "总荣誉等级",
   "profile.stats.victories3v3": "3v3 胜场",
@@ -143,6 +135,20 @@ const zh: Record<DictionaryKey, string> = {
   "profile.ranked.highest": "历史最高",
   "profile.ranked.elo": "{elo} ELO",
   "profile.fame.title": "名望",
+
+  "favorites.title": "已保存的玩家",
+  "favorites.empty": "还没有保存的玩家——在资料页点击爱心即可保存。",
+  "favorites.save": "保存玩家",
+  "favorites.remove": "取消保存",
+  "favorites.loginRequired": "登录后即可保存玩家",
+
+  "compare.title": "目标进度",
+  "compare.you": "你",
+  "compare.noGoal": "选择一个荣誉等级目标来比较进度。",
+  "compare.noOwnTag": "设置你自己的玩家标签即可与自己比较。",
+  "compare.ahead": "你领先{count}个角色。",
+  "compare.behind": "你落后{count}个角色。",
+  "compare.tied": "你们不相上下。",
 };
 
 export default zh;

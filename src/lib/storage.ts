@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useSyncExternalStore } from "react";
-import { DEFAULT_GOAL, type GoalConfig } from "@/types/domain";
+import { DEFAULT_GOAL, toPresetGoal, type GoalConfig } from "@/types/domain";
 
 const listeners = new Set<() => void>();
 
@@ -99,6 +99,7 @@ export function usePlayerTag() {
 }
 
 export function useGoal() {
-  const [goal, setGoal, hydrated] = useLocalStorageState<GoalConfig>("wtp_goal", DEFAULT_GOAL);
-  return { goal, setGoal, hydrated };
+  const [stored, setGoal, hydrated] = useLocalStorageState<GoalConfig>("wtp_goal", DEFAULT_GOAL);
+  // Old saves may hold a custom power/rank goal, which no longer exists.
+  return { goal: toPresetGoal(stored), setGoal, hydrated };
 }

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { playerIconUrl } from "@/lib/brawlapi";
 import { getDb } from "@/lib/db";
 import { fetchPlayer, normalizePlayerTag } from "@/lib/supercell";
 
@@ -22,7 +23,13 @@ export async function GET(request: Request) {
 
   // Also try the query as a direct player tag lookup (e.g. "#2Y8VQGCCV") — this
   // works for any valid Brawl Stars tag, not just ones linked to an account here.
-  let tagMatch: { tag: string; name: string; trophies: number; linkedUsername: string | null } | null = null;
+  let tagMatch: {
+    tag: string;
+    name: string;
+    iconUrl: string;
+    trophies: number;
+    linkedUsername: string | null;
+  } | null = null;
   const normalizedTag = normalizePlayerTag(q);
   if (normalizedTag.length >= 3) {
     try {
@@ -32,7 +39,13 @@ export async function GET(request: Request) {
       const linked = db
         .prepare("SELECT username FROM users WHERE player_tag = ?")
         .get(normalizePlayerTag(player.tag)) as { username: string } | undefined;
-      tagMatch = { tag: player.tag, name: player.name, trophies: player.trophies, linkedUsername: linked?.username ?? null };
+      tagMatch = {
+        tag: normalizePlayerTag(player.tag),
+        name: player.name,
+        iconUrl: playerIconUrl(player.icon.id),
+        trophies: player.trophies,
+        linkedUsername: linked?.username ?? null,
+      };
     } catch {
       // Not a valid/existing tag — fine, just means no tag match.
     }
