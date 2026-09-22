@@ -34,6 +34,7 @@ const ru: Record<DictionaryKey, string> = {
 
   "brawlers.title": "Твои бойцы",
   "brawlers.progress": "Цель: {metric} {target}",
+  "brawlers.completedHeading": "Цель достигнута ({count})",
   "brawlers.bestWinrateHint": "Сортировка по общему качеству прокачки — без конкретной цели.",
   "brawlers.search": "Поиск бойца…",
   "brawlers.noTagHint":

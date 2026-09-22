@@ -71,7 +71,7 @@ export default function SearchPage() {
               <p className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-2">
                 {t("search.tagHeading")}
               </p>
-              <Card>
+              <Card interactive>
                 <CardContent className="flex items-center justify-between">
                   <div>
                     <p className="font-display text-base font-bold">{tagMatch.name}</p>
@@ -100,7 +100,7 @@ export default function SearchPage() {
               <div className="flex flex-col gap-2">
                 {users.map((u) => (
                   <Link key={u.username} href={`/profile/${u.username}`}>
-                    <Card className="transition-colors hover:border-border-strong">
+                    <Card interactive>
                       <CardContent className="flex items-center gap-3 py-3">
                         <span className="flex h-9 w-9 items-center justify-center rounded-full bg-background-elevated ring-1 ring-border-strong">
                           <User className="h-4 w-4 text-muted" />

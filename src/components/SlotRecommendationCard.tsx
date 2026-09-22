@@ -26,7 +26,7 @@ export function SlotRecommendationCard({ rec }: { rec: SlotRecommendation }) {
   const top = rec.picks[0];
 
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden" interactive>
       <div className="relative h-28 w-full bg-background-elevated">
         {rec.slot.mapImageUrl && (
           <Image
@@ -80,10 +80,14 @@ export function SlotRecommendationCard({ rec }: { rec: SlotRecommendation }) {
               {rec.picks.slice(1).map((pick) => (
                 <div
                   key={pick.brawler.key}
-                  className="flex shrink-0 flex-col items-center gap-1"
+                  className="group flex shrink-0 flex-col items-center gap-1"
                   title={formatReasons(t, pick.reasons)}
                 >
-                  <BrawlerIcon brawler={pick.brawler} size={36} />
+                  <BrawlerIcon
+                    brawler={pick.brawler}
+                    size={36}
+                    className="transition-all duration-200 group-hover:-translate-y-0.5 group-hover:ring-2 group-hover:ring-primary/60"
+                  />
                   <span className="max-w-[3.5rem] truncate text-[11px] text-muted">
                     {pick.brawler.name}
                   </span>

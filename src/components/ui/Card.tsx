@@ -1,11 +1,17 @@
 import type { HTMLAttributes } from "react";
 import { cn } from "@/lib/cn";
 
-export function Card({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
+/** `interactive` adds the neon hover lift/glow — opt in for clickable or showcase cards, skip it for plain static content (e.g. error notices). */
+export function Card({
+  className,
+  interactive,
+  ...props
+}: HTMLAttributes<HTMLDivElement> & { interactive?: boolean }) {
   return (
     <div
       className={cn(
         "rounded-card border border-border bg-card/80 shadow-lg shadow-black/20",
+        interactive && "card-glow",
         className
       )}
       {...props}

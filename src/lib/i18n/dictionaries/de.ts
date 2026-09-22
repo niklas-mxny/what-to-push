@@ -34,6 +34,7 @@ const de: Record<DictionaryKey, string> = {
 
   "brawlers.title": "Deine Brawler",
   "brawlers.progress": "Ziel: {metric} {target}",
+  "brawlers.completedHeading": "Ziel erreicht ({count})",
   "brawlers.bestWinrateHint": "Sortiert nach allgemeiner Build-Qualität — kein konkretes Ziel gesetzt.",
   "brawlers.search": "Brawler suchen…",
   "brawlers.noTagHint":

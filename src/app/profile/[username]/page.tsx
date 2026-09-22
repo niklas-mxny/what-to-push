@@ -33,9 +33,9 @@ interface ProfileData {
 
 function StatTile({ icon: Icon, label, value }: { icon: typeof Trophy; label: string; value: string | number }) {
   return (
-    <Card>
+    <Card interactive className="group">
       <CardContent className="flex items-center gap-3">
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary transition-colors duration-200 group-hover:bg-primary/25">
           <Icon className="h-4.5 w-4.5" />
         </span>
         <div className="min-w-0">

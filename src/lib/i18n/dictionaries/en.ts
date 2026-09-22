@@ -32,6 +32,7 @@ const en = {
 
   "brawlers.title": "Your Brawlers",
   "brawlers.progress": "Goal: {metric} {target}",
+  "brawlers.completedHeading": "Goal reached ({count})",
   "brawlers.bestWinrateHint": "Sorted by overall build quality — no specific goal set.",
   "brawlers.search": "Search brawlers…",
   "brawlers.noTagHint":

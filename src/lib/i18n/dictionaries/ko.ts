@@ -34,6 +34,7 @@ const ko: Record<DictionaryKey, string> = {
 
   "brawlers.title": "내 브롤러",
   "brawlers.progress": "목표: {metric} {target}",
+  "brawlers.completedHeading": "목표 달성 ({count})",
   "brawlers.bestWinrateHint": "전체적인 빌드 완성도 순 정렬 — 특정 목표 없음.",
   "brawlers.search": "브롤러 검색…",
   "brawlers.noTagHint": "플레이어 태그가 없으면(설정 참조) 진행 상황 없이 일반 브롤러 목록만 표시됩니다.",

@@ -34,6 +34,7 @@ const ar: Record<DictionaryKey, string> = {
 
   "brawlers.title": "مقاتلوك",
   "brawlers.progress": "الهدف: {metric} {target}",
+  "brawlers.completedHeading": "تم تحقيق الهدف ({count})",
   "brawlers.bestWinrateHint": "مرتب حسب جودة التجهيز العامة — لا يوجد هدف محدد.",
   "brawlers.search": "ابحث عن مقاتل…",
   "brawlers.noTagHint": "بدون تاق لاعب (راجع الإعدادات) نعرض فقط القائمة العامة للمقاتلين دون تقدمك الخاص.",

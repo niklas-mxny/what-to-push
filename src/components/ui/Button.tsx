@@ -5,9 +5,9 @@ type Variant = "primary" | "secondary" | "ghost";
 type Size = "sm" | "md";
 
 const VARIANT_CLASSES: Record<Variant, string> = {
-  primary: "bg-primary text-primary-foreground hover:bg-primary/90",
-  secondary: "bg-white/5 text-foreground border border-border-strong hover:bg-white/10",
-  ghost: "text-muted hover:text-foreground hover:bg-white/5",
+  primary: "btn-glow bg-primary text-primary-foreground hover:bg-primary/90",
+  secondary: "btn-glow bg-white/5 text-foreground border border-border-strong hover:bg-white/10 hover:border-primary/40",
+  ghost: "text-muted hover:text-foreground hover:bg-white/5 transition-colors",
 };
 
 const SIZE_CLASSES: Record<Size, string> = {

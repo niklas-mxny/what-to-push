@@ -34,6 +34,7 @@ const ja: Record<DictionaryKey, string> = {
 
   "brawlers.title": "あなたのブロウラー",
   "brawlers.progress": "目標: {metric} {target}",
+  "brawlers.completedHeading": "目標達成済み({count})",
   "brawlers.bestWinrateHint": "総合的なビルドの完成度で並び替え — 特定の目標なし。",
   "brawlers.search": "ブロウラーを検索…",
   "brawlers.noTagHint":

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, LogOut, Search, Settings, Swords, Target, User } from "lucide-react";
+import { LayoutGrid, LogOut, Search, Settings, Swords, Trophy, User } from "lucide-react";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { cn } from "@/lib/cn";
 import { useAuth } from "@/lib/auth-context";
@@ -23,9 +23,9 @@ export function NavBar() {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <Target className="h-4.5 w-4.5" strokeWidth={2.5} />
+        <Link href="/" className="group flex items-center gap-2">
+          <span className="logo-glow flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-accent to-[#c98a00] text-accent-foreground transition-transform duration-200 group-hover:scale-110">
+            <Trophy className="h-4.5 w-4.5" strokeWidth={2.5} />
           </span>
           <span className="font-display text-lg font-bold tracking-tight">
             What to <span className="text-accent">Push</span>
@@ -41,10 +41,10 @@ export function NavBar() {
                   key={href}
                   href={href}
                   className={cn(
-                    "flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium transition-colors",
+                    "nav-link-glow flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium",
                     active
-                      ? "bg-primary text-primary-foreground"
-                      : "text-muted hover:text-foreground"
+                      ? "nav-link-active-glow bg-primary text-primary-foreground"
+                      : "text-muted hover:text-foreground hover:bg-white/5"
                   )}
                 >
                   <Icon className="h-4 w-4" strokeWidth={2.25} />
@@ -60,14 +60,14 @@ export function NavBar() {
                 <>
                   <Link
                     href={`/profile/${user.username}`}
-                    className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-muted transition-colors hover:text-foreground"
+                    className="nav-link-glow flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-muted hover:bg-white/5 hover:text-foreground"
                   >
                     <User className="h-4 w-4" strokeWidth={2.25} />
                     <span className="hidden sm:inline">{user.username}</span>
                   </Link>
                   <button
                     onClick={() => logout()}
-                    className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-muted transition-colors hover:text-foreground"
+                    className="nav-link-glow flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-muted hover:bg-white/5 hover:text-foreground"
                     title={t("nav.logout")}
                   >
                     <LogOut className="h-4 w-4" strokeWidth={2.25} />
@@ -77,13 +77,13 @@ export function NavBar() {
                 <>
                   <Link
                     href="/login"
-                    className="rounded-full px-3 py-1.5 text-sm font-medium text-muted transition-colors hover:text-foreground"
+                    className="nav-link-glow rounded-full px-3 py-1.5 text-sm font-medium text-muted hover:bg-white/5 hover:text-foreground"
                   >
                     {t("nav.login")}
                   </Link>
                   <Link
                     href="/signup"
-                    className="rounded-full bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                    className="btn-glow rounded-full bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90"
                   >
                     {t("nav.signup")}
                   </Link>

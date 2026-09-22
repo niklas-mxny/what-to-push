@@ -13,9 +13,9 @@ export function ProgressBar({
 }) {
   const pct = max > 0 ? Math.min(100, Math.max(0, (value / max) * 100)) : 0;
   return (
-    <div className={cn("h-2 w-full overflow-hidden rounded-full bg-white/5", className)}>
+    <div className={cn("h-2 w-full rounded-full bg-white/5", className)}>
       <div
-        className={cn("h-full rounded-full transition-all", toneClassName)}
+        className={cn("glow-bar h-full rounded-full transition-all duration-500 ease-out", toneClassName)}
         style={{ width: `${pct}%` }}
       />
     </div>

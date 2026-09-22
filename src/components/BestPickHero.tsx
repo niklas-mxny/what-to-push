@@ -21,11 +21,15 @@ export function BestPickHero({ recommendations }: { recommendations: SlotRecomme
   const pick = best.rec.picks[0];
 
   return (
-    <div className="relative overflow-hidden rounded-card border border-primary/40 bg-gradient-to-br from-primary/25 via-card to-card p-6">
-      <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-accent/20 blur-3xl" />
+    <div className="glow-ring-accent relative overflow-hidden rounded-card border border-primary/40 bg-gradient-to-br from-primary/25 via-card to-card p-6">
+      <div className="absolute -right-10 -top-10 h-40 w-40 animate-pulse rounded-full bg-accent/20 blur-3xl" />
       <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-4">
-          <BrawlerIcon brawler={pick.brawler} size={72} className="ring-2 ring-accent" />
+          <BrawlerIcon
+            brawler={pick.brawler}
+            size={72}
+            className="ring-2 ring-accent transition-transform duration-300 hover:scale-105"
+          />
           <div>
             <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-accent">
               <Sparkles className="h-3.5 w-3.5" /> {t("dashboard.bestPick")}

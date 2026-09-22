@@ -33,6 +33,7 @@ const zh: Record<DictionaryKey, string> = {
 
   "brawlers.title": "你的角色",
   "brawlers.progress": "目标:{metric} {target}",
+  "brawlers.completedHeading": "已达成目标({count})",
   "brawlers.bestWinrateHint": "按整体配置质量排序——未设定具体目标。",
   "brawlers.search": "搜索角色…",
   "brawlers.noTagHint": "没有玩家标签(见设置)时,我们只显示通用角色列表,不显示你的进度。",
