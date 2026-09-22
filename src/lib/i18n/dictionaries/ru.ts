@@ -3,7 +3,11 @@ import type { DictionaryKey } from "./en";
 const ru: Record<DictionaryKey, string> = {
   "nav.dashboard": "Панель",
   "nav.brawlers": "Бойцы",
+  "nav.search": "Поиск",
   "nav.settings": "Настройки",
+  "nav.login": "Войти",
+  "nav.signup": "Регистрация",
+  "nav.logout": "Выйти",
 
   "app.disclaimer": "Не связано с Supercell. Создано в рамках Политики Supercell для фан-контента.",
 
@@ -29,8 +33,8 @@ const ru: Record<DictionaryKey, string> = {
   "time.minutes": "осталось {m}м",
 
   "brawlers.title": "Твои бойцы",
-  "brawlers.progress": "Прогресс к цели: {metric} {target} · {done}/{total} достигнуто",
-  "brawlers.accountProgress": "Прогресс аккаунта к {target} трофеям всего",
+  "brawlers.progress": "Цель: {metric} {target}",
+  "brawlers.bestWinrateHint": "Сортировка по общему качеству прокачки — без конкретной цели.",
   "brawlers.search": "Поиск бойца…",
   "brawlers.noTagHint":
     "Без тега игрока (см. Настройки) мы показываем только общий список бойцов, без твоего прогресса.",
@@ -54,19 +58,19 @@ const ru: Record<DictionaryKey, string> = {
   "goal.metric.power": "Сила",
   "goal.metric.trophies": "Трофеи",
   "goal.metric.rank": "Ранг",
-  "goal.metric.totalTrophies": "Всего трофеев",
 
   "goal.type.power": "Уровень силы",
   "goal.type.trophies": "Трофеи (уровни Престижа: 1000/2000/3000)",
   "goal.type.rank": "Ранг",
-  "goal.type.totalTrophies": "Всего трофеев (аккаунт)",
 
   "goal.preset.prestige": "Все бойцы до Престижа {n}",
-  "goal.preset.totalTrophies": "{n}k трофеев всего",
+  "goal.preset.none": "Общий рейтинг (лучший винрейт, без цели)",
+  "goal.progressLabel": "{done}/{total} бойцов у цели",
   "goal.custom.power": "Все бойцы до Силы {target}",
   "goal.custom.trophies": "Все бойцы до {target} трофеев",
   "goal.custom.rank": "Все бойцы до Ранга {target}",
-  "goal.custom.totalTrophies": "{target} трофеев всего",
+
+  "build.hypercharge": "Гиперзаряд",
 
   "role.Tank": "Танк",
   "role.DamageDealer": "Урон",
@@ -92,6 +96,49 @@ const ru: Record<DictionaryKey, string> = {
   "errors.generic": "Что-то пошло не так при обращении к API Brawl Stars.",
   "errors.rotation_generic": "Неожиданная ошибка при загрузке ротации.",
   "errors.roster_generic": "Неожиданная ошибка при загрузке бойцов.",
+  "errors.invalid_username": "Имя пользователя должно содержать 3-20 символов: буквы, цифры, _ или -.",
+  "errors.weak_password": "Пароль должен содержать не менее 8 символов.",
+  "errors.username_taken": "Это имя пользователя уже занято.",
+  "errors.invalid_credentials": "Неверное имя пользователя или пароль.",
+  "errors.not_authenticated": "Для этого нужно войти в аккаунт.",
+  "errors.invalid_tag": "Требуется тег игрока.",
+
+  "auth.login.title": "Вход",
+  "auth.login.subtitle": "Доступ к аккаунту и связанному профилю Brawl Stars.",
+  "auth.login.usernameLabel": "Имя пользователя",
+  "auth.login.passwordLabel": "Пароль",
+  "auth.login.submit": "Войти",
+  "auth.login.noAccount": "Ещё нет аккаунта?",
+
+  "auth.signup.title": "Регистрация",
+  "auth.signup.subtitle": "Создай аккаунт What to Push.",
+  "auth.signup.usernameLabel": "Имя пользователя",
+  "auth.signup.usernameHint": "3-20 символов: буквы, цифры, _ или -.",
+  "auth.signup.passwordLabel": "Пароль",
+  "auth.signup.passwordHint": "Не менее 8 символов.",
+  "auth.signup.submit": "Создать аккаунт",
+  "auth.signup.haveAccount": "Уже есть аккаунт?",
+
+  "search.title": "Найти игрока",
+  "search.subtitle": "Поиск по имени пользователя на этом сайте или по тегу игрока Brawl Stars.",
+  "search.placeholder": "Имя пользователя или #тег…",
+  "search.button": "Найти",
+  "search.usersHeading": "Зарегистрированные игроки",
+  "search.tagHeading": "Совпадение по тегу",
+  "search.noResults": "Ничего не найдено.",
+
+  "profile.notFound": "Такого профиля не существует.",
+  "profile.memberSince": "Участник с {date}",
+  "profile.noTagLinked": "Тег Brawl Stars ещё не привязан.",
+  "profile.linkTagPlaceholder": "2Y8VQGCCV",
+  "profile.linkTagButton": "Привязать тег",
+  "profile.linkedTag": "Привязанный тег: {tag}",
+  "profile.stats.trophies": "Трофеи",
+  "profile.stats.highestTrophies": "Максимум трофеев",
+  "profile.stats.prestigeTotal": "Престиж всего",
+  "profile.stats.expLevel": "Уровень опыта",
+  "profile.stats.victories3v3": "Победы 3v3",
+  "profile.stats.brawlersOwned": "Открыто бойцов",
 };
 
 export default ru;

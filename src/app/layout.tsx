@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Baloo_2, Inter } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { NavBar } from "@/components/NavBar";
+import { AuthProvider } from "@/lib/auth-context";
 import { I18nProvider } from "@/lib/i18n";
 import "./globals.css";
 
@@ -27,9 +28,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={`${inter.variable} ${baloo.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
         <I18nProvider>
-          <NavBar />
-          <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6">{children}</main>
-          <Footer />
+          <AuthProvider>
+            <NavBar />
+            <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6">{children}</main>
+            <Footer />
+          </AuthProvider>
         </I18nProvider>
       </body>
     </html>

@@ -17,6 +17,11 @@ export interface SupercellGear {
   level: number;
 }
 
+export interface SupercellHyperCharge {
+  id: number;
+  name: string;
+}
+
 export interface PlayerBrawler {
   id: number;
   name: string;
@@ -24,9 +29,12 @@ export interface PlayerBrawler {
   rank: number;
   trophies: number;
   highestTrophies: number;
+  /** Permanent Prestige tier (Feb 2026 update): 0 = none, 1 at 1000 trophies, 2 at 2000, 3 (max) at 3000. */
+  prestigeLevel: number;
   gears: SupercellGear[];
   starPowers: SupercellStarPower[];
   gadgets: SupercellGadget[];
+  hyperCharges: SupercellHyperCharge[];
 }
 
 export interface Player {
@@ -36,9 +44,11 @@ export interface Player {
   icon: { id: number };
   trophies: number;
   highestTrophies: number;
+  totalPrestigeLevel: number;
   expLevel: number;
   expPoints: number;
-  is3vs3Victories: number;
+  /** The API's actual field name starts with a digit, so it needs quoting here. */
+  "3vs3Victories": number;
   soloVictories: number;
   duoVictories: number;
   bestRoboRumbleTime: number;

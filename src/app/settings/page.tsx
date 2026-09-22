@@ -111,7 +111,6 @@ export default function SettingsPage() {
                 <option value="power">{t("goal.type.power")}</option>
                 <option value="trophies">{t("goal.type.trophies")}</option>
                 <option value="rank">{t("goal.type.rank")}</option>
-                <option value="totalTrophies">{t("goal.type.totalTrophies")}</option>
               </select>
               <input
                 type="number"

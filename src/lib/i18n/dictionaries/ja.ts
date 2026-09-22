@@ -3,7 +3,11 @@ import type { DictionaryKey } from "./en";
 const ja: Record<DictionaryKey, string> = {
   "nav.dashboard": "ダッシュボード",
   "nav.brawlers": "ブロウラー",
+  "nav.search": "検索",
   "nav.settings": "設定",
+  "nav.login": "ログイン",
+  "nav.signup": "新規登録",
+  "nav.logout": "ログアウト",
 
   "app.disclaimer": "Supercellの公式サービスではありません。Supercell Fan Content Policyに基づいて作成されています。",
 
@@ -29,8 +33,8 @@ const ja: Record<DictionaryKey, string> = {
   "time.minutes": "残り{m}分",
 
   "brawlers.title": "あなたのブロウラー",
-  "brawlers.progress": "目標への進捗: {metric} {target} · {done}/{total} 達成",
-  "brawlers.accountProgress": "合計{target}トロフィーへのアカウント進捗",
+  "brawlers.progress": "目標: {metric} {target}",
+  "brawlers.bestWinrateHint": "総合的なビルドの完成度で並び替え — 特定の目標なし。",
   "brawlers.search": "ブロウラーを検索…",
   "brawlers.noTagHint":
     "プレイヤータグがない場合(設定を参照)、一般的なブロウラー一覧のみが表示され、あなたの進捗は表示されません。",
@@ -54,19 +58,19 @@ const ja: Record<DictionaryKey, string> = {
   "goal.metric.power": "パワー",
   "goal.metric.trophies": "トロフィー",
   "goal.metric.rank": "ランク",
-  "goal.metric.totalTrophies": "合計トロフィー",
 
   "goal.type.power": "パワーレベル",
   "goal.type.trophies": "トロフィー(プレステージ段階: 1000/2000/3000)",
   "goal.type.rank": "ランク",
-  "goal.type.totalTrophies": "合計トロフィー(アカウント)",
 
   "goal.preset.prestige": "全ブロウラーをプレステージ{n}に",
-  "goal.preset.totalTrophies": "合計{n}kトロフィー",
+  "goal.preset.none": "総合ランキング(ベストウィンレート、目標なし)",
+  "goal.progressLabel": "目標達成 {done}/{total} 体",
   "goal.custom.power": "全ブロウラーをパワー{target}に",
   "goal.custom.trophies": "全ブロウラーを{target}トロフィーに",
   "goal.custom.rank": "全ブロウラーをランク{target}に",
-  "goal.custom.totalTrophies": "合計{target}トロフィー",
+
+  "build.hypercharge": "ハイパーチャージ",
 
   "role.Tank": "タンク",
   "role.DamageDealer": "アタッカー",
@@ -92,6 +96,49 @@ const ja: Record<DictionaryKey, string> = {
   "errors.generic": "Brawl Stars APIとの通信で問題が発生しました。",
   "errors.rotation_generic": "ローテーションの読み込み中に予期しないエラーが発生しました。",
   "errors.roster_generic": "ブロウラーの読み込み中に予期しないエラーが発生しました。",
+  "errors.invalid_username": "ユーザー名は3〜20文字(英数字、_、-)で入力してください。",
+  "errors.weak_password": "パスワードは8文字以上にしてください。",
+  "errors.username_taken": "そのユーザー名はすでに使用されています。",
+  "errors.invalid_credentials": "ユーザー名またはパスワードが正しくありません。",
+  "errors.not_authenticated": "この操作にはログインが必要です。",
+  "errors.invalid_tag": "プレイヤータグが必要です。",
+
+  "auth.login.title": "ログイン",
+  "auth.login.subtitle": "アカウントと連携したBrawl Starsプロフィールにアクセスします。",
+  "auth.login.usernameLabel": "ユーザー名",
+  "auth.login.passwordLabel": "パスワード",
+  "auth.login.submit": "ログイン",
+  "auth.login.noAccount": "アカウントをお持ちでないですか?",
+
+  "auth.signup.title": "新規登録",
+  "auth.signup.subtitle": "What to Pushのアカウントを作成します。",
+  "auth.signup.usernameLabel": "ユーザー名",
+  "auth.signup.usernameHint": "3〜20文字(英数字、_、-)。",
+  "auth.signup.passwordLabel": "パスワード",
+  "auth.signup.passwordHint": "8文字以上。",
+  "auth.signup.submit": "アカウントを作成",
+  "auth.signup.haveAccount": "すでにアカウントをお持ちですか?",
+
+  "search.title": "プレイヤーを探す",
+  "search.subtitle": "このサイトで選んだユーザー名、またはBrawl Starsのプレイヤータグで検索できます。",
+  "search.placeholder": "ユーザー名または#タグ…",
+  "search.button": "検索",
+  "search.usersHeading": "登録済みプレイヤー",
+  "search.tagHeading": "タグ検索結果",
+  "search.noResults": "該当する結果がありません。",
+
+  "profile.notFound": "そのプロフィールは存在しません。",
+  "profile.memberSince": "登録日: {date}",
+  "profile.noTagLinked": "まだBrawl Starsのタグが連携されていません。",
+  "profile.linkTagPlaceholder": "2Y8VQGCCV",
+  "profile.linkTagButton": "タグを連携",
+  "profile.linkedTag": "連携済みタグ: {tag}",
+  "profile.stats.trophies": "トロフィー",
+  "profile.stats.highestTrophies": "最高トロフィー",
+  "profile.stats.prestigeTotal": "合計プレステージ",
+  "profile.stats.expLevel": "経験値レベル",
+  "profile.stats.victories3v3": "3v3勝利数",
+  "profile.stats.brawlersOwned": "解放済みブロウラー数",
 };
 
 export default ja;

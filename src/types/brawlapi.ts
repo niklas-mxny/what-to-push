@@ -13,6 +13,18 @@ export interface BrawlApiRarity {
   color: string;
 }
 
+export interface BrawlApiStarPower {
+  id: number;
+  name: string;
+  imageUrl: string;
+}
+
+export interface BrawlApiGadget {
+  id: number;
+  name: string;
+  imageUrl: string;
+}
+
 export interface BrawlApiBrawler {
   id: number;
   name: string;
@@ -21,6 +33,8 @@ export interface BrawlApiBrawler {
   imageUrl: string;
   imageUrl2: string;
   released: boolean;
+  starPowers: BrawlApiStarPower[];
+  gadgets: BrawlApiGadget[];
 }
 
 export interface BrawlApiBrawlerList {

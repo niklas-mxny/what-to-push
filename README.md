@@ -35,7 +35,16 @@ anderen IPs werden abgelehnt.
    cp .env.local.example .env.local
    ```
 
-### 3. Dev-Server starten
+### 3. Datenbank (Accounts/Profile)
+
+Nutzt SQLite über Node.js' eingebautes `node:sqlite` (Node ≥ 22.5, experimentell,
+aber stabil genug — kein zusätzliches Paket, keine native Kompilierung nötig). Die
+Datei wird beim ersten Start automatisch unter `data/app.db` angelegt, inkl. Schema.
+Kein manueller Setup-Schritt nötig, aber: Serverless-Hosting (Vercel) funktioniert
+damit **nicht** (kein persistentes Dateisystem) — passt aber zum ohnehin nötigen
+VPS für die feste IP der Supercell API (siehe unten).
+
+### 4. Dev-Server starten
 
 ```bash
 npm run dev
@@ -78,8 +87,21 @@ Das Projekt selbst ist Hosting-agnostisch — die API-Anbindung liegt komplett i
   besser) und Nähe zum nächsten Ziel-Meilenstein (ein Brawler kurz vor Prestige 1 wird
   bevorzugt vor einem bei 0 Trophäen). Bei einem Konto-weiten Ziel (Trophäen gesamt)
   entfällt der Meilenstein-Faktor, da es kein Pro-Brawler-Ziel gibt.
-- `src/lib/storage.ts` — Spieler-Tag, Ziel und Sprache werden nur lokal im Browser
-  (`localStorage`) gespeichert, kein Account/Login.
+- `src/lib/storage.ts` — Spieler-Tag, Ziel und Sprache für die Empfehlungs-Engine
+  werden lokal im Browser (`localStorage`) gespeichert — unabhängig vom Account-System
+  (siehe unten), kein Login nötig, um die App zu nutzen.
+- `src/lib/db.ts` + `src/lib/auth.ts` — Accounts/Sessions: SQLite (`node:sqlite`,
+  siehe Setup), Passwort-Hashing mit Node's `crypto.scrypt` (kein externes Paket),
+  Session-Tokens in einer `sessions`-Tabelle, referenziert über ein httpOnly-Cookie.
+  Kein OAuth/Verifizierung des Brawl-Stars-Tags möglich (Supercell bietet keine
+  Spieler-seitige Autorisierung) — das Verknüpfen eines Tags ist wie bei anderen
+  Fan-Seiten eine reine Selbstangabe.
+- `/login`, `/signup`, `/search`, `/profile/[username]` — Account-Erstellung, Suche
+  nach registrierten Nutzernamen ODER direkt nach einem Brawl-Stars-Tag (auch ohne
+  Account), und ein öffentliches Profil mit den wichtigsten Live-Statistiken
+  (Trophäen, Prestige gesamt, EP-Level, 3v3-Siege, freigeschaltete Brawler).
+  Profile sind bewusst öffentlich einsehbar (wie ein Leaderboard) — zeigen aber nur
+  ohnehin über die Supercell API öffentliche Spieldaten, keine privaten Kontodaten.
 - `src/lib/i18n/` — Eigenes, leichtgewichtiges i18n-System (kein Routing, rein
   client-seitig über `localStorage`): 10 Sprachen (Englisch als Standard, dazu Spanisch,
   Portugiesisch, Französisch, Deutsch, Russisch, Japanisch, Koreanisch, Chinesisch,
@@ -95,3 +117,13 @@ Das Projekt selbst ist Hosting-agnostisch — die API-Anbindung liegt komplett i
 - Die Rollen-Tabelle (`src/lib/roles.ts`) deckt aktuell ein Starter-Set bekannter
   Brawler ab; sehr neue Brawler fallen auf eine neutrale Gewichtung zurück, statt
   geraten zu werden.
+- Icons für Gadget/Star Power/Gear kommen von [BrawlAPI](https://brawlapi.com) bzw.
+  dessen CDN (`cdn.brawlify.com`) — es gibt keine öffentlich dokumentierte,
+  direkt nutzbare "offizielle" Supercell-Bild-CDN für diese Assets. BrawlAPI spiegelt
+  die echten, aus dem Spiel extrahierten Dateien 1:1, ist also inhaltlich korrekt;
+  gefundene Bild-Fehler lagen an unserer Zuordnungslogik (Map-Name ohne Modus-Abgleich
+  — behoben, siehe `findMapImageUrl` in `src/lib/brawlapi.ts`), nicht an der Quelle.
+- Star Power und Gadget: die Supercell API liefert nur, was freigeschaltet ist, nicht
+  welches gerade ausgerüstet ist (nur eins von beiden ist gleichzeitig aktiv). Die
+  Build-Icons zeigen deshalb nur eins stellvertretend an, mit einem "+N"-Hinweis für
+  weitere freigeschaltete Optionen — keine Behauptung, welches "das richtige" ist.

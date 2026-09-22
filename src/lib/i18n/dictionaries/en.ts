@@ -1,7 +1,11 @@
 const en = {
   "nav.dashboard": "Dashboard",
   "nav.brawlers": "Brawlers",
+  "nav.search": "Search",
   "nav.settings": "Settings",
+  "nav.login": "Log in",
+  "nav.signup": "Sign up",
+  "nav.logout": "Log out",
 
   "app.disclaimer": "Not affiliated with Supercell. Made under the Supercell Fan Content Policy.",
 
@@ -27,8 +31,8 @@ const en = {
   "time.minutes": "{m}m left",
 
   "brawlers.title": "Your Brawlers",
-  "brawlers.progress": "Progress toward goal: {metric} {target} · {done}/{total} reached",
-  "brawlers.accountProgress": "Account progress toward {target} total trophies",
+  "brawlers.progress": "Goal: {metric} {target}",
+  "brawlers.bestWinrateHint": "Sorted by overall build quality — no specific goal set.",
   "brawlers.search": "Search brawlers…",
   "brawlers.noTagHint":
     "Without a player tag (see Settings) we only show the general brawler list, not your own progress.",
@@ -52,19 +56,19 @@ const en = {
   "goal.metric.power": "Power",
   "goal.metric.trophies": "Trophies",
   "goal.metric.rank": "Rank",
-  "goal.metric.totalTrophies": "Total Trophies",
 
   "goal.type.power": "Power Level",
   "goal.type.trophies": "Trophies (Prestige tiers: 1000/2000/3000)",
   "goal.type.rank": "Rank",
-  "goal.type.totalTrophies": "Total Trophies (account)",
 
   "goal.preset.prestige": "All brawlers to Prestige {n}",
-  "goal.preset.totalTrophies": "{n}k total trophies",
+  "goal.preset.none": "General ranking (best winrate, no goal)",
+  "goal.progressLabel": "{done}/{total} brawlers at goal",
   "goal.custom.power": "All brawlers to Power {target}",
   "goal.custom.trophies": "All brawlers to {target} trophies",
   "goal.custom.rank": "All brawlers to Rank {target}",
-  "goal.custom.totalTrophies": "{target} total trophies",
+
+  "build.hypercharge": "Hypercharge",
 
   "role.Tank": "Tank",
   "role.DamageDealer": "Damage Dealer",
@@ -90,6 +94,49 @@ const en = {
   "errors.generic": "Something went wrong talking to the Brawl Stars API.",
   "errors.rotation_generic": "Unexpected error loading the rotation.",
   "errors.roster_generic": "Unexpected error loading the brawlers.",
+  "errors.invalid_username": "Username must be 3-20 characters: letters, numbers, _ or -.",
+  "errors.weak_password": "Password must be at least 8 characters.",
+  "errors.username_taken": "That username is already taken.",
+  "errors.invalid_credentials": "Incorrect username or password.",
+  "errors.not_authenticated": "You need to be signed in for that.",
+  "errors.invalid_tag": "Player tag is required.",
+
+  "auth.login.title": "Log in",
+  "auth.login.subtitle": "Access your account and linked Brawl Stars profile.",
+  "auth.login.usernameLabel": "Username",
+  "auth.login.passwordLabel": "Password",
+  "auth.login.submit": "Log in",
+  "auth.login.noAccount": "No account yet?",
+
+  "auth.signup.title": "Sign up",
+  "auth.signup.subtitle": "Create a What to Push account.",
+  "auth.signup.usernameLabel": "Username",
+  "auth.signup.usernameHint": "3-20 characters: letters, numbers, _ or -.",
+  "auth.signup.passwordLabel": "Password",
+  "auth.signup.passwordHint": "At least 8 characters.",
+  "auth.signup.submit": "Create account",
+  "auth.signup.haveAccount": "Already have an account?",
+
+  "search.title": "Find a player",
+  "search.subtitle": "Search by the username someone chose on this site, or by their Brawl Stars player tag.",
+  "search.placeholder": "Username or #tag…",
+  "search.button": "Search",
+  "search.usersHeading": "Registered players",
+  "search.tagHeading": "Player tag match",
+  "search.noResults": "No matches found.",
+
+  "profile.notFound": "No such profile.",
+  "profile.memberSince": "Member since {date}",
+  "profile.noTagLinked": "No Brawl Stars tag linked yet.",
+  "profile.linkTagPlaceholder": "2Y8VQGCCV",
+  "profile.linkTagButton": "Link tag",
+  "profile.linkedTag": "Linked tag: {tag}",
+  "profile.stats.trophies": "Trophies",
+  "profile.stats.highestTrophies": "Highest Trophies",
+  "profile.stats.prestigeTotal": "Total Prestige",
+  "profile.stats.expLevel": "Experience Level",
+  "profile.stats.victories3v3": "3v3 Victories",
+  "profile.stats.brawlersOwned": "Brawlers Unlocked",
 } satisfies Record<string, string>;
 
 export default en;

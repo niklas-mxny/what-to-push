@@ -1,4 +1,4 @@
-import { goalMetricValue, isAccountGoal } from "@/lib/goal";
+import { goalMetricValue, isGoalless } from "@/lib/goal";
 import { getModeInfo } from "@/lib/mode-weights";
 import type {
   ActiveSlot,
@@ -17,11 +17,11 @@ const MAX_POWER = 11;
  * almost-done brawler is more efficient than starting a fresh one from zero.
  * Ranges ~0.4 (just started) to ~1.3 (right at the doorstep); already-reached
  * brawlers get a low-but-nonzero floor so they don't vanish from the list.
- * Account-wide goals (totalTrophies) have no single-brawler target, so this
- * factor is neutral (1) and the pick is driven by role fit + build quality.
+ * The "none" goal has no target at all, so this factor is neutral (1) and
+ * the pick is driven purely by role fit + build quality.
  */
 function proximityFactor(b: MergedBrawler, goal: GoalConfig): number {
-  if (isAccountGoal(goal)) return 1;
+  if (isGoalless(goal)) return 1;
   if (!b.owned) return 0.25;
   const current = goalMetricValue(b, goal);
   if (current >= goal.target) return 0.2;
@@ -35,11 +35,11 @@ function proximityFactor(b: MergedBrawler, goal: GoalConfig): number {
  * complete kit and better real-match performance than a bare, underleveled
  * brawler — even at the same role fit.
  */
-function buildQualityFactor(b: MergedBrawler): number {
+export function buildQualityFactor(b: MergedBrawler): number {
   if (!b.owned) return 0.6;
   let f = 0.6 + 0.5 * (Math.min(b.power, MAX_POWER) / MAX_POWER);
-  if (b.starPowersUnlocked > 0) f += 0.12;
-  if (b.gadgetsUnlocked > 0) f += 0.12;
+  if (b.starPowers.length > 0) f += 0.12;
+  if (b.gadgets.length > 0) f += 0.12;
   return f;
 }
 
@@ -76,12 +76,12 @@ export function scoreBrawlerForSlot(
             : "reason.roleFitNeutral";
     reasons.push({ key, params: { role: brawler.role, mode: slot.modeLabel } });
   }
-  if (brawler.owned && brawler.power >= 7 && (brawler.starPowersUnlocked > 0 || brawler.gadgetsUnlocked > 0)) {
+  if (brawler.owned && brawler.power >= 7 && (brawler.starPowers.length > 0 || brawler.gadgets.length > 0)) {
     reasons.push({ key: "reason.strongBuild", params: { power: brawler.power } });
   }
   if (!brawler.owned) {
     reasons.push({ key: "reason.notUnlocked" });
-  } else if (!isAccountGoal(goal)) {
+  } else if (!isGoalless(goal)) {
     const current = goalMetricValue(brawler, goal);
     if (current >= goal.target) {
       reasons.push({ key: "reason.goalReached" });

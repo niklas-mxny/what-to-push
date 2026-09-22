@@ -3,7 +3,11 @@ import type { DictionaryKey } from "./en";
 const es: Record<DictionaryKey, string> = {
   "nav.dashboard": "Panel",
   "nav.brawlers": "Brawlers",
+  "nav.search": "Buscar",
   "nav.settings": "Ajustes",
+  "nav.login": "Iniciar sesión",
+  "nav.signup": "Registrarse",
+  "nav.logout": "Cerrar sesión",
 
   "app.disclaimer":
     "No afiliado con Supercell. Creado bajo la Política de Contenido para Fans de Supercell.",
@@ -30,8 +34,8 @@ const es: Record<DictionaryKey, string> = {
   "time.minutes": "quedan {m}m",
 
   "brawlers.title": "Tus Brawlers",
-  "brawlers.progress": "Progreso hacia el objetivo: {metric} {target} · {done}/{total} logrados",
-  "brawlers.accountProgress": "Progreso de la cuenta hacia {target} trofeos totales",
+  "brawlers.progress": "Objetivo: {metric} {target}",
+  "brawlers.bestWinrateHint": "Ordenado por calidad de equipamiento general — sin objetivo específico.",
   "brawlers.search": "Buscar brawler…",
   "brawlers.noTagHint":
     "Sin un tag de jugador (ver Ajustes) solo mostramos la lista general de brawlers, sin tu propio progreso.",
@@ -55,19 +59,19 @@ const es: Record<DictionaryKey, string> = {
   "goal.metric.power": "Poder",
   "goal.metric.trophies": "Trofeos",
   "goal.metric.rank": "Rango",
-  "goal.metric.totalTrophies": "Trofeos totales",
 
   "goal.type.power": "Nivel de poder",
   "goal.type.trophies": "Trofeos (niveles de Prestigio: 1000/2000/3000)",
   "goal.type.rank": "Rango",
-  "goal.type.totalTrophies": "Trofeos totales (cuenta)",
 
   "goal.preset.prestige": "Todos los brawlers a Prestigio {n}",
-  "goal.preset.totalTrophies": "{n}k trofeos totales",
+  "goal.preset.none": "Clasificación general (mejor winrate, sin objetivo)",
+  "goal.progressLabel": "{done}/{total} brawlers en el objetivo",
   "goal.custom.power": "Todos los brawlers a Poder {target}",
   "goal.custom.trophies": "Todos los brawlers a {target} trofeos",
   "goal.custom.rank": "Todos los brawlers a Rango {target}",
-  "goal.custom.totalTrophies": "{target} trofeos totales",
+
+  "build.hypercharge": "Hypercharge",
 
   "role.Tank": "Tanque",
   "role.DamageDealer": "Daño",
@@ -94,6 +98,49 @@ const es: Record<DictionaryKey, string> = {
   "errors.generic": "Algo salió mal al conectar con la API de Brawl Stars.",
   "errors.rotation_generic": "Error inesperado al cargar la rotación.",
   "errors.roster_generic": "Error inesperado al cargar los brawlers.",
+  "errors.invalid_username": "El nombre de usuario debe tener 3-20 caracteres: letras, números, _ o -.",
+  "errors.weak_password": "La contraseña debe tener al menos 8 caracteres.",
+  "errors.username_taken": "Ese nombre de usuario ya está en uso.",
+  "errors.invalid_credentials": "Usuario o contraseña incorrectos.",
+  "errors.not_authenticated": "Debes iniciar sesión para eso.",
+  "errors.invalid_tag": "Se requiere el tag de jugador.",
+
+  "auth.login.title": "Iniciar sesión",
+  "auth.login.subtitle": "Accede a tu cuenta y a tu perfil de Brawl Stars vinculado.",
+  "auth.login.usernameLabel": "Nombre de usuario",
+  "auth.login.passwordLabel": "Contraseña",
+  "auth.login.submit": "Iniciar sesión",
+  "auth.login.noAccount": "¿Aún no tienes cuenta?",
+
+  "auth.signup.title": "Registrarse",
+  "auth.signup.subtitle": "Crea una cuenta de What to Push.",
+  "auth.signup.usernameLabel": "Nombre de usuario",
+  "auth.signup.usernameHint": "3-20 caracteres: letras, números, _ o -.",
+  "auth.signup.passwordLabel": "Contraseña",
+  "auth.signup.passwordHint": "Al menos 8 caracteres.",
+  "auth.signup.submit": "Crear cuenta",
+  "auth.signup.haveAccount": "¿Ya tienes una cuenta?",
+
+  "search.title": "Buscar jugador",
+  "search.subtitle": "Busca por el nombre de usuario elegido en este sitio, o por el tag de jugador de Brawl Stars.",
+  "search.placeholder": "Usuario o #tag…",
+  "search.button": "Buscar",
+  "search.usersHeading": "Jugadores registrados",
+  "search.tagHeading": "Coincidencia por tag",
+  "search.noResults": "No se encontraron resultados.",
+
+  "profile.notFound": "No existe ese perfil.",
+  "profile.memberSince": "Miembro desde {date}",
+  "profile.noTagLinked": "Aún no hay ningún tag de Brawl Stars vinculado.",
+  "profile.linkTagPlaceholder": "2Y8VQGCCV",
+  "profile.linkTagButton": "Vincular tag",
+  "profile.linkedTag": "Tag vinculado: {tag}",
+  "profile.stats.trophies": "Trofeos",
+  "profile.stats.highestTrophies": "Trofeos máximos",
+  "profile.stats.prestigeTotal": "Prestigio total",
+  "profile.stats.expLevel": "Nivel de experiencia",
+  "profile.stats.victories3v3": "Victorias 3v3",
+  "profile.stats.brawlersOwned": "Brawlers desbloqueados",
 };
 
 export default es;

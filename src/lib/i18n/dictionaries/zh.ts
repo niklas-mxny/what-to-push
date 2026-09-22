@@ -3,7 +3,11 @@ import type { DictionaryKey } from "./en";
 const zh: Record<DictionaryKey, string> = {
   "nav.dashboard": "仪表盘",
   "nav.brawlers": "角色",
+  "nav.search": "搜索",
   "nav.settings": "设置",
+  "nav.login": "登录",
+  "nav.signup": "注册",
+  "nav.logout": "退出登录",
 
   "app.disclaimer": "与 Supercell 无关联。根据 Supercell 粉丝内容政策制作。",
 
@@ -28,8 +32,8 @@ const zh: Record<DictionaryKey, string> = {
   "time.minutes": "剩余{m}分钟",
 
   "brawlers.title": "你的角色",
-  "brawlers.progress": "目标进度:{metric} {target} · 已达成 {done}/{total}",
-  "brawlers.accountProgress": "账号进度:朝着共 {target} 奖杯迈进",
+  "brawlers.progress": "目标:{metric} {target}",
+  "brawlers.bestWinrateHint": "按整体配置质量排序——未设定具体目标。",
   "brawlers.search": "搜索角色…",
   "brawlers.noTagHint": "没有玩家标签(见设置)时,我们只显示通用角色列表,不显示你的进度。",
   "brawlers.notUnlocked": "未解锁",
@@ -52,19 +56,19 @@ const zh: Record<DictionaryKey, string> = {
   "goal.metric.power": "力量",
   "goal.metric.trophies": "奖杯",
   "goal.metric.rank": "段位",
-  "goal.metric.totalTrophies": "总奖杯",
 
   "goal.type.power": "力量等级",
   "goal.type.trophies": "奖杯(荣誉等级:1000/2000/3000)",
   "goal.type.rank": "段位",
-  "goal.type.totalTrophies": "总奖杯(账号)",
 
   "goal.preset.prestige": "所有角色达到荣誉等级{n}",
-  "goal.preset.totalTrophies": "共 {n}k 奖杯",
+  "goal.preset.none": "综合排名(最佳胜率,无目标)",
+  "goal.progressLabel": "已达成 {done}/{total}",
   "goal.custom.power": "所有角色达到力量{target}",
   "goal.custom.trophies": "所有角色达到{target}奖杯",
   "goal.custom.rank": "所有角色达到段位{target}",
-  "goal.custom.totalTrophies": "共 {target} 奖杯",
+
+  "build.hypercharge": "超能量",
 
   "role.Tank": "坦克",
   "role.DamageDealer": "输出",
@@ -90,6 +94,49 @@ const zh: Record<DictionaryKey, string> = {
   "errors.generic": "连接 Brawl Stars API 时出现问题。",
   "errors.rotation_generic": "加载轮换时发生意外错误。",
   "errors.roster_generic": "加载角色时发生意外错误。",
+  "errors.invalid_username": "用户名须为3-20个字符:字母、数字、_或-。",
+  "errors.weak_password": "密码至少需要8个字符。",
+  "errors.username_taken": "该用户名已被使用。",
+  "errors.invalid_credentials": "用户名或密码不正确。",
+  "errors.not_authenticated": "此操作需要先登录。",
+  "errors.invalid_tag": "需要玩家标签。",
+
+  "auth.login.title": "登录",
+  "auth.login.subtitle": "访问你的账号和关联的 Brawl Stars 资料。",
+  "auth.login.usernameLabel": "用户名",
+  "auth.login.passwordLabel": "密码",
+  "auth.login.submit": "登录",
+  "auth.login.noAccount": "还没有账号?",
+
+  "auth.signup.title": "注册",
+  "auth.signup.subtitle": "创建一个 What to Push 账号。",
+  "auth.signup.usernameLabel": "用户名",
+  "auth.signup.usernameHint": "3-20个字符:字母、数字、_或-。",
+  "auth.signup.passwordLabel": "密码",
+  "auth.signup.passwordHint": "至少8个字符。",
+  "auth.signup.submit": "创建账号",
+  "auth.signup.haveAccount": "已经有账号了?",
+
+  "search.title": "查找玩家",
+  "search.subtitle": "按在本站选择的用户名搜索,或按 Brawl Stars 玩家标签搜索。",
+  "search.placeholder": "用户名或 #标签…",
+  "search.button": "搜索",
+  "search.usersHeading": "已注册玩家",
+  "search.tagHeading": "标签匹配结果",
+  "search.noResults": "未找到匹配结果。",
+
+  "profile.notFound": "该资料不存在。",
+  "profile.memberSince": "加入时间:{date}",
+  "profile.noTagLinked": "尚未关联 Brawl Stars 标签。",
+  "profile.linkTagPlaceholder": "2Y8VQGCCV",
+  "profile.linkTagButton": "关联标签",
+  "profile.linkedTag": "已关联标签:{tag}",
+  "profile.stats.trophies": "奖杯",
+  "profile.stats.highestTrophies": "最高奖杯",
+  "profile.stats.prestigeTotal": "总荣誉等级",
+  "profile.stats.expLevel": "经验等级",
+  "profile.stats.victories3v3": "3v3 胜场",
+  "profile.stats.brawlersOwned": "已解锁角色数",
 };
 
 export default zh;

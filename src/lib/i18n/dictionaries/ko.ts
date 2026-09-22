@@ -3,7 +3,11 @@ import type { DictionaryKey } from "./en";
 const ko: Record<DictionaryKey, string> = {
   "nav.dashboard": "대시보드",
   "nav.brawlers": "브롤러",
+  "nav.search": "검색",
   "nav.settings": "설정",
+  "nav.login": "로그인",
+  "nav.signup": "회원가입",
+  "nav.logout": "로그아웃",
 
   "app.disclaimer": "Supercell과 제휴하지 않았습니다. Supercell 팬 콘텐츠 정책에 따라 제작되었습니다.",
 
@@ -29,8 +33,8 @@ const ko: Record<DictionaryKey, string> = {
   "time.minutes": "{m}분 남음",
 
   "brawlers.title": "내 브롤러",
-  "brawlers.progress": "목표 진행 상황: {metric} {target} · {done}/{total} 달성",
-  "brawlers.accountProgress": "총 {target} 트로피 달성을 위한 계정 진행 상황",
+  "brawlers.progress": "목표: {metric} {target}",
+  "brawlers.bestWinrateHint": "전체적인 빌드 완성도 순 정렬 — 특정 목표 없음.",
   "brawlers.search": "브롤러 검색…",
   "brawlers.noTagHint": "플레이어 태그가 없으면(설정 참조) 진행 상황 없이 일반 브롤러 목록만 표시됩니다.",
   "brawlers.notUnlocked": "잠김",
@@ -53,19 +57,19 @@ const ko: Record<DictionaryKey, string> = {
   "goal.metric.power": "파워",
   "goal.metric.trophies": "트로피",
   "goal.metric.rank": "랭크",
-  "goal.metric.totalTrophies": "총 트로피",
 
   "goal.type.power": "파워 레벨",
   "goal.type.trophies": "트로피 (프레스티지 단계: 1000/2000/3000)",
   "goal.type.rank": "랭크",
-  "goal.type.totalTrophies": "총 트로피 (계정)",
 
   "goal.preset.prestige": "모든 브롤러 프레스티지 {n}",
-  "goal.preset.totalTrophies": "총 {n}k 트로피",
+  "goal.preset.none": "전체 순위 (최고 승률, 목표 없음)",
+  "goal.progressLabel": "목표 달성 {done}/{total}",
   "goal.custom.power": "모든 브롤러 파워 {target}",
   "goal.custom.trophies": "모든 브롤러 트로피 {target}개",
   "goal.custom.rank": "모든 브롤러 랭크 {target}",
-  "goal.custom.totalTrophies": "총 {target} 트로피",
+
+  "build.hypercharge": "하이퍼차지",
 
   "role.Tank": "탱커",
   "role.DamageDealer": "딜러",
@@ -91,6 +95,49 @@ const ko: Record<DictionaryKey, string> = {
   "errors.generic": "Brawl Stars API 연결 중 문제가 발생했습니다.",
   "errors.rotation_generic": "로테이션을 불러오는 중 예상치 못한 오류가 발생했습니다.",
   "errors.roster_generic": "브롤러를 불러오는 중 예상치 못한 오류가 발생했습니다.",
+  "errors.invalid_username": "사용자 이름은 3~20자(영문, 숫자, _ 또는 -)여야 합니다.",
+  "errors.weak_password": "비밀번호는 8자 이상이어야 합니다.",
+  "errors.username_taken": "이미 사용 중인 사용자 이름입니다.",
+  "errors.invalid_credentials": "사용자 이름 또는 비밀번호가 올바르지 않습니다.",
+  "errors.not_authenticated": "로그인이 필요합니다.",
+  "errors.invalid_tag": "플레이어 태그가 필요합니다.",
+
+  "auth.login.title": "로그인",
+  "auth.login.subtitle": "계정 및 연결된 Brawl Stars 프로필에 접속합니다.",
+  "auth.login.usernameLabel": "사용자 이름",
+  "auth.login.passwordLabel": "비밀번호",
+  "auth.login.submit": "로그인",
+  "auth.login.noAccount": "계정이 없으신가요?",
+
+  "auth.signup.title": "회원가입",
+  "auth.signup.subtitle": "What to Push 계정을 만드세요.",
+  "auth.signup.usernameLabel": "사용자 이름",
+  "auth.signup.usernameHint": "3~20자(영문, 숫자, _ 또는 -).",
+  "auth.signup.passwordLabel": "비밀번호",
+  "auth.signup.passwordHint": "8자 이상.",
+  "auth.signup.submit": "계정 만들기",
+  "auth.signup.haveAccount": "이미 계정이 있으신가요?",
+
+  "search.title": "플레이어 찾기",
+  "search.subtitle": "이 사이트에서 선택한 사용자 이름이나 Brawl Stars 플레이어 태그로 검색하세요.",
+  "search.placeholder": "사용자 이름 또는 #태그…",
+  "search.button": "검색",
+  "search.usersHeading": "등록된 플레이어",
+  "search.tagHeading": "태그 검색 결과",
+  "search.noResults": "검색 결과가 없습니다.",
+
+  "profile.notFound": "존재하지 않는 프로필입니다.",
+  "profile.memberSince": "가입일: {date}",
+  "profile.noTagLinked": "아직 연결된 Brawl Stars 태그가 없습니다.",
+  "profile.linkTagPlaceholder": "2Y8VQGCCV",
+  "profile.linkTagButton": "태그 연결",
+  "profile.linkedTag": "연결된 태그: {tag}",
+  "profile.stats.trophies": "트로피",
+  "profile.stats.highestTrophies": "최고 트로피",
+  "profile.stats.prestigeTotal": "총 프레스티지",
+  "profile.stats.expLevel": "경험치 레벨",
+  "profile.stats.victories3v3": "3v3 승리",
+  "profile.stats.brawlersOwned": "해금된 브롤러",
 };
 
 export default ko;

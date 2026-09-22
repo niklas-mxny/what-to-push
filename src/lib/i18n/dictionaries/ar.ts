@@ -3,7 +3,11 @@ import type { DictionaryKey } from "./en";
 const ar: Record<DictionaryKey, string> = {
   "nav.dashboard": "لوحة التحكم",
   "nav.brawlers": "المقاتلون",
+  "nav.search": "بحث",
   "nav.settings": "الإعدادات",
+  "nav.login": "تسجيل الدخول",
+  "nav.signup": "إنشاء حساب",
+  "nav.logout": "تسجيل الخروج",
 
   "app.disclaimer": "غير تابع لشركة Supercell. تم الإنشاء بموجب سياسة محتوى المعجبين الخاصة بـ Supercell.",
 
@@ -29,8 +33,8 @@ const ar: Record<DictionaryKey, string> = {
   "time.minutes": "باقي {m} دقيقة",
 
   "brawlers.title": "مقاتلوك",
-  "brawlers.progress": "التقدم نحو الهدف: {metric} {target} · تم تحقيق {done}/{total}",
-  "brawlers.accountProgress": "تقدم الحساب نحو {target} كأس إجمالاً",
+  "brawlers.progress": "الهدف: {metric} {target}",
+  "brawlers.bestWinrateHint": "مرتب حسب جودة التجهيز العامة — لا يوجد هدف محدد.",
   "brawlers.search": "ابحث عن مقاتل…",
   "brawlers.noTagHint": "بدون تاق لاعب (راجع الإعدادات) نعرض فقط القائمة العامة للمقاتلين دون تقدمك الخاص.",
   "brawlers.notUnlocked": "غير مفتوح",
@@ -53,19 +57,19 @@ const ar: Record<DictionaryKey, string> = {
   "goal.metric.power": "القوة",
   "goal.metric.trophies": "الكؤوس",
   "goal.metric.rank": "الرتبة",
-  "goal.metric.totalTrophies": "إجمالي الكؤوس",
 
   "goal.type.power": "مستوى القوة",
   "goal.type.trophies": "الكؤوس (مستويات المكانة: 1000/2000/3000)",
   "goal.type.rank": "الرتبة",
-  "goal.type.totalTrophies": "إجمالي الكؤوس (الحساب)",
 
   "goal.preset.prestige": "جميع المقاتلين إلى المكانة {n}",
-  "goal.preset.totalTrophies": "{n}k كأس إجمالاً",
+  "goal.preset.none": "ترتيب عام (أفضل معدل فوز، بلا هدف)",
+  "goal.progressLabel": "{done}/{total} مقاتل عند الهدف",
   "goal.custom.power": "جميع المقاتلين إلى القوة {target}",
   "goal.custom.trophies": "جميع المقاتلين إلى {target} كأس",
   "goal.custom.rank": "جميع المقاتلين إلى الرتبة {target}",
-  "goal.custom.totalTrophies": "{target} كأس إجمالاً",
+
+  "build.hypercharge": "الشحن الفائق",
 
   "role.Tank": "دبابة",
   "role.DamageDealer": "ضرر",
@@ -91,6 +95,49 @@ const ar: Record<DictionaryKey, string> = {
   "errors.generic": "حدث خطأ ما أثناء الاتصال بواجهة برمجة تطبيقات Brawl Stars.",
   "errors.rotation_generic": "حدث خطأ غير متوقع أثناء تحميل الدورة.",
   "errors.roster_generic": "حدث خطأ غير متوقع أثناء تحميل المقاتلين.",
+  "errors.invalid_username": "يجب أن يتكون اسم المستخدم من 3-20 حرفًا: أحرف، أرقام، _ أو -.",
+  "errors.weak_password": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل.",
+  "errors.username_taken": "اسم المستخدم هذا مُستخدم بالفعل.",
+  "errors.invalid_credentials": "اسم المستخدم أو كلمة المرور غير صحيحة.",
+  "errors.not_authenticated": "يجب تسجيل الدخول للقيام بذلك.",
+  "errors.invalid_tag": "تاق اللاعب مطلوب.",
+
+  "auth.login.title": "تسجيل الدخول",
+  "auth.login.subtitle": "الوصول إلى حسابك وملفك الشخصي المرتبط في Brawl Stars.",
+  "auth.login.usernameLabel": "اسم المستخدم",
+  "auth.login.passwordLabel": "كلمة المرور",
+  "auth.login.submit": "تسجيل الدخول",
+  "auth.login.noAccount": "ليس لديك حساب بعد؟",
+
+  "auth.signup.title": "إنشاء حساب",
+  "auth.signup.subtitle": "أنشئ حساب What to Push.",
+  "auth.signup.usernameLabel": "اسم المستخدم",
+  "auth.signup.usernameHint": "3-20 حرفًا: أحرف، أرقام، _ أو -.",
+  "auth.signup.passwordLabel": "كلمة المرور",
+  "auth.signup.passwordHint": "8 أحرف على الأقل.",
+  "auth.signup.submit": "إنشاء الحساب",
+  "auth.signup.haveAccount": "لديك حساب بالفعل؟",
+
+  "search.title": "ابحث عن لاعب",
+  "search.subtitle": "ابحث باسم المستخدم المُختار في هذا الموقع، أو بتاق لاعب Brawl Stars.",
+  "search.placeholder": "اسم المستخدم أو #تاق…",
+  "search.button": "بحث",
+  "search.usersHeading": "اللاعبون المسجَّلون",
+  "search.tagHeading": "نتيجة مطابقة التاق",
+  "search.noResults": "لم يتم العثور على نتائج.",
+
+  "profile.notFound": "هذا الملف الشخصي غير موجود.",
+  "profile.memberSince": "عضو منذ {date}",
+  "profile.noTagLinked": "لا يوجد تاق Brawl Stars مرتبط بعد.",
+  "profile.linkTagPlaceholder": "2Y8VQGCCV",
+  "profile.linkTagButton": "ربط التاق",
+  "profile.linkedTag": "التاق المرتبط: {tag}",
+  "profile.stats.trophies": "الكؤوس",
+  "profile.stats.highestTrophies": "أعلى عدد كؤوس",
+  "profile.stats.prestigeTotal": "إجمالي المكانة",
+  "profile.stats.expLevel": "مستوى الخبرة",
+  "profile.stats.victories3v3": "انتصارات 3v3",
+  "profile.stats.brawlersOwned": "المقاتلون المفتوحون",
 };
 
 export default ar;

@@ -2,18 +2,21 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, Settings, Swords, Target } from "lucide-react";
+import { LayoutGrid, LogOut, Search, Settings, Swords, Target, User } from "lucide-react";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { cn } from "@/lib/cn";
+import { useAuth } from "@/lib/auth-context";
 import { useT } from "@/lib/i18n";
 
 export function NavBar() {
   const pathname = usePathname();
   const t = useT();
+  const { user, loading, logout } = useAuth();
 
   const links = [
     { href: "/", label: t("nav.dashboard"), icon: LayoutGrid },
     { href: "/brawlers", label: t("nav.brawlers"), icon: Swords },
+    { href: "/search", label: t("nav.search"), icon: Search },
     { href: "/settings", label: t("nav.settings"), icon: Settings },
   ];
 
@@ -29,7 +32,7 @@ export function NavBar() {
           </span>
         </Link>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center justify-end gap-2">
           <nav className="flex items-center gap-1 rounded-full border border-border bg-card/60 p-1">
             {links.map(({ href, label, icon: Icon }) => {
               const active = pathname === href;
@@ -50,6 +53,45 @@ export function NavBar() {
               );
             })}
           </nav>
+
+          {!loading && (
+            <div className="flex items-center gap-1 rounded-full border border-border bg-card/60 p-1">
+              {user ? (
+                <>
+                  <Link
+                    href={`/profile/${user.username}`}
+                    className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-muted transition-colors hover:text-foreground"
+                  >
+                    <User className="h-4 w-4" strokeWidth={2.25} />
+                    <span className="hidden sm:inline">{user.username}</span>
+                  </Link>
+                  <button
+                    onClick={() => logout()}
+                    className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-muted transition-colors hover:text-foreground"
+                    title={t("nav.logout")}
+                  >
+                    <LogOut className="h-4 w-4" strokeWidth={2.25} />
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/login"
+                    className="rounded-full px-3 py-1.5 text-sm font-medium text-muted transition-colors hover:text-foreground"
+                  >
+                    {t("nav.login")}
+                  </Link>
+                  <Link
+                    href="/signup"
+                    className="rounded-full bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                  >
+                    {t("nav.signup")}
+                  </Link>
+                </>
+              )}
+            </div>
+          )}
+
           <LanguageSelector />
         </div>
       </div>

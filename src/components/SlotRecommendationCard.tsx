@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Clock } from "lucide-react";
 import { BrawlerIcon } from "@/components/BrawlerIcon";
+import { BuildIcons } from "@/components/BuildIcons";
 import { RoleBadge } from "@/components/RoleBadge";
 import { Badge } from "@/components/ui/Badge";
 import { Card, CardContent } from "@/components/ui/Card";
@@ -61,6 +62,9 @@ export function SlotRecommendationCard({ rec }: { rec: SlotRecommendation }) {
                 <RoleBadge role={top.brawler.role} />
               </div>
               <p className="truncate text-xs text-muted">{formatReasons(t, top.reasons)}</p>
+              <div className="mt-2">
+                <BuildIcons brawler={top.brawler} />
+              </div>
             </div>
           </div>
         ) : (

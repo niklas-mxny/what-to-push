@@ -55,17 +55,28 @@ export const MODE_INFO: Record<string, ModeInfo> = {
     label: "Hold the Trophy",
     roleWeights: { Tank: 1.6, Support: 1.3, Controller: 1.2, DamageDealer: 1.2, Assassin: 1.0, Marksman: 0.9, Artillery: 0.8 },
   },
-  soloShowdown: {
-    label: "Solo Showdown",
-    roleWeights: { DamageDealer: 1.3, Assassin: 1.3, Tank: 1.2, Artillery: 1.1, Controller: 1.0, Marksman: 1.0, Support: 0.7 },
+  // Solo/Duo/Trio Showdown are collapsed into this one canonical key before
+  // scoring (see normalizeModeKey) — Showdown counts as a single mode, not
+  // three separate slots. Weights are a blend of the three variants.
+  showdown: {
+    label: "Showdown",
+    roleWeights: { DamageDealer: 1.3, Tank: 1.3, Assassin: 1.2, Support: 1.1, Controller: 1.0, Marksman: 1.0, Artillery: 0.9 },
   },
-  duoShowdown: {
-    label: "Duo Showdown",
-    roleWeights: { Support: 1.4, Tank: 1.3, DamageDealer: 1.2, Controller: 1.1, Assassin: 1.0, Marksman: 1.0, Artillery: 0.9 },
+  brawlBall5v5: {
+    label: "Brawl Ball 5v5",
+    roleWeights: { Tank: 1.8, Assassin: 1.4, DamageDealer: 1.3, Support: 1.1, Controller: 1.0, Marksman: 0.8, Artillery: 0.7 },
   },
-  trioShowdown: {
-    label: "Trio Showdown",
-    roleWeights: { Support: 1.3, Tank: 1.3, Controller: 1.1, DamageDealer: 1.1, Assassin: 1.0, Marksman: 1.0, Artillery: 0.9 },
+  tagTeam: {
+    label: "Tag Team",
+    roleWeights: { Support: 1.3, Tank: 1.2, DamageDealer: 1.1 },
+  },
+  airHockey: {
+    label: "Air Hockey",
+    roleWeights: { Marksman: 1.3, DamageDealer: 1.2, Tank: 1.1 },
+  },
+  brawlArena: {
+    label: "Brawl Arena",
+    roleWeights: { DamageDealer: 1.2, Assassin: 1.1, Tank: 1.1 },
   },
   volleyBrawl: {
     label: "Volley Brawl",
@@ -85,7 +96,25 @@ export const MODE_INFO: Record<string, ModeInfo> = {
   },
 };
 
-export function getModeInfo(modeKey: string): ModeInfo {
+/**
+ * Raw API mode keys that should be treated as one canonical mode for both
+ * slot deduplication (see lib/rotation.ts) and scoring — Showdown counts as
+ * a single mode regardless of solo/duo/trio, and the 5v5 Brawl Ball variant
+ * uses a lowercase "v" (the raw key's "5V5" produced a garbled label).
+ */
+const MODE_KEY_ALIASES: Record<string, string> = {
+  soloShowdown: "showdown",
+  duoShowdown: "showdown",
+  trioShowdown: "showdown",
+  brawlBall5V5: "brawlBall5v5",
+};
+
+export function normalizeModeKey(rawModeKey: string): string {
+  return MODE_KEY_ALIASES[rawModeKey] ?? rawModeKey;
+}
+
+export function getModeInfo(rawModeKey: string): ModeInfo {
+  const modeKey = normalizeModeKey(rawModeKey);
   return MODE_INFO[modeKey] ?? { label: humanizeModeKey(modeKey), roleWeights: NEUTRAL };
 }
 

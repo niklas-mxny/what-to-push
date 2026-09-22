@@ -2,6 +2,7 @@
 
 import { Sparkles } from "lucide-react";
 import { BrawlerIcon } from "@/components/BrawlerIcon";
+import { BuildIcons } from "@/components/BuildIcons";
 import { RoleBadge } from "@/components/RoleBadge";
 import { Badge } from "@/components/ui/Badge";
 import { formatReasons, useT } from "@/lib/i18n";
@@ -35,6 +36,9 @@ export function BestPickHero({ recommendations }: { recommendations: SlotRecomme
               <Badge>
                 {best.rec.slot.modeLabel} · {best.rec.slot.mapName}
               </Badge>
+            </div>
+            <div className="mt-2">
+              <BuildIcons brawler={pick.brawler} />
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Settings2 } from "lucide-react";
 import { ApiErrorNotice } from "@/components/ApiErrorNotice";
 import { BestPickHero } from "@/components/BestPickHero";
+import { GoalProgress } from "@/components/GoalProgress";
 import { SlotRecommendationCard } from "@/components/SlotRecommendationCard";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -42,6 +43,8 @@ export default function DashboardPage() {
           </Badge>
         </Link>
       </div>
+
+      {roster.data && <GoalProgress roster={roster.data.roster} goal={goal} />}
 
       {!hydrated ? null : !tag ? (
         <Card>
