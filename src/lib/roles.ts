@@ -2,7 +2,7 @@ import type { BrawlerRole } from "@/types/domain";
 
 /**
  * Starter-Set bekannter, eindeutiger Brawler-Rollen (offizielle Klassen aus dem Spiel).
- * Nicht gelistete Brawler (v.a. sehr neue) fallen auf "Unbekannt" zurück und werden
+ * Nicht gelistete Brawler (v.a. sehr neue) fallen auf "Unknown" zurück und werden
  * in der Empfehlungs-Engine neutral gewichtet, statt geraten zu werden.
  *
  * Erweiterbar: einfach weitere "NAME": "Rolle" Zeilen ergänzen.
@@ -20,12 +20,12 @@ export const BRAWLER_ROLES: Record<string, BrawlerRole> = {
   MEG: "Tank",
 
   // Damage Dealer
-  SHELLY: "Damage Dealer",
-  COLT: "Damage Dealer",
-  RICO: "Damage Dealer",
-  CARL: "Damage Dealer",
-  COLETTE: "Damage Dealer",
-  "8-BIT": "Damage Dealer",
+  SHELLY: "DamageDealer",
+  COLT: "DamageDealer",
+  RICO: "DamageDealer",
+  CARL: "DamageDealer",
+  COLETTE: "DamageDealer",
+  "8-BIT": "DamageDealer",
 
   // Marksman
   PIPER: "Marksman",
@@ -70,5 +70,5 @@ export const BRAWLER_ROLES: Record<string, BrawlerRole> = {
 };
 
 export function resolveRole(name: string): BrawlerRole {
-  return BRAWLER_ROLES[name.trim().toUpperCase()] ?? "Unbekannt";
+  return BRAWLER_ROLES[name.trim().toUpperCase()] ?? "Unknown";
 }

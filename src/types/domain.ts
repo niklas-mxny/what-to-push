@@ -1,31 +1,40 @@
 // Domain types for What to Push — everything specific to our own app logic,
 // independent of the upstream API shapes.
 
+// Identifiers double as i18n keys (`role.${BrawlerRole}`), so they're plain
+// camelCase-ish tokens rather than display strings — translate at render time.
 export type BrawlerRole =
   | "Tank"
-  | "Damage Dealer"
+  | "DamageDealer"
   | "Marksman"
   | "Artillery"
   | "Assassin"
   | "Support"
   | "Controller"
-  | "Unbekannt";
+  | "Unknown";
 
-export type GoalType = "power" | "trophies" | "rank";
+// "trophies" = per-brawler Prestige progress (1000/2000/3000 thresholds).
+// "totalTrophies" = account-wide trophy count, not tied to a single brawler.
+export type GoalType = "power" | "trophies" | "rank" | "totalTrophies";
 
 export interface GoalConfig {
   type: GoalType;
   target: number;
 }
 
-// Prestige (seit dem Februar-2026-Update): ab 1000 Trophäen auf einem Brawler
-// werden die ersten 1000 dauerhaft ("Prestige 1"), ab 2000 "Prestige 2", ab
-// 3000 "Prestige 3" (Maximum). Prestige ist also Trophäen-basiert, nicht an
-// den separaten "Rang"-Wert gekoppelt.
+// Prestige (added in the Feb 2026 update): a brawler's first 1000 trophies
+// become permanent (no season reset) at Prestige 1, 2000 at Prestige 2, 3000
+// at Prestige 3 (max) — so Prestige tiers are just the `trophies` goal type
+// at fixed thresholds. "Total trophies" is a separate, account-wide goal.
 export const DEFAULT_GOAL: GoalConfig = { type: "trophies", target: 1000 };
 
-export const GOAL_PRESETS: { type: GoalType; target: number; label: string }[] = [
-  { type: "trophies", target: 1000, label: "Alle Brawler auf Prestige 1" },
+export const GOAL_PRESETS: { type: GoalType; target: number }[] = [
+  { type: "trophies", target: 1000 },
+  { type: "trophies", target: 2000 },
+  { type: "trophies", target: 3000 },
+  { type: "totalTrophies", target: 100_000 },
+  { type: "totalTrophies", target: 200_000 },
+  { type: "totalTrophies", target: 300_000 },
 ];
 
 export interface MergedBrawler {
@@ -57,10 +66,16 @@ export interface ActiveSlot {
   endTime: string;
 }
 
+/** A translation key + interpolation params, resolved to text at render time via t(). */
+export interface ReasonEntry {
+  key: string;
+  params?: Record<string, string | number>;
+}
+
 export interface Recommendation {
   brawler: MergedBrawler;
   score: number;
-  reasons: string[];
+  reasons: ReasonEntry[];
 }
 
 export interface SlotRecommendation {

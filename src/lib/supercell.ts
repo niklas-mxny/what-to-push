@@ -43,15 +43,15 @@ async function scFetch<T>(path: string): Promise<T> {
 
     if (res.status === 403 && reason === "accessDenied.invalidIp") {
       throw new SupercellApiError(
-        "Diese Server-IP ist beim Supercell API Key nicht freigegeben. Füge sie unter developer.brawlstars.com bei deinem Key hinzu.",
+        "This server IP isn't whitelisted for the Supercell API key yet.",
         403,
-        reason
+        "invalid_ip"
       );
     }
     if (res.status === 404) {
-      throw new SupercellApiError("Nicht gefunden — prüfe den Spieler-Tag.", 404, reason);
+      throw new SupercellApiError("Not found — check the player tag.", 404, "not_found");
     }
-    throw new SupercellApiError(message || "Supercell API Fehler", res.status, reason);
+    throw new SupercellApiError(message || "Supercell API error", res.status, "generic");
   }
 
   return res.json() as Promise<T>;

@@ -8,20 +8,18 @@ import { SlotRecommendationCard } from "@/components/SlotRecommendationCard";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent } from "@/components/ui/Card";
+import { getGoalLabel } from "@/lib/goal-label";
 import { useRoster, useRotation } from "@/lib/hooks";
+import { translateApiError, useT } from "@/lib/i18n";
 import { recommendForAllSlots } from "@/lib/recommend";
 import { useGoal, usePlayerTag } from "@/lib/storage";
-import { GOAL_PRESETS } from "@/types/domain";
 
 export default function DashboardPage() {
+  const t = useT();
   const { tag, hydrated } = usePlayerTag();
   const { goal } = useGoal();
   const rotation = useRotation();
   const roster = useRoster(tag, hydrated);
-
-  const goalLabel =
-    GOAL_PRESETS.find((p) => p.type === goal.type && p.target === goal.target)?.label ??
-    `${goal.type} → ${goal.target}`;
 
   const loading = rotation.loading || roster.loading || !hydrated;
   const error = rotation.error ?? roster.error;
@@ -34,13 +32,13 @@ export default function DashboardPage() {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="font-display text-2xl font-bold sm:text-3xl">
-            {roster.data?.player ? `Hey ${roster.data.player.name}!` : "Was soll ich pushen?"}
+            {roster.data?.player ? t("dashboard.greeting", { name: roster.data.player.name }) : t("dashboard.title")}
           </h1>
-          <p className="text-sm text-muted">Empfehlungen für die aktuelle Map-Rotation.</p>
+          <p className="text-sm text-muted">{t("dashboard.subtitle")}</p>
         </div>
         <Link href="/settings">
           <Badge tone="primary" className="cursor-pointer px-3 py-1.5 text-sm">
-            <Settings2 className="h-3.5 w-3.5" /> Ziel: {goalLabel}
+            <Settings2 className="h-3.5 w-3.5" /> {t("dashboard.goalPrefix", { label: getGoalLabel(t, goal) })}
           </Badge>
         </Link>
       </div>
@@ -48,28 +46,20 @@ export default function DashboardPage() {
       {!hydrated ? null : !tag ? (
         <Card>
           <CardContent className="flex flex-col items-start gap-3">
-            <p className="text-sm text-foreground">
-              Noch kein Spieler-Tag hinterlegt. Ohne Tag zeigen wir dir nur allgemeine
-              Rollen-Empfehlungen, aber keine Priorisierung nach deinem Fortschritt.
-            </p>
+            <p className="text-sm text-foreground">{t("dashboard.noTag.message")}</p>
             <Link href="/settings">
-              <Button size="sm">Spieler-Tag eintragen</Button>
+              <Button size="sm">{t("dashboard.noTag.cta")}</Button>
             </Link>
           </CardContent>
         </Card>
       ) : null}
 
-      {error && (
-        <ApiErrorNotice
-          message={error}
-          hint="Prüfe in den Einstellungen bzw. der README, ob dein Supercell API Key korrekt eingerichtet und die Server-IP freigegeben ist."
-        />
-      )}
+      {error && <ApiErrorNotice message={translateApiError(t, error)} hint={t("dashboard.errorHint")} />}
 
       {roster.data?.playerError && (
         <ApiErrorNotice
-          message={`Spielerdaten konnten nicht geladen werden: ${roster.data.playerError.error}`}
-          hint="Prüfe den Spieler-Tag in den Einstellungen."
+          message={t("dashboard.playerError", { message: translateApiError(t, roster.data.playerError) })}
+          hint={t("dashboard.playerErrorHint")}
         />
       )}
 
@@ -95,7 +85,7 @@ export default function DashboardPage() {
       {!loading && !error && recommendations.length === 0 && (
         <Card>
           <CardContent>
-            <p className="text-sm text-muted">Aktuell keine aktive Rotation gefunden.</p>
+            <p className="text-sm text-muted">{t("dashboard.emptyRotation")}</p>
           </CardContent>
         </Card>
       )}

@@ -1,30 +1,55 @@
-import { goalMetricValue } from "@/lib/goal";
+import { goalMetricValue, isAccountGoal } from "@/lib/goal";
 import { getModeInfo } from "@/lib/mode-weights";
-import type { ActiveSlot, GoalConfig, MergedBrawler, Recommendation, SlotRecommendation } from "@/types/domain";
+import type {
+  ActiveSlot,
+  GoalConfig,
+  MergedBrawler,
+  ReasonEntry,
+  Recommendation,
+  SlotRecommendation,
+} from "@/types/domain";
 
-/** 0 = Ziel bereits erreicht/übertroffen, 1 = maximal weit vom Ziel entfernt. */
-function goalGap(b: MergedBrawler, goal: GoalConfig): number {
-  if (!b.owned) return 1;
+const MAX_POWER = 11;
+
+/**
+ * Rewards brawlers that are CLOSE to crossing the goal's next threshold (e.g.
+ * 80 trophies short of Prestige 1), not brawlers far from it — finishing an
+ * almost-done brawler is more efficient than starting a fresh one from zero.
+ * Ranges ~0.4 (just started) to ~1.3 (right at the doorstep); already-reached
+ * brawlers get a low-but-nonzero floor so they don't vanish from the list.
+ * Account-wide goals (totalTrophies) have no single-brawler target, so this
+ * factor is neutral (1) and the pick is driven by role fit + build quality.
+ */
+function proximityFactor(b: MergedBrawler, goal: GoalConfig): number {
+  if (isAccountGoal(goal)) return 1;
+  if (!b.owned) return 0.25;
   const current = goalMetricValue(b, goal);
-  if (current >= goal.target) return 0;
-  return (goal.target - current) / goal.target;
-}
-
-function roleWeight(b: MergedBrawler, modeKey: string): number {
-  const { roleWeights } = getModeInfo(modeKey);
-  return roleWeights[b.role] ?? 1;
+  if (current >= goal.target) return 0.2;
+  if (current <= 0) return 0.3;
+  return 0.4 + 0.9 * (current / goal.target);
 }
 
 /**
- * Trophäen werden mit steigendem Trophäenstand tendenziell schwerer zu gewinnen
- * (stärkere Gegner). Brawler mit niedrigerem Stand bekommen daher einen leichten
- * Bonus, wenn das Trophäen-Ziel aktiv ist — sie lassen sich gerade "leichter pushen".
+ * Proxy for "how strong is this brawler actually right now" (i.e. their real
+ * winrate): a higher power level and unlocked Star Power/Gadget mean a more
+ * complete kit and better real-match performance than a bare, underleveled
+ * brawler — even at the same role fit.
  */
-function pushEaseBonus(b: MergedBrawler, goal: GoalConfig): number {
-  if (goal.type !== "trophies" || !b.owned) return 1;
-  if (b.trophies >= 750) return 0.9;
-  if (b.trophies >= 500) return 1.0;
-  return 1.15;
+function buildQualityFactor(b: MergedBrawler): number {
+  if (!b.owned) return 0.6;
+  let f = 0.6 + 0.5 * (Math.min(b.power, MAX_POWER) / MAX_POWER);
+  if (b.starPowersUnlocked > 0) f += 0.12;
+  if (b.gadgetsUnlocked > 0) f += 0.12;
+  return f;
+}
+
+/**
+ * Stand-in for "winrate on this map/mode": no public API exposes real per-map
+ * meta winrates (see README), so this uses our role-fit heuristic instead.
+ */
+function roleWeight(b: MergedBrawler, modeKey: string): number {
+  const { roleWeights } = getModeInfo(modeKey);
+  return roleWeights[b.role] ?? 1;
 }
 
 export function scoreBrawlerForSlot(
@@ -32,29 +57,37 @@ export function scoreBrawlerForSlot(
   slot: ActiveSlot,
   goal: GoalConfig
 ): Recommendation {
-  const gap = goalGap(brawler, goal);
+  const proximity = proximityFactor(brawler, goal);
+  const build = buildQualityFactor(brawler);
   const role = roleWeight(brawler, slot.modeKey);
-  const ease = pushEaseBonus(brawler, goal);
   const ownershipFactor = brawler.owned ? 1 : 0.35;
 
-  // Basiswert 0.2 verhindert, dass fertige Brawler (gap=0) auf 0 fallen — sie sind
-  // dann einfach kein guter Pick mehr, sollen aber nicht komplett verschwinden.
-  const score = (0.2 + gap) * role * ease * ownershipFactor;
+  const score = proximity * build * role * ownershipFactor;
 
-  const reasons: string[] = [];
+  const reasons: ReasonEntry[] = [];
+  if (brawler.role !== "Unknown") {
+    const key =
+      role >= 1.4
+        ? "reason.roleFitStrong"
+        : role >= 1.1
+          ? "reason.roleFitGood"
+          : role < 0.9
+            ? "reason.roleFitWeak"
+            : "reason.roleFitNeutral";
+    reasons.push({ key, params: { role: brawler.role, mode: slot.modeLabel } });
+  }
+  if (brawler.owned && brawler.power >= 7 && (brawler.starPowersUnlocked > 0 || brawler.gadgetsUnlocked > 0)) {
+    reasons.push({ key: "reason.strongBuild", params: { power: brawler.power } });
+  }
   if (!brawler.owned) {
-    reasons.push("Noch nicht freigeschaltet");
-  } else if (gap === 0) {
-    reasons.push("Ziel bei diesem Brawler bereits erreicht");
-  } else {
-    reasons.push(`Noch ${Math.round(gap * 100)}% bis zum Ziel offen`);
-  }
-  if (brawler.role !== "Unbekannt") {
-    const fit = role >= 1.4 ? "starke" : role >= 1.1 ? "gute" : role < 0.9 ? "schwache" : "neutrale";
-    reasons.push(`${fit} Rolle (${brawler.role}) für ${slot.modeLabel}`);
-  }
-  if (ease > 1) {
-    reasons.push("Niedriger Trophäenstand — leichter zu pushen");
+    reasons.push({ key: "reason.notUnlocked" });
+  } else if (!isAccountGoal(goal)) {
+    const current = goalMetricValue(brawler, goal);
+    if (current >= goal.target) {
+      reasons.push({ key: "reason.goalReached" });
+    } else {
+      reasons.push({ key: "reason.closeToGoal", params: { remaining: goal.target - current } });
+    }
   }
 
   return { brawler, score, reasons };

@@ -42,6 +42,9 @@ export async function GET(request: Request) {
     if (err instanceof SupercellApiError) {
       return NextResponse.json({ error: err.message, code: err.reason }, { status: err.status });
     }
-    return NextResponse.json({ error: "Unerwarteter Fehler beim Laden der Brawler." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Unexpected error loading the brawlers.", code: "roster_generic" },
+      { status: 500 }
+    );
   }
 }

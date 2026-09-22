@@ -1,0 +1,97 @@
+import type { DictionaryKey } from "./en";
+
+const ja: Record<DictionaryKey, string> = {
+  "nav.dashboard": "ダッシュボード",
+  "nav.brawlers": "ブロウラー",
+  "nav.settings": "設定",
+
+  "app.disclaimer": "Supercellの公式サービスではありません。Supercell Fan Content Policyに基づいて作成されています。",
+
+  "dashboard.greeting": "こんにちは、{name}さん!",
+  "dashboard.title": "誰を育成すべき?",
+  "dashboard.subtitle": "現在のマップローテーションに基づくおすすめ。",
+  "dashboard.goalPrefix": "目標: {label}",
+  "dashboard.noTag.message":
+    "プレイヤータグが未設定です。タグがないと、あなたの進捗に基づかない一般的なロールのおすすめのみ表示されます。",
+  "dashboard.noTag.cta": "プレイヤータグを設定",
+  "dashboard.errorHint":
+    "設定(またはREADME)でSupercell APIキーが正しく設定され、サーバーIPが許可リストに登録されているか確認してください。",
+  "dashboard.playerError": "プレイヤーデータを読み込めませんでした: {message}",
+  "dashboard.playerErrorHint": "設定でプレイヤータグを確認してください。",
+  "dashboard.emptyRotation": "現在アクティブなローテーションが見つかりません。",
+  "dashboard.noRecommendation": "おすすめがありません。",
+  "dashboard.moreOptions": "その他の候補",
+  "dashboard.bestPick": "今のベストな選択",
+
+  "time.endingSoon": "まもなく終了",
+  "time.days": "残り{d}日{h}時間",
+  "time.hours": "残り{h}時間{m}分",
+  "time.minutes": "残り{m}分",
+
+  "brawlers.title": "あなたのブロウラー",
+  "brawlers.progress": "目標への進捗: {metric} {target} · {done}/{total} 達成",
+  "brawlers.accountProgress": "合計{target}トロフィーへのアカウント進捗",
+  "brawlers.search": "ブロウラーを検索…",
+  "brawlers.noTagHint":
+    "プレイヤータグがない場合(設定を参照)、一般的なブロウラー一覧のみが表示され、あなたの進捗は表示されません。",
+  "brawlers.notUnlocked": "未解放",
+
+  "settings.title": "設定",
+  "settings.subtitle": "プレイヤータグと進捗の目標。",
+  "settings.tag.title": "プレイヤータグ",
+  "settings.tag.description": "Brawl Starsのプロフィールで確認できます。例: #2Y8VQGCCV",
+  "settings.tag.placeholder": "2Y8VQGCCV",
+  "settings.tag.save": "保存",
+  "settings.goal.title": "あなたの目標",
+  "settings.goal.description":
+    "どのブロウラーを優先的におすすめするかを決めます — 例: 全員をプレステージ1(1000トロフィー)にする、またはパワーレベルやランクで独自の目標を設定します。",
+  "settings.goal.active": "有効",
+  "settings.goal.custom.title": "カスタム目標",
+  "settings.goal.custom.apply": "適用",
+  "settings.language.title": "言語",
+  "settings.language.description": "インターフェースの言語を選択してください。",
+
+  "goal.metric.power": "パワー",
+  "goal.metric.trophies": "トロフィー",
+  "goal.metric.rank": "ランク",
+  "goal.metric.totalTrophies": "合計トロフィー",
+
+  "goal.type.power": "パワーレベル",
+  "goal.type.trophies": "トロフィー(プレステージ段階: 1000/2000/3000)",
+  "goal.type.rank": "ランク",
+  "goal.type.totalTrophies": "合計トロフィー(アカウント)",
+
+  "goal.preset.prestige": "全ブロウラーをプレステージ{n}に",
+  "goal.preset.totalTrophies": "合計{n}kトロフィー",
+  "goal.custom.power": "全ブロウラーをパワー{target}に",
+  "goal.custom.trophies": "全ブロウラーを{target}トロフィーに",
+  "goal.custom.rank": "全ブロウラーをランク{target}に",
+  "goal.custom.totalTrophies": "合計{target}トロフィー",
+
+  "role.Tank": "タンク",
+  "role.DamageDealer": "アタッカー",
+  "role.Marksman": "マークスマン",
+  "role.Artillery": "アーティラリー",
+  "role.Assassin": "アサシン",
+  "role.Support": "サポート",
+  "role.Controller": "コントローラー",
+  "role.Unknown": "不明",
+
+  "reason.notUnlocked": "まだ未解放",
+  "reason.goalReached": "このブロウラーは目標達成済み",
+  "reason.closeToGoal": "あと{remaining}",
+  "reason.roleFitStrong": "{mode}に最適な選択({role})",
+  "reason.roleFitGood": "{mode}に良い選択({role})",
+  "reason.roleFitNeutral": "{mode}には普通の選択({role})",
+  "reason.roleFitWeak": "{mode}にはやや弱い選択({role})",
+  "reason.strongBuild": "しっかり育成済み(パワー{power}、主要アップグレード解放済み)",
+
+  "errors.missing_token": "サーバーにSupercell APIキーがまだ設定されていません。",
+  "errors.invalid_ip": "このサーバーIPはSupercell APIキーの許可リストにまだ登録されていません。",
+  "errors.not_found": "見つかりません — プレイヤータグを確認してください。",
+  "errors.generic": "Brawl Stars APIとの通信で問題が発生しました。",
+  "errors.rotation_generic": "ローテーションの読み込み中に予期しないエラーが発生しました。",
+  "errors.roster_generic": "ブロウラーの読み込み中に予期しないエラーが発生しました。",
+};
+
+export default ja;

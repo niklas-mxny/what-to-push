@@ -30,6 +30,9 @@ export async function GET() {
     if (err instanceof SupercellApiError) {
       return NextResponse.json({ error: err.message, code: err.reason }, { status: err.status });
     }
-    return NextResponse.json({ error: "Unerwarteter Fehler beim Laden der Rotation." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Unexpected error loading the rotation.", code: "rotation_generic" },
+      { status: 500 }
+    );
   }
 }

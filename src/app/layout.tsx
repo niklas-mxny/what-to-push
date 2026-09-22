@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Baloo_2, Inter } from "next/font/google";
+import { Footer } from "@/components/Footer";
 import { NavBar } from "@/components/NavBar";
+import { I18nProvider } from "@/lib/i18n";
 import "./globals.css";
 
 const inter = Inter({
@@ -17,18 +19,18 @@ const baloo = Baloo_2({
 export const metadata: Metadata = {
   title: "What to Push — Brawl Stars Tracker",
   description:
-    "Maßgeschneiderte Brawler-Empfehlungen für die aktuelle Map-Rotation, basierend auf deinen eigenen Stats und Zielen.",
+    "Personalized brawler recommendations for the current map rotation, based on your own stats and goals.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="de" className={`${inter.variable} ${baloo.variable} h-full antialiased`}>
+    <html lang="en" className={`${inter.variable} ${baloo.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <NavBar />
-        <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6">{children}</main>
-        <footer className="border-t border-border px-4 py-6 text-center text-xs text-muted-2 sm:px-6">
-          Nicht offiziell mit Supercell verbunden. Erstellt unter der Supercell Fan Content Policy.
-        </footer>
+        <I18nProvider>
+          <NavBar />
+          <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6">{children}</main>
+          <Footer />
+        </I18nProvider>
       </body>
     </html>
   );

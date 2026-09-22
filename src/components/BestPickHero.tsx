@@ -1,14 +1,18 @@
+"use client";
+
 import { Sparkles } from "lucide-react";
 import { BrawlerIcon } from "@/components/BrawlerIcon";
 import { RoleBadge } from "@/components/RoleBadge";
 import { Badge } from "@/components/ui/Badge";
+import { formatReasons, useT } from "@/lib/i18n";
 import type { SlotRecommendation } from "@/types/domain";
 
 export function BestPickHero({ recommendations }: { recommendations: SlotRecommendation[] }) {
-  let best: { rec: SlotRecommendation; scoreIdx: number } | null = null;
+  const t = useT();
+  let best: { rec: SlotRecommendation } | null = null;
   for (const rec of recommendations) {
     if (rec.picks[0] && (!best || rec.picks[0].score > best.rec.picks[0].score)) {
-      best = { rec, scoreIdx: 0 };
+      best = { rec };
     }
   }
 
@@ -23,16 +27,18 @@ export function BestPickHero({ recommendations }: { recommendations: SlotRecomme
           <BrawlerIcon brawler={pick.brawler} size={72} className="ring-2 ring-accent" />
           <div>
             <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-accent">
-              <Sparkles className="h-3.5 w-3.5" /> Beste Wahl gerade
+              <Sparkles className="h-3.5 w-3.5" /> {t("dashboard.bestPick")}
             </span>
             <p className="font-display text-2xl font-bold">{pick.brawler.name}</p>
             <div className="mt-1 flex flex-wrap items-center gap-2">
               <RoleBadge role={pick.brawler.role} />
-              <Badge>{best.rec.slot.modeLabel} · {best.rec.slot.mapName}</Badge>
+              <Badge>
+                {best.rec.slot.modeLabel} · {best.rec.slot.mapName}
+              </Badge>
             </div>
           </div>
         </div>
-        <p className="max-w-xs text-sm text-muted sm:text-right">{pick.reasons.join(" · ")}</p>
+        <p className="max-w-xs text-sm text-muted sm:text-right">{formatReasons(t, pick.reasons)}</p>
       </div>
     </div>
   );

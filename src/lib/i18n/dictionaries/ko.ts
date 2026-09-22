@@ -1,0 +1,96 @@
+import type { DictionaryKey } from "./en";
+
+const ko: Record<DictionaryKey, string> = {
+  "nav.dashboard": "대시보드",
+  "nav.brawlers": "브롤러",
+  "nav.settings": "설정",
+
+  "app.disclaimer": "Supercell과 제휴하지 않았습니다. Supercell 팬 콘텐츠 정책에 따라 제작되었습니다.",
+
+  "dashboard.greeting": "안녕하세요, {name}님!",
+  "dashboard.title": "누구를 키워야 할까요?",
+  "dashboard.subtitle": "현재 맵 로테이션에 대한 추천입니다.",
+  "dashboard.goalPrefix": "목표: {label}",
+  "dashboard.noTag.message":
+    "아직 플레이어 태그가 설정되지 않았습니다. 태그가 없으면 진행 상황에 따른 우선순위 없이 일반적인 역할 기반 추천만 표시됩니다.",
+  "dashboard.noTag.cta": "플레이어 태그 설정",
+  "dashboard.errorHint":
+    "설정(또는 README)에서 Supercell API 키가 올바르게 설정되었는지, 서버 IP가 허용 목록에 있는지 확인하세요.",
+  "dashboard.playerError": "플레이어 데이터를 불러올 수 없습니다: {message}",
+  "dashboard.playerErrorHint": "설정에서 플레이어 태그를 확인하세요.",
+  "dashboard.emptyRotation": "현재 활성화된 로테이션이 없습니다.",
+  "dashboard.noRecommendation": "추천할 항목이 없습니다.",
+  "dashboard.moreOptions": "다른 옵션",
+  "dashboard.bestPick": "지금 가장 좋은 선택",
+
+  "time.endingSoon": "곧 종료",
+  "time.days": "{d}일 {h}시간 남음",
+  "time.hours": "{h}시간 {m}분 남음",
+  "time.minutes": "{m}분 남음",
+
+  "brawlers.title": "내 브롤러",
+  "brawlers.progress": "목표 진행 상황: {metric} {target} · {done}/{total} 달성",
+  "brawlers.accountProgress": "총 {target} 트로피 달성을 위한 계정 진행 상황",
+  "brawlers.search": "브롤러 검색…",
+  "brawlers.noTagHint": "플레이어 태그가 없으면(설정 참조) 진행 상황 없이 일반 브롤러 목록만 표시됩니다.",
+  "brawlers.notUnlocked": "잠김",
+
+  "settings.title": "설정",
+  "settings.subtitle": "플레이어 태그와 진행 목표.",
+  "settings.tag.title": "플레이어 태그",
+  "settings.tag.description": "Brawl Stars 프로필에서 확인할 수 있습니다. 예: #2Y8VQGCCV",
+  "settings.tag.placeholder": "2Y8VQGCCV",
+  "settings.tag.save": "저장",
+  "settings.goal.title": "목표",
+  "settings.goal.description":
+    "어떤 브롤러를 우선 추천할지 결정합니다 — 예: 모든 브롤러를 프레스티지 1(트로피 1000개)로 만들거나, 파워 레벨이나 랭크로 나만의 목표를 설정하세요.",
+  "settings.goal.active": "활성",
+  "settings.goal.custom.title": "맞춤 목표",
+  "settings.goal.custom.apply": "적용",
+  "settings.language.title": "언어",
+  "settings.language.description": "인터페이스 언어를 선택하세요.",
+
+  "goal.metric.power": "파워",
+  "goal.metric.trophies": "트로피",
+  "goal.metric.rank": "랭크",
+  "goal.metric.totalTrophies": "총 트로피",
+
+  "goal.type.power": "파워 레벨",
+  "goal.type.trophies": "트로피 (프레스티지 단계: 1000/2000/3000)",
+  "goal.type.rank": "랭크",
+  "goal.type.totalTrophies": "총 트로피 (계정)",
+
+  "goal.preset.prestige": "모든 브롤러 프레스티지 {n}",
+  "goal.preset.totalTrophies": "총 {n}k 트로피",
+  "goal.custom.power": "모든 브롤러 파워 {target}",
+  "goal.custom.trophies": "모든 브롤러 트로피 {target}개",
+  "goal.custom.rank": "모든 브롤러 랭크 {target}",
+  "goal.custom.totalTrophies": "총 {target} 트로피",
+
+  "role.Tank": "탱커",
+  "role.DamageDealer": "딜러",
+  "role.Marksman": "마크스맨",
+  "role.Artillery": "포격형",
+  "role.Assassin": "어쌔신",
+  "role.Support": "서포터",
+  "role.Controller": "컨트롤러",
+  "role.Unknown": "알 수 없음",
+
+  "reason.notUnlocked": "아직 잠김",
+  "reason.goalReached": "이 브롤러는 이미 목표 달성",
+  "reason.closeToGoal": "{remaining}만 더 있으면 됨",
+  "reason.roleFitStrong": "{mode}에 강력한 선택({role})",
+  "reason.roleFitGood": "{mode}에 좋은 선택({role})",
+  "reason.roleFitNeutral": "{mode}에 무난한 선택({role})",
+  "reason.roleFitWeak": "{mode}에 다소 약한 선택({role})",
+  "reason.strongBuild": "완성도 높음 (파워 {power}, 주요 업그레이드 해금됨)",
+
+  "errors.missing_token": "서버에 Supercell API 키가 아직 설정되지 않았습니다.",
+  "errors.invalid_ip": "이 서버 IP는 아직 Supercell API 키 허용 목록에 없습니다.",
+  "errors.not_found": "찾을 수 없습니다 — 플레이어 태그를 확인하세요.",
+  "errors.generic": "Brawl Stars API 연결 중 문제가 발생했습니다.",
+  "errors.rotation_generic": "로테이션을 불러오는 중 예상치 못한 오류가 발생했습니다.",
+  "errors.roster_generic": "브롤러를 불러오는 중 예상치 못한 오류가 발생했습니다.",
+};
+
+export default ko;

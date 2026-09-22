@@ -3,7 +3,7 @@ import "server-only";
 export class MissingApiTokenError extends Error {
   constructor() {
     super(
-      "BRAWL_STARS_API_TOKEN ist nicht gesetzt. Siehe README.md, wie du einen Supercell API Key erstellst und in .env.local einträgst."
+      "BRAWL_STARS_API_TOKEN is not set. See README.md for how to create a Supercell API key and add it to .env.local."
     );
     this.name = "MissingApiTokenError";
   }

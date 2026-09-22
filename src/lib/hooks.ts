@@ -3,9 +3,14 @@
 import { useEffect, useState } from "react";
 import type { MergedBrawler, ActiveSlot } from "@/types/domain";
 
+export interface ApiError {
+  message: string;
+  code?: string;
+}
+
 interface ApiState<T> {
   data: T | null;
-  error: string | null;
+  error: ApiError | null;
   loading: boolean;
 }
 
@@ -16,16 +21,29 @@ interface RotationResponse {
 interface RosterResponse {
   roster: MergedBrawler[];
   player: { name: string; tag: string; trophies: number } | null;
-  playerError: { error: string; code?: string } | null;
+  playerError: ApiError | null;
+}
+
+class ApiRequestError extends Error {
+  code?: string;
+  constructor(message: string, code?: string) {
+    super(message);
+    this.code = code;
+  }
 }
 
 async function fetchJson<T>(url: string): Promise<T> {
   const res = await fetch(url);
   const body = await res.json();
   if (!res.ok) {
-    throw new Error(body.error ?? `Anfrage fehlgeschlagen (${res.status})`);
+    throw new ApiRequestError(body.error ?? `Request failed (${res.status})`, body.code);
   }
   return body as T;
+}
+
+function toApiError(err: unknown): ApiError {
+  if (err instanceof ApiRequestError) return { message: err.message, code: err.code };
+  return { message: err instanceof Error ? err.message : String(err) };
 }
 
 export function useRotation(): ApiState<ActiveSlot[]> {
@@ -41,8 +59,8 @@ export function useRotation(): ApiState<ActiveSlot[]> {
       .then((res) => {
         if (!cancelled) setState({ data: res.slots, error: null, loading: false });
       })
-      .catch((err: Error) => {
-        if (!cancelled) setState({ data: null, error: err.message, loading: false });
+      .catch((err: unknown) => {
+        if (!cancelled) setState({ data: null, error: toApiError(err), loading: false });
       });
     return () => {
       cancelled = true;
@@ -67,8 +85,8 @@ export function useRoster(tag: string, hydrated: boolean): ApiState<RosterRespon
       .then((res) => {
         if (!cancelled) setState({ data: res, error: null, loading: false });
       })
-      .catch((err: Error) => {
-        if (!cancelled) setState({ data: null, error: err.message, loading: false });
+      .catch((err: unknown) => {
+        if (!cancelled) setState({ data: null, error: toApiError(err), loading: false });
       });
     return () => {
       cancelled = true;

@@ -7,21 +7,29 @@ import { BrawlerIcon } from "@/components/BrawlerIcon";
 import { RoleBadge } from "@/components/RoleBadge";
 import { Card, CardContent } from "@/components/ui/Card";
 import { ProgressBar } from "@/components/ui/ProgressBar";
-import { GOAL_METRIC_LABEL, goalMetricValue } from "@/lib/goal";
+import { goalMetricValue, isAccountGoal } from "@/lib/goal";
 import { useRoster } from "@/lib/hooks";
+import { translateApiError, useT } from "@/lib/i18n";
 import { useGoal, usePlayerTag } from "@/lib/storage";
 
 export default function BrawlersPage() {
+  const t = useT();
   const { tag, hydrated } = usePlayerTag();
   const { goal } = useGoal();
   const { data, loading, error } = useRoster(tag, hydrated);
   const [query, setQuery] = useState("");
+  const accountGoal = isAccountGoal(goal);
 
   const rows = useMemo(() => {
     if (!data) return [];
     const filtered = data.roster.filter((b) =>
       b.name.toLowerCase().includes(query.toLowerCase())
     );
+    if (accountGoal) {
+      return filtered
+        .map((b) => ({ brawler: b, current: b.trophies, done: false }))
+        .sort((a, b) => b.current - a.current);
+    }
     return filtered
       .map((b) => ({
         brawler: b,
@@ -33,7 +41,7 @@ export default function BrawlersPage() {
         if (a.brawler.owned !== b.brawler.owned) return a.brawler.owned ? -1 : 1;
         return a.current / goal.target - b.current / goal.target;
       });
-  }, [data, query, goal]);
+  }, [data, query, goal, accountGoal]);
 
   const doneCount = rows.filter((r) => r.done).length;
 
@@ -41,10 +49,16 @@ export default function BrawlersPage() {
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="font-display text-2xl font-bold sm:text-3xl">Deine Brawler</h1>
+          <h1 className="font-display text-2xl font-bold sm:text-3xl">{t("brawlers.title")}</h1>
           <p className="text-sm text-muted">
-            Fortschritt Richtung Ziel: {GOAL_METRIC_LABEL[goal.type]} {goal.target}
-            {data ? ` · ${doneCount}/${rows.length} erreicht` : ""}
+            {accountGoal
+              ? t("brawlers.accountProgress", { target: goal.target.toLocaleString() })
+              : t("brawlers.progress", {
+                  metric: t(`goal.metric.${goal.type}`),
+                  target: goal.target,
+                  done: doneCount,
+                  total: rows.length,
+                })}
           </p>
         </div>
         <div className="flex items-center gap-2 rounded-lg border border-border-strong bg-background-elevated px-3 py-2">
@@ -52,20 +66,31 @@ export default function BrawlersPage() {
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Brawler suchen…"
+            placeholder={t("brawlers.search")}
             className="bg-transparent text-sm outline-none placeholder:text-muted-2"
           />
         </div>
       </div>
 
-      {error && <ApiErrorNotice message={error} />}
+      {accountGoal && data?.player && (
+        <Card>
+          <CardContent className="flex flex-col gap-2">
+            <div className="flex justify-between text-sm">
+              <span className="font-medium">{data.player.name}</span>
+              <span className="text-muted">
+                {data.player.trophies.toLocaleString()} / {goal.target.toLocaleString()}
+              </span>
+            </div>
+            <ProgressBar value={data.player.trophies} max={goal.target} />
+          </CardContent>
+        </Card>
+      )}
+
+      {error && <ApiErrorNotice message={translateApiError(t, error)} />}
       {!tag && hydrated && (
         <Card>
           <CardContent>
-            <p className="text-sm text-muted">
-              Ohne Spieler-Tag (siehe Einstellungen) zeigen wir hier nur die allgemeine
-              Brawler-Liste ohne deinen Fortschritt.
-            </p>
+            <p className="text-sm text-muted">{t("brawlers.noTagHint")}</p>
           </CardContent>
         </Card>
       )}
@@ -87,21 +112,27 @@ export default function BrawlersPage() {
                 <p className="truncate text-sm font-semibold">{brawler.name}</p>
                 <RoleBadge role={brawler.role} />
                 {brawler.owned ? (
-                  <div className="w-full">
-                    <div className="mb-1 flex justify-between text-[11px] text-muted">
-                      <span>
-                        {GOAL_METRIC_LABEL[goal.type]} {current}
-                      </span>
-                      <span>{goal.target}</span>
+                  accountGoal ? (
+                    <p className="text-xs text-muted">
+                      {current.toLocaleString()} {t("goal.metric.trophies")}
+                    </p>
+                  ) : (
+                    <div className="w-full">
+                      <div className="mb-1 flex justify-between text-[11px] text-muted">
+                        <span>
+                          {t(`goal.metric.${goal.type}`)} {current}
+                        </span>
+                        <span>{goal.target}</span>
+                      </div>
+                      <ProgressBar
+                        value={current}
+                        max={goal.target}
+                        toneClassName={done ? "bg-success" : "bg-primary"}
+                      />
                     </div>
-                    <ProgressBar
-                      value={current}
-                      max={goal.target}
-                      toneClassName={done ? "bg-success" : "bg-primary"}
-                    />
-                  </div>
+                  )
                 ) : (
-                  <p className="text-[11px] text-muted-2">Nicht freigeschaltet</p>
+                  <p className="text-[11px] text-muted-2">{t("brawlers.notUnlocked")}</p>
                 )}
               </CardContent>
             </Card>

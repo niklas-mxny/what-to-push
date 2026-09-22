@@ -72,10 +72,19 @@ Das Projekt selbst ist Hosting-agnostisch — die API-Anbindung liegt komplett i
   Brawler/Map — die hier hinterlegten Gewichtungen sind ein Startpunkt basierend auf
   bekannten Rollen-Synergien, kein gemessener Wert. Beide Dateien sind bewusst simpel
   gehalten und leicht erweiter-/korrigierbar.
-- `src/lib/recommend.ts` — Kombiniert Rollen-Fit, Zielfortschritt und
-  Trophäen-Pushbarkeit zu einer Empfehlung pro aktivem Modus/Map-Slot.
-- `src/lib/storage.ts` — Spieler-Tag und Ziel werden nur lokal im Browser
+- `src/lib/recommend.ts` — Kombiniert drei Faktoren zu einer Empfehlung pro aktivem
+  Modus/Map-Slot: Rollen-Fit als Winrate-Stellvertreter, Build-Qualität (Power-Level +
+  freigeschaltete Star Power/Gadget — ein stärker ausgebauter Brawler performt real
+  besser) und Nähe zum nächsten Ziel-Meilenstein (ein Brawler kurz vor Prestige 1 wird
+  bevorzugt vor einem bei 0 Trophäen). Bei einem Konto-weiten Ziel (Trophäen gesamt)
+  entfällt der Meilenstein-Faktor, da es kein Pro-Brawler-Ziel gibt.
+- `src/lib/storage.ts` — Spieler-Tag, Ziel und Sprache werden nur lokal im Browser
   (`localStorage`) gespeichert, kein Account/Login.
+- `src/lib/i18n/` — Eigenes, leichtgewichtiges i18n-System (kein Routing, rein
+  client-seitig über `localStorage`): 10 Sprachen (Englisch als Standard, dazu Spanisch,
+  Portugiesisch, Französisch, Deutsch, Russisch, Japanisch, Koreanisch, Chinesisch,
+  Arabisch inkl. RTL-Layout). Übersetzt wird nur die eigene UI — Brawler-, Modus- und
+  Map-Namen kommen unverändert von den APIs (Englisch/Originalnamen).
 
 ## Bekannte Grenzen
 
