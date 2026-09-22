@@ -1,26 +1,66 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0b0a16;
+  --background-elevated: #12101f;
+  --foreground: #f4f2ff;
+  --muted: #9d97b8;
+  --muted-2: #6f6a8a;
+  --card: #16132a;
+  --card-hover: #1c1834;
+  --border: rgba(244, 242, 255, 0.08);
+  --border-strong: rgba(244, 242, 255, 0.16);
+  --primary: #8b5cf6;
+  --primary-foreground: #ffffff;
+  --accent: #ffc531;
+  --accent-foreground: #241a00;
+  --success: #34d399;
+  --danger: #f87171;
+  --radius: 1rem;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-background-elevated: var(--background-elevated);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted: var(--muted);
+  --color-muted-2: var(--muted-2);
+  --color-card: var(--card);
+  --color-card-hover: var(--card-hover);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --radius-card: var(--radius);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-baloo);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  border-color: var(--border);
 }
 
 body {
-  background: var(--background);
+  background: radial-gradient(ellipse 120% 60% at 50% -10%, #241c46 0%, var(--background) 55%);
+  background-attachment: fixed;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+::selection {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 999px;
 }

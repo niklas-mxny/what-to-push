@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# What to Push
 
-## Getting Started
+Ein Brawl Stars Tracker: zeigt dir, basierend auf der aktuellen Map-Rotation, deinen
+eigenen Brawler-Stats und deinem persönlichen Ziel (z.B. "jeden Brawler auf Power 11
+bringen"), welchen Brawler du gerade am besten pushen solltest.
 
-First, run the development server:
+## Setup
+
+### 1. Node.js Abhängigkeiten
+
+```bash
+npm install
+```
+
+### 2. Supercell API Key besorgen
+
+Die Brawl-Stats-Daten (dein Spielerprofil, aktuelle Event-Rotation) kommen von der
+offiziellen [Supercell Brawl Stars API](https://developer.brawlstars.com). Diese API
+erfordert einen Key, der an eine **feste IP-Adresse** gebunden ist — Anfragen von
+anderen IPs werden abgelehnt.
+
+1. Auf [developer.brawlstars.com](https://developer.brawlstars.com) registrieren/einloggen.
+2. Einen neuen Key erstellen.
+3. Als "erlaubte IP" deine aktuelle öffentliche IP eintragen (findest du z.B. mit
+   `curl ifconfig.me`). Für lokale Entwicklung reicht deine Heim-IP — beachte aber,
+   dass sich diese ändern kann (z.B. nach Router-Neustart), dann muss der Key
+   aktualisiert werden.
+4. `.env.local.example` zu `.env.local` kopieren und den Key eintragen:
+
+   ```bash
+   cp .env.local.example .env.local
+   ```
+
+### 3. Dev-Server starten
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Öffne [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment / feste IP
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Für den produktiven Betrieb braucht der Server, der die API-Routes ausführt, ebenfalls
+eine feste, bei Supercell freigegebene IP. Klassisches Serverless-Hosting (z.B. Vercel)
+hat **keine** feste ausgehende IP — Optionen:
 
-## Learn More
+- **VPS mit fester IP** (z.B. Hetzner, DigitalOcean): einfachste Lösung, IP direkt bei
+  Supercell whitelisten.
+- **Vercel + Zwischen-Proxy** mit fester IP (z.B. ein kleiner Server, der die
+  Supercell-Requests weiterleitet).
 
-To learn more about Next.js, take a look at the following resources:
+Das Projekt selbst ist Hosting-agnostisch — die API-Anbindung liegt komplett in
+[`src/lib/supercell.ts`](src/lib/supercell.ts).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Architektur
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Next.js App Router**, TypeScript, Tailwind CSS.
+- `src/lib/supercell.ts` — Server-seitiger Client für die offizielle Supercell API
+  (Spielerdaten, Brawler-Liste, aktuelle Event-Rotation). Der API-Key wird **nie** an
+  den Browser gesendet, nur in den API-Routes unter `src/app/api/*` verwendet.
+- `src/lib/brawlapi.ts` — Nutzt die kostenlose, keyless [BrawlAPI](https://brawlapi.com)
+  nur für Brawler-Icons/Seltenheit und Map-Vorschaubilder (die offizielle API liefert
+  dafür keine Bild-URLs).
+- `src/lib/roles.ts` + `src/lib/mode-weights.ts` — Eigene, heuristische
+  Empfehlungs-Datenbasis (Brawler-Rolle × Spielmodus-Gewichtung). **Wichtig:** Es gibt
+  aktuell keine verlässliche öffentliche API für echte Meta-Winrate-Daten pro
+  Brawler/Map — die hier hinterlegten Gewichtungen sind ein Startpunkt basierend auf
+  bekannten Rollen-Synergien, kein gemessener Wert. Beide Dateien sind bewusst simpel
+  gehalten und leicht erweiter-/korrigierbar.
+- `src/lib/recommend.ts` — Kombiniert Rollen-Fit, Zielfortschritt und
+  Trophäen-Pushbarkeit zu einer Empfehlung pro aktivem Modus/Map-Slot.
+- `src/lib/storage.ts` — Spieler-Tag und Ziel werden nur lokal im Browser
+  (`localStorage`) gespeichert, kein Account/Login.
 
-## Deploy on Vercel
+## Bekannte Grenzen
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Build-Empfehlungen (Star Power/Gadget/Gears) zeigen aktuell nur, was du bereits
+  freigeschaltet hast — es gibt bewusst keine fest hinterlegten "beste Builds pro
+  Brawler", da sich das mit jedem Balance-Update ändert und für 100+ Brawler nicht
+  verlässlich pflegbar wäre.
+- Die Rollen-Tabelle (`src/lib/roles.ts`) deckt aktuell ein Starter-Set bekannter
+  Brawler ab; sehr neue Brawler fallen auf eine neutrale Gewichtung zurück, statt
+  geraten zu werden.

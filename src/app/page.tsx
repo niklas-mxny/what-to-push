@@ -1,69 +1,104 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import Link from "next/link";
+import { Settings2 } from "lucide-react";
+import { ApiErrorNotice } from "@/components/ApiErrorNotice";
+import { BestPickHero } from "@/components/BestPickHero";
+import { SlotRecommendationCard } from "@/components/SlotRecommendationCard";
+import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
+import { Card, CardContent } from "@/components/ui/Card";
+import { useRoster, useRotation } from "@/lib/hooks";
+import { recommendForAllSlots } from "@/lib/recommend";
+import { useGoal, usePlayerTag } from "@/lib/storage";
+import { GOAL_PRESETS } from "@/types/domain";
+
+export default function DashboardPage() {
+  const { tag, hydrated } = usePlayerTag();
+  const { goal } = useGoal();
+  const rotation = useRotation();
+  const roster = useRoster(tag, hydrated);
+
+  const goalLabel =
+    GOAL_PRESETS.find((p) => p.type === goal.type && p.target === goal.target)?.label ??
+    `${goal.type} → ${goal.target}`;
+
+  const loading = rotation.loading || roster.loading || !hydrated;
+  const error = rotation.error ?? roster.error;
+
+  const recommendations =
+    rotation.data && roster.data ? recommendForAllSlots(rotation.data, roster.data.roster, goal) : [];
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="font-display text-2xl font-bold sm:text-3xl">
+            {roster.data?.player ? `Hey ${roster.data.player.name}!` : "Was soll ich pushen?"}
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+          <p className="text-sm text-muted">Empfehlungen für die aktuelle Map-Rotation.</p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <Link href="/settings">
+          <Badge tone="primary" className="cursor-pointer px-3 py-1.5 text-sm">
+            <Settings2 className="h-3.5 w-3.5" /> Ziel: {goalLabel}
+          </Badge>
+        </Link>
+      </div>
+
+      {!hydrated ? null : !tag ? (
+        <Card>
+          <CardContent className="flex flex-col items-start gap-3">
+            <p className="text-sm text-foreground">
+              Noch kein Spieler-Tag hinterlegt. Ohne Tag zeigen wir dir nur allgemeine
+              Rollen-Empfehlungen, aber keine Priorisierung nach deinem Fortschritt.
+            </p>
+            <Link href="/settings">
+              <Button size="sm">Spieler-Tag eintragen</Button>
+            </Link>
+          </CardContent>
+        </Card>
+      ) : null}
+
+      {error && (
+        <ApiErrorNotice
+          message={error}
+          hint="Prüfe in den Einstellungen bzw. der README, ob dein Supercell API Key korrekt eingerichtet und die Server-IP freigegeben ist."
+        />
+      )}
+
+      {roster.data?.playerError && (
+        <ApiErrorNotice
+          message={`Spielerdaten konnten nicht geladen werden: ${roster.data.playerError.error}`}
+          hint="Prüfe den Spieler-Tag in den Einstellungen."
+        />
+      )}
+
+      {loading && !error && (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="h-64 animate-pulse rounded-card border border-border bg-card/50" />
+          ))}
         </div>
-      </main>
+      )}
+
+      {!loading && !error && recommendations.length > 0 && (
+        <>
+          <BestPickHero recommendations={recommendations} />
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {recommendations.map((rec) => (
+              <SlotRecommendationCard key={rec.slot.slotId} rec={rec} />
+            ))}
+          </div>
+        </>
+      )}
+
+      {!loading && !error && recommendations.length === 0 && (
+        <Card>
+          <CardContent>
+            <p className="text-sm text-muted">Aktuell keine aktive Rotation gefunden.</p>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }
