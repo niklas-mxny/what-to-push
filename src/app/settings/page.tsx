@@ -2,39 +2,27 @@
 
 import { useState } from "react";
 import { Check } from "lucide-react";
-import { Badge } from "@/components/ui/Badge";
+import { GoalSelect } from "@/components/GoalSelect";
+import { LanguageSelector } from "@/components/LanguageSelector";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
-import { cn } from "@/lib/cn";
-import { getGoalLabel } from "@/lib/goal-label";
-import { LOCALES, useI18n } from "@/lib/i18n";
-import type { LocaleCode } from "@/lib/i18n";
-import { useGoal, usePlayerTag } from "@/lib/storage";
-import { GOAL_PRESETS, type GoalConfig, type GoalType } from "@/types/domain";
+import { useT } from "@/lib/i18n";
+import { usePlayerTag } from "@/lib/storage";
 
 export default function SettingsPage() {
-  const { t, locale, setLocale } = useI18n();
+  const t = useT();
   const { tag, setTag } = usePlayerTag();
-  const { goal, setGoal } = useGoal();
   const [tagInput, setTagInput] = useState(tag);
   const [saved, setSaved] = useState(false);
-  const [customType, setCustomType] = useState<GoalType>(goal.type);
-  const [customTarget, setCustomTarget] = useState(goal.target);
 
   // Derive local editable state from the store during render (React's
-  // recommended alternative to a sync-on-mount effect): once `tag`/`goal`
-  // resolve from localStorage after hydration, or change elsewhere, the local
-  // copies below snap to the new value without an extra effect round-trip.
+  // recommended alternative to a sync-on-mount effect): once `tag` resolves
+  // from localStorage after hydration, or changes elsewhere, the input snaps
+  // to the new value without an extra effect round-trip.
   const [prevTag, setPrevTag] = useState(tag);
   if (tag !== prevTag) {
     setPrevTag(tag);
     setTagInput(tag);
-  }
-  const [prevGoal, setPrevGoal] = useState<GoalConfig>(goal);
-  if (goal !== prevGoal) {
-    setPrevGoal(goal);
-    setCustomType(goal.type);
-    setCustomTarget(goal.target);
   }
 
   function saveTag() {
@@ -73,86 +61,23 @@ export default function SettingsPage() {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="relative z-20">
         <CardHeader>
           <CardTitle>{t("settings.goal.title")}</CardTitle>
           <CardDescription>{t("settings.goal.description")}</CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col gap-3">
-          {GOAL_PRESETS.map((preset) => {
-            const active = goal.type === preset.type && goal.target === preset.target;
-            return (
-              <button
-                key={`${preset.type}-${preset.target}`}
-                onClick={() => setGoal({ type: preset.type, target: preset.target })}
-                className={cn(
-                  "flex items-center justify-between rounded-lg border p-3 text-left text-sm transition-colors",
-                  active
-                    ? "border-primary bg-primary/10"
-                    : "border-border hover:border-border-strong hover:bg-white/[0.03]"
-                )}
-              >
-                {getGoalLabel(t, preset)}
-                {active && <Badge tone="primary">{t("settings.goal.active")}</Badge>}
-              </button>
-            );
-          })}
-
-          <div className="mt-2 rounded-lg border border-border p-3">
-            <p className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-2">
-              {t("settings.goal.custom.title")}
-            </p>
-            <div className="flex flex-wrap items-center gap-2">
-              <select
-                value={customType}
-                onChange={(e) => setCustomType(e.target.value as GoalType)}
-                className="rounded-lg border border-border-strong bg-background-elevated px-2 py-1.5 text-sm outline-none"
-              >
-                <option value="power">{t("goal.type.power")}</option>
-                <option value="trophies">{t("goal.type.trophies")}</option>
-                <option value="rank">{t("goal.type.rank")}</option>
-              </select>
-              <input
-                type="number"
-                min={1}
-                value={customTarget}
-                onChange={(e) => setCustomTarget(Number(e.target.value))}
-                className="w-24 rounded-lg border border-border-strong bg-background-elevated px-2 py-1.5 text-sm outline-none"
-              />
-              <Button
-                size="sm"
-                variant="secondary"
-                onClick={() => setGoal({ type: customType, target: customTarget })}
-              >
-                {t("settings.goal.custom.apply")}
-              </Button>
-            </div>
-          </div>
+        <CardContent>
+          <GoalSelect variant="field" align="start" />
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="relative z-10">
         <CardHeader>
           <CardTitle>{t("settings.language.title")}</CardTitle>
           <CardDescription>{t("settings.language.description")}</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-wrap gap-2">
-            {LOCALES.map((l) => (
-              <button
-                key={l.code}
-                onClick={() => setLocale(l.code as LocaleCode)}
-                className={cn(
-                  "rounded-lg border px-3 py-1.5 text-sm transition-colors",
-                  locale === l.code
-                    ? "border-primary bg-primary/10"
-                    : "border-border hover:border-border-strong hover:bg-white/[0.03]"
-                )}
-              >
-                {l.name}
-              </button>
-            ))}
-          </div>
+          <LanguageSelector variant="field" align="start" />
         </CardContent>
       </Card>
     </div>

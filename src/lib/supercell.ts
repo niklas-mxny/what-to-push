@@ -1,5 +1,6 @@
 import "server-only";
 import { getApiToken } from "@/lib/env";
+import { normalizePlayerTag } from "@/lib/tag";
 import {
   SupercellApiError,
   type EventRotation,
@@ -7,16 +8,9 @@ import {
   type SupercellBrawlerList,
 } from "@/types/brawlstars";
 
-const BASE_URL = "https://api.brawlstars.com/v1";
+export { normalizePlayerTag };
 
-/**
- * Normalizes a player tag: accepts with/without leading '#', trims whitespace,
- * uppercases, and encodes for use in a URL path segment.
- */
-export function normalizePlayerTag(rawTag: string): string {
-  const withoutHash = rawTag.trim().toUpperCase().replace(/^#/, "");
-  return withoutHash;
-}
+const BASE_URL = "https://api.brawlstars.com/v1";
 
 async function scFetch<T>(path: string): Promise<T> {
   const token = getApiToken();

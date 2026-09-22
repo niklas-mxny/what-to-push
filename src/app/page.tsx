@@ -1,15 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { Settings2 } from "lucide-react";
 import { ApiErrorNotice } from "@/components/ApiErrorNotice";
 import { BestPickHero } from "@/components/BestPickHero";
 import { GoalProgress } from "@/components/GoalProgress";
+import { GoalSelect } from "@/components/GoalSelect";
 import { SlotRecommendationCard } from "@/components/SlotRecommendationCard";
-import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent } from "@/components/ui/Card";
-import { getGoalLabel } from "@/lib/goal-label";
 import { useRoster, useRotation } from "@/lib/hooks";
 import { translateApiError, useT } from "@/lib/i18n";
 import { recommendForAllSlots } from "@/lib/recommend";
@@ -37,11 +35,7 @@ export default function DashboardPage() {
           </h1>
           <p className="text-sm text-muted">{t("dashboard.subtitle")}</p>
         </div>
-        <Link href="/settings">
-          <Badge tone="primary" className="cursor-pointer px-3 py-1.5 text-sm">
-            <Settings2 className="h-3.5 w-3.5" /> {t("dashboard.goalPrefix", { label: getGoalLabel(t, goal) })}
-          </Badge>
-        </Link>
+        <GoalSelect className="self-start sm:self-auto" />
       </div>
 
       {roster.data && <GoalProgress roster={roster.data.roster} goal={goal} />}

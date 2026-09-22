@@ -85,8 +85,9 @@ Das Projekt selbst ist Hosting-agnostisch — die API-Anbindung liegt komplett i
   Modus/Map-Slot: Rollen-Fit als Winrate-Stellvertreter, Build-Qualität (Power-Level +
   freigeschaltete Star Power/Gadget — ein stärker ausgebauter Brawler performt real
   besser) und Nähe zum nächsten Ziel-Meilenstein (ein Brawler kurz vor Prestige 1 wird
-  bevorzugt vor einem bei 0 Trophäen). Bei einem Konto-weiten Ziel (Trophäen gesamt)
-  entfällt der Meilenstein-Faktor, da es kein Pro-Brawler-Ziel gibt.
+  bevorzugt vor einem bei 0 Trophäen). Ziele sind feste Presets (Prestige 1/2/3 oder
+  „allgemeine Sortierung“ ohne Ziel — dann entfällt der Meilenstein-Faktor) und lassen
+  sich direkt im Dashboard per Dropdown wechseln.
 - `src/lib/storage.ts` — Spieler-Tag, Ziel und Sprache für die Empfehlungs-Engine
   werden lokal im Browser (`localStorage`) gespeichert — unabhängig vom Account-System
   (siehe unten), kein Login nötig, um die App zu nutzen.
@@ -96,12 +97,16 @@ Das Projekt selbst ist Hosting-agnostisch — die API-Anbindung liegt komplett i
   Kein OAuth/Verifizierung des Brawl-Stars-Tags möglich (Supercell bietet keine
   Spieler-seitige Autorisierung) — das Verknüpfen eines Tags ist wie bei anderen
   Fan-Seiten eine reine Selbstangabe.
-- `/login`, `/signup`, `/search`, `/profile/[username]` — Account-Erstellung, Suche
-  nach registrierten Nutzernamen ODER direkt nach einem Brawl-Stars-Tag (auch ohne
-  Account), und ein öffentliches Profil mit den wichtigsten Live-Statistiken
-  (Trophäen, Prestige gesamt, EP-Level, 3v3-Siege, freigeschaltete Brawler).
-  Profile sind bewusst öffentlich einsehbar (wie ein Leaderboard) — zeigen aber nur
-  ohnehin über die Supercell API öffentliche Spieldaten, keine privaten Kontodaten.
+- `/login`, `/signup`, `/search`, `/profile/[username]`, `/player/[tag]` —
+  Account-Erstellung, Suche nach registrierten Nutzernamen ODER direkt nach einem
+  Brawl-Stars-Tag (auch ohne Account), und öffentliche Profile. Account-Profile und
+  Tag-Profile zeigen dieselben Live-Statistiken (`src/lib/player-profile.ts`):
+  Trophäen, Prestige gesamt, Ranked aktuell/höchster, Fame, 3v3- und Showdown-Siege,
+  freigeschaltete Brawler — plus einen Ziel-Fortschrittsbalken im Vergleich zum
+  eigenen Account. Profile sind bewusst öffentlich einsehbar (wie ein Leaderboard) —
+  zeigen aber nur ohnehin über die Supercell API öffentliche Spieldaten.
+- Gespeicherte Spieler (`favorites`-Tabelle, `/api/favorites`) — eingeloggte Nutzer
+  speichern Spieler per Herz-Icon und finden sie im Herz-Menü der Navigationsleiste.
 - `src/lib/i18n/` — Eigenes, leichtgewichtiges i18n-System (kein Routing, rein
   client-seitig über `localStorage`): 10 Sprachen (Englisch als Standard, dazu Spanisch,
   Portugiesisch, Französisch, Deutsch, Russisch, Japanisch, Koreanisch, Chinesisch,

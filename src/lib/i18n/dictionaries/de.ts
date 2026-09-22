@@ -49,27 +49,18 @@ const de: Record<DictionaryKey, string> = {
   "settings.tag.save": "Speichern",
   "settings.goal.title": "Dein Ziel",
   "settings.goal.description":
-    "Bestimmt, welche Brawler priorisiert empfohlen werden — z.B. alle auf Prestige 1 (1000 Trophäen) bringen, oder ein eigenes Ziel nach Power-Level oder Rang.",
-  "settings.goal.active": "Aktiv",
-  "settings.goal.custom.title": "Eigenes Ziel",
-  "settings.goal.custom.apply": "Übernehmen",
+    "Bestimmt, welche Brawler zuerst empfohlen werden — z. B. alle auf Prestige 1 (1000 Trophäen) bringen. Du kannst es auch direkt im Dashboard umstellen.",
   "settings.language.title": "Sprache",
   "settings.language.description": "Wähle die Sprache der Oberfläche.",
 
-  "goal.metric.power": "Power",
   "goal.metric.trophies": "Trophäen",
-  "goal.metric.rank": "Rang",
-
-  "goal.type.power": "Power-Level",
-  "goal.type.trophies": "Trophäen (Prestige-Stufen: 1000/2000/3000)",
-  "goal.type.rank": "Rang",
 
   "goal.preset.prestige": "Alle Brawler auf Prestige {n}",
   "goal.preset.none": "Allgemeine Sortierung (beste Winrate, kein Ziel)",
   "goal.progressLabel": "{done}/{total} Brawler am Ziel",
-  "goal.custom.power": "Alle Brawler auf Power {target}",
-  "goal.custom.trophies": "Alle Brawler auf {target} Trophäen",
-  "goal.custom.rank": "Alle Brawler auf Rang {target}",
+  "goal.select": "Ziel wählen",
+  "goal.hint.prestige": "{target} Trophäen auf jedem Brawler",
+  "goal.hint.none": "Bester Pick für die Rotation, ohne Ziel",
 
   "build.hypercharge": "Hypercharge",
 
@@ -134,6 +125,7 @@ const de: Record<DictionaryKey, string> = {
   "profile.linkTagPlaceholder": "2Y8VQGCCV",
   "profile.linkTagButton": "Tag verknüpfen",
   "profile.linkedTag": "Verknüpfter Tag: {tag}",
+  "profile.registeredAs": "Registriert als @{username}",
   "profile.stats.trophies": "Trophäen",
   "profile.stats.prestigeTotal": "Prestige gesamt",
   "profile.stats.victories3v3": "3v3-Siege",
@@ -145,6 +137,20 @@ const de: Record<DictionaryKey, string> = {
   "profile.ranked.highest": "Höchster (aller Zeiten)",
   "profile.ranked.elo": "{elo} ELO",
   "profile.fame.title": "Fame",
+
+  "favorites.title": "Gespeicherte Spieler",
+  "favorites.empty": "Noch keine Spieler gespeichert — tippe auf einem Profil auf das Herz.",
+  "favorites.save": "Spieler speichern",
+  "favorites.remove": "Aus Gespeicherten entfernen",
+  "favorites.loginRequired": "Melde dich an, um Spieler zu speichern",
+
+  "compare.title": "Ziel-Fortschritt",
+  "compare.you": "Du",
+  "compare.noGoal": "Wähle ein Prestige-Ziel, um den Fortschritt zu vergleichen.",
+  "compare.noOwnTag": "Trag deinen eigenen Spieler-Tag ein, um dich zu vergleichen.",
+  "compare.ahead": "Du liegst {count} Brawler vorne.",
+  "compare.behind": "Du liegst {count} Brawler zurück.",
+  "compare.tied": "Ihr seid gleichauf.",
 };
 
 export default de;

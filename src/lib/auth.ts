@@ -1,5 +1,6 @@
 import "server-only";
 import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
+import { cookies } from "next/headers";
 import { getDb } from "@/lib/db";
 
 export const SESSION_COOKIE = "wtp_session";
@@ -62,6 +63,12 @@ export function getUserBySession(token: string | undefined): AuthUser | null {
     return null;
   }
   return { id: row.id, username: row.username, playerTag: row.playerTag };
+}
+
+/** The signed-in user for the current request (route handlers only). */
+export async function getCurrentUser(): Promise<AuthUser | null> {
+  const cookieStore = await cookies();
+  return getUserBySession(cookieStore.get(SESSION_COOKIE)?.value);
 }
 
 export function normalizeUsername(username: string): string {

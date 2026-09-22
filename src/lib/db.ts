@@ -30,6 +30,18 @@ function open(): DatabaseSync {
       created_at TEXT NOT NULL DEFAULT (datetime('now')),
       expires_at TEXT NOT NULL
     );
+
+    -- Players a user saved with the heart button. Keyed by Brawl Stars tag
+    -- (without '#'), so any player can be saved, not just site members; name
+    -- and icon are a snapshot from save time for the menu.
+    CREATE TABLE IF NOT EXISTS favorites (
+      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      player_tag TEXT NOT NULL,
+      player_name TEXT NOT NULL,
+      icon_url TEXT NOT NULL,
+      created_at TEXT NOT NULL DEFAULT (datetime('now')),
+      PRIMARY KEY (user_id, player_tag)
+    );
   `);
 
   globalForDb.__wtpDb = db;

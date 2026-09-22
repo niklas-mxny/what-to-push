@@ -47,27 +47,18 @@ const en = {
   "settings.tag.save": "Save",
   "settings.goal.title": "Your Goal",
   "settings.goal.description":
-    "Determines which brawlers get recommended first — e.g. push everyone to Prestige 1 (1000 trophies), or set your own goal by power level or rank.",
-  "settings.goal.active": "Active",
-  "settings.goal.custom.title": "Custom goal",
-  "settings.goal.custom.apply": "Apply",
+    "Determines which brawlers get recommended first — e.g. push everyone to Prestige 1 (1000 trophies). You can also switch it right on the dashboard.",
   "settings.language.title": "Language",
   "settings.language.description": "Choose the interface language.",
 
-  "goal.metric.power": "Power",
   "goal.metric.trophies": "Trophies",
-  "goal.metric.rank": "Rank",
-
-  "goal.type.power": "Power Level",
-  "goal.type.trophies": "Trophies (Prestige tiers: 1000/2000/3000)",
-  "goal.type.rank": "Rank",
 
   "goal.preset.prestige": "All brawlers to Prestige {n}",
   "goal.preset.none": "General ranking (best winrate, no goal)",
   "goal.progressLabel": "{done}/{total} brawlers at goal",
-  "goal.custom.power": "All brawlers to Power {target}",
-  "goal.custom.trophies": "All brawlers to {target} trophies",
-  "goal.custom.rank": "All brawlers to Rank {target}",
+  "goal.select": "Choose goal",
+  "goal.hint.prestige": "{target} trophies on every brawler",
+  "goal.hint.none": "Best pick for the rotation, no target",
 
   "build.hypercharge": "Hypercharge",
 
@@ -132,6 +123,7 @@ const en = {
   "profile.linkTagPlaceholder": "2Y8VQGCCV",
   "profile.linkTagButton": "Link tag",
   "profile.linkedTag": "Linked tag: {tag}",
+  "profile.registeredAs": "Registered as @{username}",
   "profile.stats.trophies": "Trophies",
   "profile.stats.prestigeTotal": "Total Prestige",
   "profile.stats.victories3v3": "3v3 Victories",
@@ -143,6 +135,20 @@ const en = {
   "profile.ranked.highest": "Highest (All-Time)",
   "profile.ranked.elo": "{elo} ELO",
   "profile.fame.title": "Fame",
+
+  "favorites.title": "Saved players",
+  "favorites.empty": "No saved players yet — tap the heart on a profile.",
+  "favorites.save": "Save player",
+  "favorites.remove": "Remove from saved",
+  "favorites.loginRequired": "Log in to save players",
+
+  "compare.title": "Goal progress",
+  "compare.you": "You",
+  "compare.noGoal": "Pick a Prestige goal to compare progress.",
+  "compare.noOwnTag": "Set your own player tag to compare yourself.",
+  "compare.ahead": "You're {count} brawlers ahead.",
+  "compare.behind": "You're {count} brawlers behind.",
+  "compare.tied": "You're neck and neck.",
 } satisfies Record<string, string>;
 
 export default en;

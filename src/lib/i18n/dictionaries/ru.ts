@@ -49,27 +49,18 @@ const ru: Record<DictionaryKey, string> = {
   "settings.tag.save": "Сохранить",
   "settings.goal.title": "Твоя цель",
   "settings.goal.description":
-    "Определяет, какие бойцы рекомендуются в первую очередь — напр. довести всех до Престижа 1 (1000 трофеев), или задать свою цель по уровню силы или рангу.",
-  "settings.goal.active": "Активно",
-  "settings.goal.custom.title": "Своя цель",
-  "settings.goal.custom.apply": "Применить",
+    "Определяет, какие бойцы рекомендуются в первую очередь — напр. довести всех до Престижа 1 (1000 трофеев). Цель можно сменить и прямо на панели.",
   "settings.language.title": "Язык",
   "settings.language.description": "Выбери язык интерфейса.",
 
-  "goal.metric.power": "Сила",
   "goal.metric.trophies": "Трофеи",
-  "goal.metric.rank": "Ранг",
-
-  "goal.type.power": "Уровень силы",
-  "goal.type.trophies": "Трофеи (уровни Престижа: 1000/2000/3000)",
-  "goal.type.rank": "Ранг",
 
   "goal.preset.prestige": "Все бойцы до Престижа {n}",
   "goal.preset.none": "Общий рейтинг (лучший винрейт, без цели)",
   "goal.progressLabel": "{done}/{total} бойцов у цели",
-  "goal.custom.power": "Все бойцы до Силы {target}",
-  "goal.custom.trophies": "Все бойцы до {target} трофеев",
-  "goal.custom.rank": "Все бойцы до Ранга {target}",
+  "goal.select": "Выбрать цель",
+  "goal.hint.prestige": "{target} трофеев на каждом бойце",
+  "goal.hint.none": "Лучший выбор для ротации, без цели",
 
   "build.hypercharge": "Гиперзаряд",
 
@@ -134,6 +125,7 @@ const ru: Record<DictionaryKey, string> = {
   "profile.linkTagPlaceholder": "2Y8VQGCCV",
   "profile.linkTagButton": "Привязать тег",
   "profile.linkedTag": "Привязанный тег: {tag}",
+  "profile.registeredAs": "Зарегистрирован как @{username}",
   "profile.stats.trophies": "Трофеи",
   "profile.stats.prestigeTotal": "Престиж всего",
   "profile.stats.victories3v3": "Победы 3v3",
@@ -145,6 +137,20 @@ const ru: Record<DictionaryKey, string> = {
   "profile.ranked.highest": "Максимальный (за всё время)",
   "profile.ranked.elo": "{elo} ELO",
   "profile.fame.title": "Слава",
+
+  "favorites.title": "Сохранённые игроки",
+  "favorites.empty": "Пока нет сохранённых игроков — нажми на сердце в профиле.",
+  "favorites.save": "Сохранить игрока",
+  "favorites.remove": "Убрать из сохранённых",
+  "favorites.loginRequired": "Войди, чтобы сохранять игроков",
+
+  "compare.title": "Прогресс цели",
+  "compare.you": "Ты",
+  "compare.noGoal": "Выбери цель Престижа, чтобы сравнить прогресс.",
+  "compare.noOwnTag": "Укажи свой тег игрока, чтобы сравнить себя.",
+  "compare.ahead": "Ты впереди на {count} бойцов.",
+  "compare.behind": "Ты отстаёшь на {count} бойцов.",
+  "compare.tied": "Вы идёте вровень.",
 };
 
 export default ru;

@@ -50,27 +50,18 @@ const fr: Record<DictionaryKey, string> = {
   "settings.tag.save": "Enregistrer",
   "settings.goal.title": "Votre objectif",
   "settings.goal.description":
-    "Détermine quels brawlers sont recommandés en priorité — ex. amener tout le monde au Prestige 1 (1000 trophées), ou définir votre propre objectif par niveau de puissance ou rang.",
-  "settings.goal.active": "Actif",
-  "settings.goal.custom.title": "Objectif personnalisé",
-  "settings.goal.custom.apply": "Appliquer",
+    "Détermine quels brawlers sont recommandés en priorité — p. ex. amener tout le monde au Prestige 1 (1000 trophées). Vous pouvez aussi le changer directement depuis le tableau de bord.",
   "settings.language.title": "Langue",
   "settings.language.description": "Choisissez la langue de l'interface.",
 
-  "goal.metric.power": "Puissance",
   "goal.metric.trophies": "Trophées",
-  "goal.metric.rank": "Rang",
-
-  "goal.type.power": "Niveau de puissance",
-  "goal.type.trophies": "Trophées (paliers de Prestige : 1000/2000/3000)",
-  "goal.type.rank": "Rang",
 
   "goal.preset.prestige": "Tous les brawlers au Prestige {n}",
   "goal.preset.none": "Classement général (meilleur winrate, sans objectif)",
   "goal.progressLabel": "{done}/{total} brawlers à l'objectif",
-  "goal.custom.power": "Tous les brawlers à Puissance {target}",
-  "goal.custom.trophies": "Tous les brawlers à {target} trophées",
-  "goal.custom.rank": "Tous les brawlers au Rang {target}",
+  "goal.select": "Choisir l'objectif",
+  "goal.hint.prestige": "{target} trophées sur chaque brawler",
+  "goal.hint.none": "Meilleur choix pour la rotation, sans objectif",
 
   "build.hypercharge": "Hypercharge",
 
@@ -135,6 +126,7 @@ const fr: Record<DictionaryKey, string> = {
   "profile.linkTagPlaceholder": "2Y8VQGCCV",
   "profile.linkTagButton": "Lier le tag",
   "profile.linkedTag": "Tag lié : {tag}",
+  "profile.registeredAs": "Inscrit en tant que @{username}",
   "profile.stats.trophies": "Trophées",
   "profile.stats.prestigeTotal": "Prestige total",
   "profile.stats.victories3v3": "Victoires 3v3",
@@ -146,6 +138,20 @@ const fr: Record<DictionaryKey, string> = {
   "profile.ranked.highest": "Maximum (historique)",
   "profile.ranked.elo": "{elo} ELO",
   "profile.fame.title": "Renommée",
+
+  "favorites.title": "Joueurs enregistrés",
+  "favorites.empty": "Aucun joueur enregistré — touchez le cœur sur un profil.",
+  "favorites.save": "Enregistrer le joueur",
+  "favorites.remove": "Retirer des enregistrés",
+  "favorites.loginRequired": "Connectez-vous pour enregistrer des joueurs",
+
+  "compare.title": "Progression de l'objectif",
+  "compare.you": "Vous",
+  "compare.noGoal": "Choisissez un objectif de Prestige pour comparer la progression.",
+  "compare.noOwnTag": "Indiquez votre propre tag joueur pour vous comparer.",
+  "compare.ahead": "Vous avez {count} brawlers d'avance.",
+  "compare.behind": "Vous avez {count} brawlers de retard.",
+  "compare.tied": "Vous êtes à égalité.",
 };
 
 export default fr;
