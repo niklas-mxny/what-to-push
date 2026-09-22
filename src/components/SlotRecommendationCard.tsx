@@ -4,9 +4,11 @@ import Image from "next/image";
 import { Clock } from "lucide-react";
 import { BrawlerIcon } from "@/components/BrawlerIcon";
 import { BuildIcons } from "@/components/BuildIcons";
+import { GameIcon } from "@/components/GameIcon";
 import { RoleBadge } from "@/components/RoleBadge";
 import { Badge } from "@/components/ui/Badge";
 import { Card, CardContent } from "@/components/ui/Card";
+import { MODE_ICONS } from "@/lib/fankit-ui";
 import { formatReasons, useT } from "@/lib/i18n";
 import type { TFunction } from "@/lib/i18n";
 import type { SlotRecommendation } from "@/types/domain";
@@ -40,7 +42,10 @@ export function SlotRecommendationCard({ rec }: { rec: SlotRecommendation }) {
         <div className="absolute inset-0 bg-gradient-to-t from-card via-card/40 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-4">
           <div>
-            <Badge tone="primary">{rec.slot.modeLabel}</Badge>
+            <Badge tone="primary">
+              {MODE_ICONS[rec.slot.modeKey] && <GameIcon file={MODE_ICONS[rec.slot.modeKey]} size={16} />}
+              {rec.slot.modeLabel}
+            </Badge>
             <p className="mt-1 font-display text-lg font-bold leading-tight">
               {rec.slot.mapName}
             </p>

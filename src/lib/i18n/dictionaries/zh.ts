@@ -109,13 +109,14 @@ const zh: Record<DictionaryKey, string> = {
   "auth.signup.submit": "创建账号",
   "auth.signup.haveAccount": "已经有账号了?",
 
-  "search.title": "查找玩家",
-  "search.subtitle": "按在本站选择的用户名搜索,或按 Brawl Stars 玩家标签搜索。",
-  "search.placeholder": "用户名或 #标签…",
+  "search.title": "查找玩家和战队",
+  "search.subtitle": "按在本站选择的用户名、Brawl Stars 玩家标签或战队标签搜索。",
+  "search.placeholder": "用户名、#玩家或 #战队标签…",
   "search.button": "搜索",
   "search.usersHeading": "已注册玩家",
   "search.tagHeading": "标签匹配结果",
   "search.noResults": "未找到匹配结果。",
+  "search.clubHeading": "战队标签匹配结果",
 
   "profile.notFound": "该资料不存在。",
   "profile.memberSince": "加入时间:{date}",
@@ -135,6 +136,8 @@ const zh: Record<DictionaryKey, string> = {
   "profile.ranked.highest": "历史最高",
   "profile.ranked.elo": "{elo} ELO",
   "profile.fame.title": "名望",
+  "profile.fame.points": "{value} 名望",
+  "profile.club.title": "战队",
 
   "favorites.title": "已保存的玩家",
   "favorites.empty": "还没有保存的玩家——在资料页点击爱心即可保存。",
@@ -149,6 +152,21 @@ const zh: Record<DictionaryKey, string> = {
   "compare.ahead": "你领先{count}个角色。",
   "compare.behind": "你落后{count}个角色。",
   "compare.tied": "你们不相上下。",
+
+  "club.view": "打开战队 {name}",
+  "club.notFound": "该战队不存在。",
+  "club.members": "成员",
+  "club.memberCount": "{count} 名成员",
+  "club.trophies": "战队奖杯",
+  "club.requiredTrophies": "所需奖杯",
+  "club.type.open": "开放",
+  "club.type.inviteOnly": "仅限邀请",
+  "club.type.closed": "关闭",
+  "club.type.unknown": "未知",
+  "club.role.president": "队长",
+  "club.role.vicePresident": "副队长",
+  "club.role.senior": "资深成员",
+  "club.role.member": "成员",
 };
 
 export default zh;

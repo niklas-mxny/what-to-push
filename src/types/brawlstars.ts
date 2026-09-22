@@ -56,7 +56,7 @@ export interface Player {
   duoVictories: number;
   bestRoboRumbleTime: number;
   bestTimeAsBigBrawler: number;
-  /** Ranked (Power League's successor). Numeric ranks map to an icon: brawlify.com/images/ranked/{58000000 + rank - 1}.png */
+  /** Ranked (Power League's successor). The rank name ("SILVER I") picks the league icon, see rankLeagueIcon. */
   rankedRank?: number;
   rankedRankName?: string;
   rankedElo?: number;
@@ -68,6 +68,30 @@ export interface Player {
   highestAllTimeRankedElo?: number;
   club: { tag: string; name: string } | Record<string, never>;
   brawlers: PlayerBrawler[];
+}
+
+export type ClubRole = "president" | "vicePresident" | "senior" | "member" | "notMember" | "unknown";
+
+export interface ClubMember {
+  tag: string;
+  name: string;
+  /** ARGB hex like "0xfff9c908". */
+  nameColor?: string;
+  role: ClubRole;
+  trophies: number;
+  icon: { id: number };
+}
+
+export interface Club {
+  tag: string;
+  name: string;
+  description?: string;
+  type: "open" | "inviteOnly" | "closed" | "unknown";
+  badgeId: number;
+  requiredTrophies: number;
+  trophies: number;
+  isFamilyFriendly?: boolean;
+  members: ClubMember[];
 }
 
 export interface RotationEvent {

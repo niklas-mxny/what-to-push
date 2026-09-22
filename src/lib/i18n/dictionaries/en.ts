@@ -109,13 +109,14 @@ const en = {
   "auth.signup.submit": "Create account",
   "auth.signup.haveAccount": "Already have an account?",
 
-  "search.title": "Find a player",
-  "search.subtitle": "Search by the username someone chose on this site, or by their Brawl Stars player tag.",
-  "search.placeholder": "Username or #tag…",
+  "search.title": "Find players & clubs",
+  "search.subtitle": "Search by the username someone chose on this site, a Brawl Stars player tag, or a club tag.",
+  "search.placeholder": "Username, #player or #club tag…",
   "search.button": "Search",
   "search.usersHeading": "Registered players",
   "search.tagHeading": "Player tag match",
   "search.noResults": "No matches found.",
+  "search.clubHeading": "Club tag match",
 
   "profile.notFound": "No such profile.",
   "profile.memberSince": "Member since {date}",
@@ -135,6 +136,8 @@ const en = {
   "profile.ranked.highest": "Highest (All-Time)",
   "profile.ranked.elo": "{elo} ELO",
   "profile.fame.title": "Fame",
+  "profile.fame.points": "{value} Fame",
+  "profile.club.title": "Club",
 
   "favorites.title": "Saved players",
   "favorites.empty": "No saved players yet — tap the heart on a profile.",
@@ -149,6 +152,21 @@ const en = {
   "compare.ahead": "You're {count} brawlers ahead.",
   "compare.behind": "You're {count} brawlers behind.",
   "compare.tied": "You're neck and neck.",
+
+  "club.view": "Open club {name}",
+  "club.notFound": "No such club.",
+  "club.members": "Members",
+  "club.memberCount": "{count} members",
+  "club.trophies": "Club trophies",
+  "club.requiredTrophies": "Required trophies",
+  "club.type.open": "Open",
+  "club.type.inviteOnly": "Invite only",
+  "club.type.closed": "Closed",
+  "club.type.unknown": "Unknown",
+  "club.role.president": "President",
+  "club.role.vicePresident": "Vice President",
+  "club.role.senior": "Senior",
+  "club.role.member": "Member",
 } satisfies Record<string, string>;
 
 export default en;

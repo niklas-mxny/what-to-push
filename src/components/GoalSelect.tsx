@@ -1,8 +1,10 @@
 "use client";
 
-import { ChevronDown, Sparkles, Target } from "lucide-react";
+import { ChevronDown, Target } from "lucide-react";
+import { GameIcon } from "@/components/GameIcon";
 import { Dropdown, DropdownOption } from "@/components/ui/Dropdown";
 import { cn } from "@/lib/cn";
+import { UI_ICONS } from "@/lib/fankit-ui";
 import { getGoalLabel } from "@/lib/goal-label";
 import { useT } from "@/lib/i18n";
 import { useGoal } from "@/lib/storage";
@@ -67,7 +69,7 @@ export function GoalSelect({
                 {preset.type === "none" ? (
                   <Target className="h-3.5 w-3.5" strokeWidth={2.5} />
                 ) : (
-                  <Sparkles className="h-3.5 w-3.5" strokeWidth={2.5} />
+                  <GameIcon file={UI_ICONS.prestigeTrophy} size={22} />
                 )}
               </span>
               <span className="min-w-0">

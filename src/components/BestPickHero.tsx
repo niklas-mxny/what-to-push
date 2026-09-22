@@ -3,8 +3,10 @@
 import { Sparkles } from "lucide-react";
 import { BrawlerIcon } from "@/components/BrawlerIcon";
 import { BuildIcons } from "@/components/BuildIcons";
+import { GameIcon } from "@/components/GameIcon";
 import { RoleBadge } from "@/components/RoleBadge";
 import { Badge } from "@/components/ui/Badge";
+import { MODE_ICONS } from "@/lib/fankit-ui";
 import { formatReasons, useT } from "@/lib/i18n";
 import type { SlotRecommendation } from "@/types/domain";
 
@@ -38,6 +40,7 @@ export function BestPickHero({ recommendations }: { recommendations: SlotRecomme
             <div className="mt-1 flex flex-wrap items-center gap-2">
               <RoleBadge role={pick.brawler.role} />
               <Badge>
+                {MODE_ICONS[best.rec.slot.modeKey] && <GameIcon file={MODE_ICONS[best.rec.slot.modeKey]} size={16} />}
                 {best.rec.slot.modeLabel} · {best.rec.slot.mapName}
               </Badge>
             </div>

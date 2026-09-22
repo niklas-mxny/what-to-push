@@ -5,7 +5,7 @@ import Link from "next/link";
 import { UserRound } from "lucide-react";
 import { ApiErrorNotice } from "@/components/ApiErrorNotice";
 import { FavoriteButton } from "@/components/FavoriteButton";
-import { PlayerHeader, ProfileSkeleton } from "@/components/profile/PlayerHeader";
+import { PlayerHeader, PlayerSubline, ProfileSkeleton } from "@/components/profile/PlayerHeader";
 import { PlayerStats } from "@/components/profile/PlayerStats";
 import { Card, CardContent } from "@/components/ui/Card";
 import { usePublicPlayer } from "@/lib/hooks";
@@ -52,7 +52,7 @@ export default function PlayerPage({ params }: { params: Promise<{ tag: string }
             {t("profile.registeredAs", { username: linkedUsername })}
           </Link>
         )}
-        <p className="text-xs text-muted-2">{[p.clubName, `#${p.tag}`].filter(Boolean).join(" · ")}</p>
+        <PlayerSubline player={p} />
       </PlayerHeader>
 
       <PlayerStats player={p} />

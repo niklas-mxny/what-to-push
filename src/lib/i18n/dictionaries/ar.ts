@@ -110,13 +110,14 @@ const ar: Record<DictionaryKey, string> = {
   "auth.signup.submit": "إنشاء الحساب",
   "auth.signup.haveAccount": "لديك حساب بالفعل؟",
 
-  "search.title": "ابحث عن لاعب",
-  "search.subtitle": "ابحث باسم المستخدم المُختار في هذا الموقع، أو بتاق لاعب Brawl Stars.",
-  "search.placeholder": "اسم المستخدم أو #تاق…",
+  "search.title": "ابحث عن لاعبين وأندية",
+  "search.subtitle": "ابحث باسم المستخدم المُختار في هذا الموقع، أو بتاق لاعب Brawl Stars، أو بتاق نادٍ.",
+  "search.placeholder": "اسم المستخدم أو #لاعب أو #نادٍ…",
   "search.button": "بحث",
   "search.usersHeading": "اللاعبون المسجَّلون",
   "search.tagHeading": "نتيجة مطابقة التاق",
   "search.noResults": "لم يتم العثور على نتائج.",
+  "search.clubHeading": "نتيجة مطابقة تاق النادي",
 
   "profile.notFound": "هذا الملف الشخصي غير موجود.",
   "profile.memberSince": "عضو منذ {date}",
@@ -136,6 +137,8 @@ const ar: Record<DictionaryKey, string> = {
   "profile.ranked.highest": "الأعلى (كل العصور)",
   "profile.ranked.elo": "{elo} ELO",
   "profile.fame.title": "الشهرة",
+  "profile.fame.points": "{value} شهرة",
+  "profile.club.title": "النادي",
 
   "favorites.title": "اللاعبون المحفوظون",
   "favorites.empty": "لا يوجد لاعبون محفوظون بعد — اضغط على القلب في أي ملف شخصي.",
@@ -150,6 +153,21 @@ const ar: Record<DictionaryKey, string> = {
   "compare.ahead": "أنت متقدم بـ {count} مقاتل.",
   "compare.behind": "أنت متأخر بـ {count} مقاتل.",
   "compare.tied": "أنتما متعادلان.",
+
+  "club.view": "فتح النادي {name}",
+  "club.notFound": "هذا النادي غير موجود.",
+  "club.members": "الأعضاء",
+  "club.memberCount": "{count} عضو",
+  "club.trophies": "كؤوس النادي",
+  "club.requiredTrophies": "الكؤوس المطلوبة",
+  "club.type.open": "مفتوح",
+  "club.type.inviteOnly": "بالدعوة فقط",
+  "club.type.closed": "مغلق",
+  "club.type.unknown": "غير معروف",
+  "club.role.president": "الرئيس",
+  "club.role.vicePresident": "نائب الرئيس",
+  "club.role.senior": "عضو قديم",
+  "club.role.member": "عضو",
 };
 
 export default ar;

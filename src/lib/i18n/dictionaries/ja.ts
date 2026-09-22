@@ -111,13 +111,14 @@ const ja: Record<DictionaryKey, string> = {
   "auth.signup.submit": "アカウントを作成",
   "auth.signup.haveAccount": "すでにアカウントをお持ちですか?",
 
-  "search.title": "プレイヤーを探す",
-  "search.subtitle": "このサイトで選んだユーザー名、またはBrawl Starsのプレイヤータグで検索できます。",
-  "search.placeholder": "ユーザー名または#タグ…",
+  "search.title": "プレイヤーとクラブを探す",
+  "search.subtitle": "このサイトで選んだユーザー名、Brawl Starsのプレイヤータグ、またはクラブタグで検索できます。",
+  "search.placeholder": "ユーザー名、#プレイヤー、#クラブタグ…",
   "search.button": "検索",
   "search.usersHeading": "登録済みプレイヤー",
   "search.tagHeading": "タグ検索結果",
   "search.noResults": "該当する結果がありません。",
+  "search.clubHeading": "クラブタグ検索結果",
 
   "profile.notFound": "そのプロフィールは存在しません。",
   "profile.memberSince": "登録日: {date}",
@@ -137,6 +138,8 @@ const ja: Record<DictionaryKey, string> = {
   "profile.ranked.highest": "最高(歴代)",
   "profile.ranked.elo": "{elo} ELO",
   "profile.fame.title": "フェイム",
+  "profile.fame.points": "{value} フェイム",
+  "profile.club.title": "クラブ",
 
   "favorites.title": "保存したプレイヤー",
   "favorites.empty": "保存したプレイヤーはまだいません — プロフィールのハートをタップしてください。",
@@ -151,6 +154,21 @@ const ja: Record<DictionaryKey, string> = {
   "compare.ahead": "あなたが{count}体リードしています。",
   "compare.behind": "あなたは{count}体遅れています。",
   "compare.tied": "互角です。",
+
+  "club.view": "クラブ「{name}」を開く",
+  "club.notFound": "そのクラブは存在しません。",
+  "club.members": "メンバー",
+  "club.memberCount": "メンバー {count}人",
+  "club.trophies": "クラブのトロフィー",
+  "club.requiredTrophies": "必要トロフィー",
+  "club.type.open": "オープン",
+  "club.type.inviteOnly": "招待のみ",
+  "club.type.closed": "クローズ",
+  "club.type.unknown": "不明",
+  "club.role.president": "会長",
+  "club.role.vicePresident": "副会長",
+  "club.role.senior": "ベテラン",
+  "club.role.member": "メンバー",
 };
 
 export default ja;

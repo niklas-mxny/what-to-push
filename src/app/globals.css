@@ -134,6 +134,23 @@ body {
   animation: logo-pulse 3.2s ease-in-out infinite;
 }
 
+.glow-drop {
+  filter: drop-shadow(0 0 14px color-mix(in srgb, var(--primary) 55%, transparent));
+}
+
+@keyframes logo-img-pulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 5px color-mix(in srgb, var(--accent) 45%, transparent));
+  }
+  50% {
+    filter: drop-shadow(0 0 12px color-mix(in srgb, var(--accent) 85%, transparent));
+  }
+}
+.logo-glow-img {
+  animation: logo-img-pulse 3.2s ease-in-out infinite;
+}
+
 .glow-bar {
   box-shadow: 0 0 10px -1px color-mix(in srgb, var(--bar-glow, var(--primary)) 80%, transparent);
 }
@@ -176,6 +193,7 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .logo-glow,
+  .logo-glow-img,
   .dropdown-panel,
   .heart-pop {
     animation: none;

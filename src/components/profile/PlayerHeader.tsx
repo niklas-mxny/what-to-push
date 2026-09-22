@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 import { PlayerAvatar } from "@/components/PlayerAvatar";
+import type { PublicPlayer } from "@/types/profile";
 
 export function PlayerHeader({
   name,
@@ -23,6 +25,23 @@ export function PlayerHeader({
       </div>
       {actions}
     </div>
+  );
+}
+
+/** "Club Name · #TAG" under a player's name, with the club linking to its page. */
+export function PlayerSubline({ player }: { player: PublicPlayer }) {
+  return (
+    <p className="text-xs text-muted-2">
+      {player.club && (
+        <>
+          <Link href={`/club/${player.club.tag}`} className="font-medium text-muted transition-colors hover:text-primary">
+            {player.club.name}
+          </Link>
+          {" · "}
+        </>
+      )}
+      #{player.tag}
+    </p>
   );
 }
 

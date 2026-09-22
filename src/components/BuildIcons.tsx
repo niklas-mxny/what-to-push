@@ -18,7 +18,7 @@ function UpgradeIcon({ item, size = 22 }: { item: UnlockedUpgrade; size?: number
       height={size}
       unoptimized
       onError={() => setFailed(true)}
-      className="rounded-md bg-background-elevated object-contain ring-1 ring-border-strong"
+      className="object-contain drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]"
     />
   );
 }
@@ -63,15 +63,21 @@ export function BuildIcons({ brawler, size = 22 }: { brawler: MergedBrawler; siz
       {brawler.gears.map((g) => (
         <UpgradeIcon key={`gear-${g.id}`} item={g} size={size} />
       ))}
-      {brawler.hyperCharges.length > 0 && (
-        <span
-          className="flex items-center justify-center rounded-md bg-accent/20 ring-1 ring-accent/40"
-          style={{ width: size, height: size }}
-          title={`${brawler.hyperCharges[0].name} (${t("build.hypercharge")})`}
-        >
-          <Zap className="h-3.5 w-3.5 text-accent" />
-        </span>
-      )}
+      {brawler.hyperCharges.length > 0 &&
+        (brawler.hyperCharges[0].iconUrl ? (
+          <UpgradeIcon
+            item={{ ...brawler.hyperCharges[0], name: `${brawler.hyperCharges[0].name} (${t("build.hypercharge")})` }}
+            size={size}
+          />
+        ) : (
+          <span
+            className="flex items-center justify-center rounded-md bg-accent/20 ring-1 ring-accent/40"
+            style={{ width: size, height: size }}
+            title={`${brawler.hyperCharges[0].name} (${t("build.hypercharge")})`}
+          >
+            <Zap className="h-3.5 w-3.5 text-accent" />
+          </span>
+        ))}
     </div>
   );
 }

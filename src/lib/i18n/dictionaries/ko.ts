@@ -110,13 +110,14 @@ const ko: Record<DictionaryKey, string> = {
   "auth.signup.submit": "계정 만들기",
   "auth.signup.haveAccount": "이미 계정이 있으신가요?",
 
-  "search.title": "플레이어 찾기",
-  "search.subtitle": "이 사이트에서 선택한 사용자 이름이나 Brawl Stars 플레이어 태그로 검색하세요.",
-  "search.placeholder": "사용자 이름 또는 #태그…",
+  "search.title": "플레이어 및 클럽 찾기",
+  "search.subtitle": "이 사이트에서 선택한 사용자 이름, Brawl Stars 플레이어 태그 또는 클럽 태그로 검색하세요.",
+  "search.placeholder": "사용자 이름, #플레이어 또는 #클럽 태그…",
   "search.button": "검색",
   "search.usersHeading": "등록된 플레이어",
   "search.tagHeading": "태그 검색 결과",
   "search.noResults": "검색 결과가 없습니다.",
+  "search.clubHeading": "클럽 태그 검색 결과",
 
   "profile.notFound": "존재하지 않는 프로필입니다.",
   "profile.memberSince": "가입일: {date}",
@@ -136,6 +137,8 @@ const ko: Record<DictionaryKey, string> = {
   "profile.ranked.highest": "최고 (역대)",
   "profile.ranked.elo": "{elo} ELO",
   "profile.fame.title": "페임",
+  "profile.fame.points": "{value} 페임",
+  "profile.club.title": "클럽",
 
   "favorites.title": "저장한 플레이어",
   "favorites.empty": "아직 저장한 플레이어가 없습니다 — 프로필에서 하트를 누르세요.",
@@ -150,6 +153,21 @@ const ko: Record<DictionaryKey, string> = {
   "compare.ahead": "내가 브롤러 {count}명 앞서 있습니다.",
   "compare.behind": "내가 브롤러 {count}명 뒤처져 있습니다.",
   "compare.tied": "막상막하입니다.",
+
+  "club.view": "클럽 {name} 열기",
+  "club.notFound": "존재하지 않는 클럽입니다.",
+  "club.members": "멤버",
+  "club.memberCount": "멤버 {count}명",
+  "club.trophies": "클럽 트로피",
+  "club.requiredTrophies": "필요 트로피",
+  "club.type.open": "공개",
+  "club.type.inviteOnly": "초대 전용",
+  "club.type.closed": "비공개",
+  "club.type.unknown": "알 수 없음",
+  "club.role.president": "회장",
+  "club.role.vicePresident": "부회장",
+  "club.role.senior": "시니어",
+  "club.role.member": "멤버",
 };
 
 export default ko;

@@ -111,13 +111,14 @@ const de: Record<DictionaryKey, string> = {
   "auth.signup.submit": "Konto erstellen",
   "auth.signup.haveAccount": "Schon ein Konto?",
 
-  "search.title": "Spieler finden",
-  "search.subtitle": "Suche nach dem auf dieser Seite gewählten Nutzernamen oder nach dem Brawl-Stars-Spieler-Tag.",
-  "search.placeholder": "Nutzername oder #Tag…",
+  "search.title": "Spieler & Clubs finden",
+  "search.subtitle": "Suche nach dem auf dieser Seite gewählten Nutzernamen, einem Brawl-Stars-Spieler-Tag oder einem Club-Tag.",
+  "search.placeholder": "Nutzername, #Spieler- oder #Club-Tag…",
   "search.button": "Suchen",
   "search.usersHeading": "Registrierte Spieler",
   "search.tagHeading": "Treffer per Spieler-Tag",
   "search.noResults": "Keine Treffer gefunden.",
+  "search.clubHeading": "Treffer per Club-Tag",
 
   "profile.notFound": "Dieses Profil gibt es nicht.",
   "profile.memberSince": "Mitglied seit {date}",
@@ -137,6 +138,8 @@ const de: Record<DictionaryKey, string> = {
   "profile.ranked.highest": "Höchster (aller Zeiten)",
   "profile.ranked.elo": "{elo} ELO",
   "profile.fame.title": "Fame",
+  "profile.fame.points": "{value} Fame",
+  "profile.club.title": "Club",
 
   "favorites.title": "Gespeicherte Spieler",
   "favorites.empty": "Noch keine Spieler gespeichert — tippe auf einem Profil auf das Herz.",
@@ -151,6 +154,21 @@ const de: Record<DictionaryKey, string> = {
   "compare.ahead": "Du liegst {count} Brawler vorne.",
   "compare.behind": "Du liegst {count} Brawler zurück.",
   "compare.tied": "Ihr seid gleichauf.",
+
+  "club.view": "Club {name} öffnen",
+  "club.notFound": "Diesen Club gibt es nicht.",
+  "club.members": "Mitglieder",
+  "club.memberCount": "{count} Mitglieder",
+  "club.trophies": "Club-Trophäen",
+  "club.requiredTrophies": "Benötigte Trophäen",
+  "club.type.open": "Offen",
+  "club.type.inviteOnly": "Nur auf Einladung",
+  "club.type.closed": "Geschlossen",
+  "club.type.unknown": "Unbekannt",
+  "club.role.president": "Präsident",
+  "club.role.vicePresident": "Vizepräsident",
+  "club.role.senior": "Senior",
+  "club.role.member": "Mitglied",
 };
 
 export default de;

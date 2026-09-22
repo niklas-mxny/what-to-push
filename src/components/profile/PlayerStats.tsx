@@ -1,19 +1,21 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
-import { Medal, Shield, Sparkles, Swords, Trophy, UserRound, Users } from "lucide-react";
+import type { ReactNode } from "react";
+import { Medal, Shield } from "lucide-react";
+import { ClubCard } from "@/components/profile/ClubCard";
+import { GameIcon } from "@/components/GameIcon";
 import { GoalComparison } from "@/components/profile/GoalComparison";
 import { Card, CardContent } from "@/components/ui/Card";
+import { UI_ICONS } from "@/lib/fankit-ui";
 import { useT } from "@/lib/i18n";
 import type { PublicPlayer, RankInfo } from "@/types/profile";
 
-function StatTile({ icon: Icon, label, value }: { icon: typeof Trophy; label: string; value: string | number }) {
+function StatTile({ icon, label, value }: { icon: ReactNode; label: string; value: string | number }) {
   return (
     <Card interactive className="group">
       <CardContent className="flex items-center gap-3">
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary transition-colors duration-200 group-hover:bg-primary/25">
-          <Icon className="h-4.5 w-4.5" />
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center transition-transform duration-200 group-hover:scale-110">
+          {icon}
         </span>
         <div className="min-w-0">
           <p className="truncate text-lg font-bold">{value}</p>
@@ -26,24 +28,16 @@ function StatTile({ icon: Icon, label, value }: { icon: typeof Trophy; label: st
 
 function RankCard({ label, rank }: { label: string; rank: RankInfo }) {
   const t = useT();
-  const [iconFailed, setIconFailed] = useState(false);
   return (
     <Card interactive>
       <CardContent className="flex items-center gap-4">
         <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-background-elevated ring-1 ring-border-strong">
-          {!iconFailed ? (
-            <Image
-              src={rank.iconUrl}
-              alt={rank.rankName}
-              width={48}
-              height={48}
-              unoptimized
-              onError={() => setIconFailed(true)}
-              className="object-contain"
-            />
-          ) : (
-            <Medal className="h-6 w-6 text-accent" />
-          )}
+          <GameIcon
+            src={rank.iconUrl ?? undefined}
+            alt={rank.rankName}
+            size={46}
+            fallback={<Medal className="h-6 w-6 text-accent" />}
+          />
         </span>
         <div className="min-w-0">
           <p className="text-xs font-medium uppercase tracking-wide text-muted-2">{label}</p>
@@ -64,14 +58,14 @@ export function PlayerStats({ player: p }: { player: PublicPlayer }) {
       <div className="glow-ring-accent relative overflow-hidden rounded-card border border-accent/40 bg-gradient-to-br from-accent/20 via-card to-card p-6">
         <div className="flex flex-wrap items-center gap-8">
           <div className="flex items-center gap-3">
-            <Trophy className="h-8 w-8 text-accent" />
+            <GameIcon file={UI_ICONS.trophy} size={40} />
             <div>
               <p className="font-display text-3xl font-bold">{p.trophies.toLocaleString()}</p>
               <p className="text-xs text-muted">{t("profile.stats.trophies")}</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Sparkles className="h-8 w-8 text-primary" />
+            <GameIcon file={UI_ICONS.totalPrestige} size={40} />
             <div>
               <p className="font-display text-3xl font-bold">{p.totalPrestigeLevel}</p>
               <p className="text-xs text-muted">{t("profile.stats.prestigeTotal")}</p>
@@ -79,6 +73,8 @@ export function PlayerStats({ player: p }: { player: PublicPlayer }) {
           </div>
         </div>
       </div>
+
+      {p.club && <ClubCard club={p.club} />}
 
       <GoalComparison player={p} />
 
@@ -96,25 +92,45 @@ export function PlayerStats({ player: p }: { player: PublicPlayer }) {
 
       {p.fame && (
         <Card interactive>
-          <CardContent className="flex items-center gap-3">
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent/15 text-accent">
-              <Shield className="h-4.5 w-4.5" />
+          <CardContent className="flex items-center gap-4">
+            <span className="flex h-14 w-14 shrink-0 items-center justify-center">
+              <GameIcon
+                src={p.fame.iconUrl ?? undefined}
+                alt={p.fame.tierName}
+                size={52}
+                fallback={<Shield className="h-6 w-6 text-accent" />}
+              />
             </span>
-            <div>
-              <p className="text-lg font-bold">
-                {p.fame.value.toLocaleString()} <span className="text-sm font-normal text-muted">— {p.fame.tierName}</span>
-              </p>
-              <p className="text-xs text-muted">{t("profile.fame.title")}</p>
+            <div className="min-w-0">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-2">{t("profile.fame.title")}</p>
+              <p className="truncate font-display text-base font-bold">{p.fame.tierName}</p>
+              <p className="text-xs text-muted">{t("profile.fame.points", { value: p.fame.value.toLocaleString() })}</p>
             </div>
           </CardContent>
         </Card>
       )}
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <StatTile icon={Swords} label={t("profile.stats.victories3v3")} value={p.victories3v3.toLocaleString()} />
-        <StatTile icon={UserRound} label={t("profile.stats.soloShowdownWins")} value={p.soloVictories.toLocaleString()} />
-        <StatTile icon={Users} label={t("profile.stats.duoShowdownWins")} value={p.duoVictories.toLocaleString()} />
-        <StatTile icon={Medal} label={t("profile.stats.brawlersOwned")} value={p.brawlersOwned} />
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <StatTile
+          icon={<GameIcon file={UI_ICONS.versus} size={36} />}
+          label={t("profile.stats.victories3v3")}
+          value={p.victories3v3.toLocaleString()}
+        />
+        <StatTile
+          icon={<GameIcon file={UI_ICONS.soloShowdown} size={36} />}
+          label={t("profile.stats.soloShowdownWins")}
+          value={p.soloVictories.toLocaleString()}
+        />
+        <StatTile
+          icon={<GameIcon file={UI_ICONS.duoShowdown} size={36} />}
+          label={t("profile.stats.duoShowdownWins")}
+          value={p.duoVictories.toLocaleString()}
+        />
+        <StatTile
+          icon={<GameIcon file={UI_ICONS.brawlers} size={36} />}
+          label={t("profile.stats.brawlersOwned")}
+          value={`${p.brawlersOwned}/${p.totalBrawlers}`}
+        />
       </div>
     </>
   );

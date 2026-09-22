@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { fetchBrawlerMeta } from "@/lib/brawlapi";
 import { MissingApiTokenError } from "@/lib/env";
+import { fetchFanKitIcons } from "@/lib/fankit";
 import { buildRoster } from "@/lib/merge";
 import { fetchOfficialBrawlers, fetchPlayer } from "@/lib/supercell";
 import { SupercellApiError } from "@/types/brawlstars";
@@ -9,9 +10,10 @@ export async function GET(request: Request) {
   const tag = new URL(request.url).searchParams.get("tag");
 
   try {
-    const [officialBrawlers, brawlApiMeta] = await Promise.all([
+    const [officialBrawlers, brawlApiMeta, fanKit] = await Promise.all([
       fetchOfficialBrawlers(),
       fetchBrawlerMeta(),
+      fetchFanKitIcons(),
     ]);
 
     let player = null;
@@ -28,7 +30,7 @@ export async function GET(request: Request) {
       }
     }
 
-    const roster = buildRoster(officialBrawlers, brawlApiMeta, player);
+    const roster = buildRoster(officialBrawlers, brawlApiMeta, player, fanKit);
 
     return NextResponse.json({
       roster,

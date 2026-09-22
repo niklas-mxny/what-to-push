@@ -4,10 +4,12 @@ import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import { ApiErrorNotice } from "@/components/ApiErrorNotice";
 import { BrawlerIcon } from "@/components/BrawlerIcon";
+import { GameIcon } from "@/components/GameIcon";
 import { GoalProgress } from "@/components/GoalProgress";
 import { RoleBadge } from "@/components/RoleBadge";
 import { Card, CardContent } from "@/components/ui/Card";
 import { ProgressBar } from "@/components/ui/ProgressBar";
+import { UI_ICONS } from "@/lib/fankit-ui";
 import { goalMetricValue, isGoalless } from "@/lib/goal";
 import { useRoster } from "@/lib/hooks";
 import { translateApiError, useT } from "@/lib/i18n";
@@ -141,16 +143,18 @@ function BrawlerTile({
         {!brawler.owned ? (
           <p className="text-[11px] text-muted-2">{t("brawlers.notUnlocked")}</p>
         ) : goalless ? (
-          <p className="text-xs text-muted">
-            {brawler.trophies.toLocaleString()} {t("goal.metric.trophies")}
+          <p className="flex items-center gap-1 text-xs text-muted" title={t("goal.metric.trophies")}>
+            <GameIcon file={UI_ICONS.trophy} size={14} />
+            {brawler.trophies.toLocaleString()}
           </p>
         ) : (
           <div className="w-full">
             <div className="mb-1 flex justify-between text-[11px] text-muted">
-              <span>
-                {t(`goal.metric.${goal.type}`)} {current}
+              <span className="flex items-center gap-1" title={t("goal.metric.trophies")}>
+                <GameIcon file={UI_ICONS.trophy} size={13} />
+                {current.toLocaleString()}
               </span>
-              <span>{goal.target}</span>
+              <span>{goal.target.toLocaleString()}</span>
             </div>
             <ProgressBar value={current} max={goal.target} toneClassName={done ? "bg-success" : "bg-primary"} />
           </div>

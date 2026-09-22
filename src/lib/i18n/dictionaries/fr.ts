@@ -112,13 +112,14 @@ const fr: Record<DictionaryKey, string> = {
   "auth.signup.submit": "Créer un compte",
   "auth.signup.haveAccount": "Vous avez déjà un compte ?",
 
-  "search.title": "Trouver un joueur",
-  "search.subtitle": "Recherchez par le nom d'utilisateur choisi sur ce site, ou par le tag joueur Brawl Stars.",
-  "search.placeholder": "Nom d'utilisateur ou #tag…",
+  "search.title": "Trouver des joueurs et des clubs",
+  "search.subtitle": "Recherchez par le nom d'utilisateur choisi sur ce site, un tag joueur Brawl Stars ou un tag de club.",
+  "search.placeholder": "Nom d'utilisateur, #joueur ou #club…",
   "search.button": "Rechercher",
   "search.usersHeading": "Joueurs inscrits",
   "search.tagHeading": "Correspondance par tag",
   "search.noResults": "Aucun résultat trouvé.",
+  "search.clubHeading": "Résultat par tag de club",
 
   "profile.notFound": "Ce profil n'existe pas.",
   "profile.memberSince": "Membre depuis {date}",
@@ -138,6 +139,8 @@ const fr: Record<DictionaryKey, string> = {
   "profile.ranked.highest": "Maximum (historique)",
   "profile.ranked.elo": "{elo} ELO",
   "profile.fame.title": "Renommée",
+  "profile.fame.points": "{value} de renommée",
+  "profile.club.title": "Club",
 
   "favorites.title": "Joueurs enregistrés",
   "favorites.empty": "Aucun joueur enregistré — touchez le cœur sur un profil.",
@@ -152,6 +155,21 @@ const fr: Record<DictionaryKey, string> = {
   "compare.ahead": "Vous avez {count} brawlers d'avance.",
   "compare.behind": "Vous avez {count} brawlers de retard.",
   "compare.tied": "Vous êtes à égalité.",
+
+  "club.view": "Ouvrir le club {name}",
+  "club.notFound": "Ce club n'existe pas.",
+  "club.members": "Membres",
+  "club.memberCount": "{count} membres",
+  "club.trophies": "Trophées du club",
+  "club.requiredTrophies": "Trophées requis",
+  "club.type.open": "Ouvert",
+  "club.type.inviteOnly": "Sur invitation",
+  "club.type.closed": "Fermé",
+  "club.type.unknown": "Inconnu",
+  "club.role.president": "Président",
+  "club.role.vicePresident": "Vice-président",
+  "club.role.senior": "Aîné",
+  "club.role.member": "Membre",
 };
 
 export default fr;

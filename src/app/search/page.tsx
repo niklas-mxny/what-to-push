@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ChevronRight, Search as SearchIcon, User } from "lucide-react";
+import { ChevronRight, Search as SearchIcon, User, Users } from "lucide-react";
 import { FavoriteButton } from "@/components/FavoriteButton";
+import { GameIcon } from "@/components/GameIcon";
 import { PlayerAvatar } from "@/components/PlayerAvatar";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent } from "@/components/ui/Card";
+import { UI_ICONS } from "@/lib/fankit-ui";
 import { useT } from "@/lib/i18n";
 
 interface SearchUser {
@@ -21,12 +23,20 @@ interface TagMatch {
   trophies: number;
   linkedUsername: string | null;
 }
+interface ClubMatch {
+  tag: string;
+  name: string;
+  badgeUrl: string;
+  trophies: number;
+  memberCount: number;
+}
 
 export default function SearchPage() {
   const t = useT();
   const [query, setQuery] = useState("");
   const [users, setUsers] = useState<SearchUser[]>([]);
   const [tagMatch, setTagMatch] = useState<TagMatch | null>(null);
+  const [clubMatch, setClubMatch] = useState<ClubMatch | null>(null);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
 
@@ -39,6 +49,7 @@ export default function SearchPage() {
       const data = await res.json();
       setUsers(data.users ?? []);
       setTagMatch(data.tagMatch ?? null);
+      setClubMatch(data.clubMatch ?? null);
     } finally {
       setLoading(false);
       setSearched(true);
@@ -91,13 +102,45 @@ export default function SearchPage() {
                       </p>
                     </div>
                     <Badge tone="accent" className="ms-auto shrink-0">
-                      🏆 {tagMatch.trophies.toLocaleString()}
+                      <GameIcon file={UI_ICONS.trophy} size={14} />
+                      {tagMatch.trophies.toLocaleString()}
                     </Badge>
                     <ChevronRight className="h-4 w-4 shrink-0 text-muted transition-transform group-hover:translate-x-0.5 rtl:rotate-180" />
                   </Link>
                   <FavoriteButton player={{ tag: tagMatch.tag, name: tagMatch.name, iconUrl: tagMatch.iconUrl }} />
                 </CardContent>
               </Card>
+            </div>
+          )}
+
+          {clubMatch && (
+            <div>
+              <p className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-2">
+                {t("search.clubHeading")}
+              </p>
+              <Link href={`/club/${clubMatch.tag}`}>
+                <Card interactive className="group">
+                  <CardContent className="flex items-center gap-3">
+                    <GameIcon
+                      src={clubMatch.badgeUrl}
+                      alt=""
+                      size={44}
+                      fallback={<Users className="h-8 w-8 text-primary" />}
+                    />
+                    <div className="min-w-0">
+                      <p className="truncate font-display text-base font-bold">{clubMatch.name}</p>
+                      <p className="truncate text-xs text-muted">
+                        #{clubMatch.tag} · {t("club.memberCount", { count: clubMatch.memberCount })}
+                      </p>
+                    </div>
+                    <Badge tone="accent" className="ms-auto shrink-0">
+                      <GameIcon file={UI_ICONS.trophy} size={14} />
+                      {clubMatch.trophies.toLocaleString()}
+                    </Badge>
+                    <ChevronRight className="h-4 w-4 shrink-0 text-muted transition-transform group-hover:translate-x-0.5 rtl:rotate-180" />
+                  </CardContent>
+                </Card>
+              </Link>
             </div>
           )}
 
@@ -123,7 +166,7 @@ export default function SearchPage() {
             </div>
           )}
 
-          {!tagMatch && users.length === 0 && (
+          {!tagMatch && !clubMatch && users.length === 0 && (
             <Card>
               <CardContent>
                 <p className="text-sm text-muted">{t("search.noResults")}</p>

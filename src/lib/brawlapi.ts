@@ -69,21 +69,9 @@ async function loadMapCandidates(): Promise<Map<string, MapCandidate[]>> {
 /** Our merged "Showdown" mode label can match any of these BrawlAPI mode names. */
 const SHOWDOWN_MODE_NAMES = ["Solo Showdown", "Duo Showdown", "Trio Showdown"];
 
-/**
- * Bildet (Map-Name, Modus) auf ein Vorschaubild ab (nur fürs UI — die offizielle
- * Rotation liefert selbst keine Bild-URL). Bevorzugt einen aktiven (nicht
- * deaktivierten) Eintrag, dessen Modus zum aktuellen Rotations-Slot passt; fällt
- * andernfalls auf einen aktiven Eintrag mit anderem Modus zurück, statt gar kein
- * Bild zu zeigen.
- */
-/**
- * Ranked tier icon. Not part of any documented API/CDN field — reverse-engineered
- * by probing brawlify.com's own rank badge images: rankedRank 4 ("Silver I") is
- * served at id 58000003, and valid ids run from 58000000 to 58000021 (22 tiers),
- * so the offset is consistently `rank - 1`.
- */
-export function rankIconUrl(rankedRank: number): string {
-  return `https://brawlify.com/images/ranked/${58000000 + (rankedRank - 1)}.png`;
+/** Club badge by the API's badgeId (not part of the fan kit, which only has a few generic badges). */
+export function clubBadgeUrl(badgeId: number): string {
+  return `https://cdn.brawlify.com/club-badges/regular/${badgeId}.png`;
 }
 
 /** The player's own profile icon (distinct from any brawler icon). */
@@ -91,6 +79,13 @@ export function playerIconUrl(iconId: number): string {
   return `https://cdn.brawlify.com/profile-icons/regular/${iconId}.png`;
 }
 
+/**
+ * Bildet (Map-Name, Modus) auf ein Vorschaubild ab (nur fürs UI — die offizielle
+ * Rotation liefert selbst keine Bild-URL). Bevorzugt einen aktiven (nicht
+ * deaktivierten) Eintrag, dessen Modus zum aktuellen Rotations-Slot passt; fällt
+ * andernfalls auf einen aktiven Eintrag mit anderem Modus zurück, statt gar kein
+ * Bild zu zeigen.
+ */
 export async function findMapImageUrl(mapName: string, modeLabel: string): Promise<string | undefined> {
   const candidates = (await loadMapCandidates()).get(mapName.trim().toUpperCase());
   if (!candidates || candidates.length === 0) return undefined;

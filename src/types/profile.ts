@@ -1,15 +1,28 @@
-// Shapes returned by our own profile/player/favorites APIs — shared between the
-// route handlers that build them and the client pages that render them.
+// Shapes returned by our own profile/player/club/favorites APIs — shared between
+// the route handlers that build them and the client pages that render them.
+import type { ClubRole } from "@/types/brawlstars";
 
 export interface RankInfo {
   rankName: string;
   elo: number | null;
-  iconUrl: string;
+  iconUrl: string | null;
 }
 
 export interface FameInfo {
   value: number;
   tierName: string;
+  iconUrl: string | null;
+}
+
+/** The player's club, with details when the club lookup succeeded. */
+export interface PlayerClub {
+  /** Without the leading '#'. */
+  tag: string;
+  name: string;
+  badgeUrl: string | null;
+  trophies: number | null;
+  memberCount: number | null;
+  role: ClubRole | null;
 }
 
 /** Everything a profile page shows about a Brawl Stars player, whether or not they have an account here. */
@@ -23,7 +36,7 @@ export interface PublicPlayer {
   victories3v3: number;
   soloVictories: number;
   duoVictories: number;
-  clubName: string | null;
+  club: PlayerClub | null;
   brawlersOwned: number;
   /** All brawlers in the game — the denominator for goal progress. */
   totalBrawlers: number;
@@ -53,4 +66,30 @@ export interface Favorite {
   tag: string;
   name: string;
   iconUrl: string;
+}
+
+export interface PublicClubMember {
+  /** Without the leading '#'. */
+  tag: string;
+  name: string;
+  /** CSS color from the in-game name color, if any. */
+  nameColor: string | null;
+  role: ClubRole;
+  trophies: number;
+  iconUrl: string;
+  /** Site account this member's tag is linked to, if any. */
+  linkedUsername: string | null;
+}
+
+export interface PublicClub {
+  /** Without the leading '#'. */
+  tag: string;
+  name: string;
+  description: string | null;
+  type: string;
+  badgeUrl: string;
+  requiredTrophies: number;
+  trophies: number;
+  /** Sorted by trophies, highest first. */
+  members: PublicClubMember[];
 }

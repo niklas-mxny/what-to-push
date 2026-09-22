@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { playerIconUrl } from "@/lib/brawlapi";
+import { clubBadgeUrl, playerIconUrl } from "@/lib/brawlapi";
 import { getDb } from "@/lib/db";
-import { fetchPlayer, normalizePlayerTag } from "@/lib/supercell";
+import { fetchClub, fetchPlayer, normalizePlayerTag } from "@/lib/supercell";
 
 interface UserRow {
   username: string;
@@ -11,7 +11,7 @@ interface UserRow {
 export async function GET(request: Request) {
   const q = new URL(request.url).searchParams.get("q")?.trim() ?? "";
   if (!q) {
-    return NextResponse.json({ users: [], tagMatch: null });
+    return NextResponse.json({ users: [], tagMatch: null, clubMatch: null });
   }
 
   const db = getDb();
@@ -21,8 +21,9 @@ export async function GET(request: Request) {
     )
     .all(`%${q.toLowerCase()}%`) as unknown as UserRow[];
 
-  // Also try the query as a direct player tag lookup (e.g. "#2Y8VQGCCV") — this
-  // works for any valid Brawl Stars tag, not just ones linked to an account here.
+  // Also try the query as a direct player tag and club tag lookup (e.g.
+  // "#2Y8VQGCCV") — works for any Brawl Stars tag, not just ones linked to an
+  // account here. Player and club tags are separate namespaces, so try both.
   let tagMatch: {
     tag: string;
     name: string;
@@ -30,10 +31,15 @@ export async function GET(request: Request) {
     trophies: number;
     linkedUsername: string | null;
   } | null = null;
+  let clubMatch: { tag: string; name: string; badgeUrl: string; trophies: number; memberCount: number } | null = null;
   const normalizedTag = normalizePlayerTag(q);
   if (normalizedTag.length >= 3) {
-    try {
-      const player = await fetchPlayer(normalizedTag);
+    // A rejection just means "no such tag" for that namespace.
+    const [player, club] = await Promise.all([
+      fetchPlayer(normalizedTag).catch(() => null),
+      fetchClub(normalizedTag).catch(() => null),
+    ]);
+    if (player) {
       // player_tag is stored without the leading '#' (see normalizePlayerTag), but
       // the Supercell API always returns player.tag with it — strip it to match.
       const linked = db
@@ -46,13 +52,21 @@ export async function GET(request: Request) {
         trophies: player.trophies,
         linkedUsername: linked?.username ?? null,
       };
-    } catch {
-      // Not a valid/existing tag — fine, just means no tag match.
+    }
+    if (club) {
+      clubMatch = {
+        tag: normalizePlayerTag(club.tag),
+        name: club.name,
+        badgeUrl: clubBadgeUrl(club.badgeId),
+        trophies: club.trophies,
+        memberCount: club.members.length,
+      };
     }
   }
 
   return NextResponse.json({
     users: users.map((u) => ({ username: u.username, playerTag: u.player_tag })),
     tagMatch,
+    clubMatch,
   });
 }

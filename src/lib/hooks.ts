@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { normalizePlayerTag } from "@/lib/tag";
 import type { MergedBrawler, ActiveSlot } from "@/types/domain";
-import type { PlayerResponse } from "@/types/profile";
+import type { PlayerResponse, PublicClub } from "@/types/profile";
 
 export interface ApiError {
   message: string;
@@ -98,33 +98,46 @@ export function useRoster(tag: string, hydrated: boolean): ApiState<RosterRespon
   return state;
 }
 
-/** Full public stats for any player tag (or nothing, for a null/empty tag). */
-export function usePublicPlayer(tag: string | null): ApiState<PlayerResponse> {
-  const key = tag ? normalizePlayerTag(tag) : "";
-  // Results are stored with the tag they belong to; a stale entry for another
-  // tag just reads as "loading" — no synchronous reset needed in the effect.
-  const [state, setState] = useState<{ key: string; data: PlayerResponse | null; error: ApiError | null }>({
-    key: "",
+/**
+ * Fetches a JSON resource for `url` (or nothing for null). Results are stored
+ * with the URL they belong to; a stale entry for another URL just reads as
+ * "loading" — no synchronous reset needed in the effect.
+ */
+function useResource<T>(url: string | null): ApiState<T> {
+  const [state, setState] = useState<{ url: string | null; data: T | null; error: ApiError | null }>({
+    url: null,
     data: null,
     error: null,
   });
 
   useEffect(() => {
-    if (!key) return;
+    if (!url) return;
     let cancelled = false;
-    fetchJson<PlayerResponse>(`/api/player/${encodeURIComponent(key)}`)
+    fetchJson<T>(url)
       .then((res) => {
-        if (!cancelled) setState({ key, data: res, error: null });
+        if (!cancelled) setState({ url, data: res, error: null });
       })
       .catch((err: unknown) => {
-        if (!cancelled) setState({ key, data: null, error: toApiError(err) });
+        if (!cancelled) setState({ url, data: null, error: toApiError(err) });
       });
     return () => {
       cancelled = true;
     };
-  }, [key]);
+  }, [url]);
 
-  if (!key) return { data: null, error: null, loading: false };
-  if (state.key !== key) return { data: null, error: null, loading: true };
+  if (!url) return { data: null, error: null, loading: false };
+  if (state.url !== url) return { data: null, error: null, loading: true };
   return { data: state.data, error: state.error, loading: false };
+}
+
+/** Full public stats for any player tag (or nothing, for a null/empty tag). */
+export function usePublicPlayer(tag: string | null): ApiState<PlayerResponse> {
+  const key = tag ? normalizePlayerTag(tag) : "";
+  return useResource<PlayerResponse>(key ? `/api/player/${encodeURIComponent(key)}` : null);
+}
+
+/** A club with its member list, by club tag. */
+export function usePublicClub(tag: string): ApiState<{ club: PublicClub }> {
+  const key = normalizePlayerTag(tag);
+  return useResource<{ club: PublicClub }>(key ? `/api/club/${encodeURIComponent(key)}` : null);
 }

@@ -4,9 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LayoutGrid, LogOut, Search, Settings, Swords, Trophy, User } from "lucide-react";
 import { FavoritesMenu } from "@/components/FavoritesMenu";
+import { GameIcon } from "@/components/GameIcon";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { cn } from "@/lib/cn";
 import { useAuth } from "@/lib/auth-context";
+import { UI_ICONS } from "@/lib/fankit-ui";
 import { useT } from "@/lib/i18n";
 
 export function NavBar() {
@@ -25,8 +27,13 @@ export function NavBar() {
     <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
         <Link href="/" className="group flex items-center gap-2">
-          <span className="logo-glow flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-accent to-[#c98a00] text-accent-foreground transition-transform duration-200 group-hover:scale-110">
-            <Trophy className="h-4.5 w-4.5" strokeWidth={2.5} />
+          <span className="flex h-9 w-9 items-center justify-center transition-transform duration-200 group-hover:scale-110 group-hover:-rotate-6">
+            <GameIcon
+              file={UI_ICONS.trophy}
+              size={34}
+              className="logo-glow-img"
+              fallback={<Trophy className="h-6 w-6 text-accent" strokeWidth={2.5} />}
+            />
           </span>
           <span className="font-display text-lg font-bold tracking-tight">
             What to <span className="text-accent">Push</span>

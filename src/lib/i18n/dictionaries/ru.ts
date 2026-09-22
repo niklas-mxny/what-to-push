@@ -111,13 +111,14 @@ const ru: Record<DictionaryKey, string> = {
   "auth.signup.submit": "Создать аккаунт",
   "auth.signup.haveAccount": "Уже есть аккаунт?",
 
-  "search.title": "Найти игрока",
-  "search.subtitle": "Поиск по имени пользователя на этом сайте или по тегу игрока Brawl Stars.",
-  "search.placeholder": "Имя пользователя или #тег…",
+  "search.title": "Найти игроков и клубы",
+  "search.subtitle": "Поиск по имени пользователя на этом сайте, по тегу игрока Brawl Stars или по тегу клуба.",
+  "search.placeholder": "Имя, #игрок или #клуб…",
   "search.button": "Найти",
   "search.usersHeading": "Зарегистрированные игроки",
   "search.tagHeading": "Совпадение по тегу",
   "search.noResults": "Ничего не найдено.",
+  "search.clubHeading": "Совпадение по тегу клуба",
 
   "profile.notFound": "Такого профиля не существует.",
   "profile.memberSince": "Участник с {date}",
@@ -137,6 +138,8 @@ const ru: Record<DictionaryKey, string> = {
   "profile.ranked.highest": "Максимальный (за всё время)",
   "profile.ranked.elo": "{elo} ELO",
   "profile.fame.title": "Слава",
+  "profile.fame.points": "{value} славы",
+  "profile.club.title": "Клуб",
 
   "favorites.title": "Сохранённые игроки",
   "favorites.empty": "Пока нет сохранённых игроков — нажми на сердце в профиле.",
@@ -151,6 +154,21 @@ const ru: Record<DictionaryKey, string> = {
   "compare.ahead": "Ты впереди на {count} бойцов.",
   "compare.behind": "Ты отстаёшь на {count} бойцов.",
   "compare.tied": "Вы идёте вровень.",
+
+  "club.view": "Открыть клуб {name}",
+  "club.notFound": "Такого клуба не существует.",
+  "club.members": "Участники",
+  "club.memberCount": "Участников: {count}",
+  "club.trophies": "Трофеи клуба",
+  "club.requiredTrophies": "Нужно трофеев",
+  "club.type.open": "Открытый",
+  "club.type.inviteOnly": "По приглашению",
+  "club.type.closed": "Закрытый",
+  "club.type.unknown": "Неизвестно",
+  "club.role.president": "Президент",
+  "club.role.vicePresident": "Вице-президент",
+  "club.role.senior": "Ветеран",
+  "club.role.member": "Участник",
 };
 
 export default ru;

@@ -3,7 +3,7 @@
 import { use, useEffect, useState } from "react";
 import { ApiErrorNotice } from "@/components/ApiErrorNotice";
 import { FavoriteButton } from "@/components/FavoriteButton";
-import { PlayerHeader, ProfileSkeleton } from "@/components/profile/PlayerHeader";
+import { PlayerHeader, PlayerSubline, ProfileSkeleton } from "@/components/profile/PlayerHeader";
 import { PlayerStats } from "@/components/profile/PlayerStats";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent } from "@/components/ui/Card";
@@ -85,13 +85,15 @@ export default function ProfilePage({ params }: { params: Promise<{ username: st
         }
       >
         {p && <p className="text-sm text-muted">@{data.username}</p>}
-        <p className="text-xs text-muted-2">
-          {p
-            ? [p.clubName, `#${p.tag}`].filter(Boolean).join(" · ")
-            : t("profile.memberSince", {
-                date: new Date(`${data.memberSince.replace(" ", "T")}Z`).toLocaleDateString(),
-              })}
-        </p>
+        {p ? (
+          <PlayerSubline player={p} />
+        ) : (
+          <p className="text-xs text-muted-2">
+            {t("profile.memberSince", {
+              date: new Date(`${data.memberSince.replace(" ", "T")}Z`).toLocaleDateString(),
+            })}
+          </p>
+        )}
       </PlayerHeader>
 
       {data.playerError && (
