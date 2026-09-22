@@ -76,6 +76,21 @@ const SHOWDOWN_MODE_NAMES = ["Solo Showdown", "Duo Showdown", "Trio Showdown"];
  * andernfalls auf einen aktiven Eintrag mit anderem Modus zurück, statt gar kein
  * Bild zu zeigen.
  */
+/**
+ * Ranked tier icon. Not part of any documented API/CDN field — reverse-engineered
+ * by probing brawlify.com's own rank badge images: rankedRank 4 ("Silver I") is
+ * served at id 58000003, and valid ids run from 58000000 to 58000021 (22 tiers),
+ * so the offset is consistently `rank - 1`.
+ */
+export function rankIconUrl(rankedRank: number): string {
+  return `https://brawlify.com/images/ranked/${58000000 + (rankedRank - 1)}.png`;
+}
+
+/** The player's own profile icon (distinct from any brawler icon). */
+export function playerIconUrl(iconId: number): string {
+  return `https://cdn.brawlify.com/profile-icons/regular/${iconId}.png`;
+}
+
 export async function findMapImageUrl(mapName: string, modeLabel: string): Promise<string | undefined> {
   const candidates = (await loadMapCandidates()).get(mapName.trim().toUpperCase());
   if (!candidates || candidates.length === 0) return undefined;

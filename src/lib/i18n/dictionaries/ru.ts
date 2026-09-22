@@ -135,11 +135,16 @@ const ru: Record<DictionaryKey, string> = {
   "profile.linkTagButton": "Привязать тег",
   "profile.linkedTag": "Привязанный тег: {tag}",
   "profile.stats.trophies": "Трофеи",
-  "profile.stats.highestTrophies": "Максимум трофеев",
   "profile.stats.prestigeTotal": "Престиж всего",
-  "profile.stats.expLevel": "Уровень опыта",
   "profile.stats.victories3v3": "Победы 3v3",
+  "profile.stats.soloShowdownWins": "Победы в Solo Showdown",
+  "profile.stats.duoShowdownWins": "Победы в Duo Showdown",
   "profile.stats.brawlersOwned": "Открыто бойцов",
+  "profile.ranked.title": "Рейтинг",
+  "profile.ranked.current": "Текущий",
+  "profile.ranked.highest": "Максимальный (за всё время)",
+  "profile.ranked.elo": "{elo} ELO",
+  "profile.fame.title": "Слава",
 };
 
 export default ru;

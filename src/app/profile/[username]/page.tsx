@@ -2,25 +2,39 @@
 
 import { useEffect, useState } from "react";
 import { use } from "react";
-import { Crown, Shield, Sparkles, Swords, Trophy, Users } from "lucide-react";
+import Image from "next/image";
+import { Medal, Shield, Sparkles, Swords, Trophy, UserRound, Users } from "lucide-react";
 import { ApiErrorNotice } from "@/components/ApiErrorNotice";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent } from "@/components/ui/Card";
 import { useAuth } from "@/lib/auth-context";
 import { useT } from "@/lib/i18n";
 
+interface RankInfo {
+  rankName: string;
+  elo: number | null;
+  iconUrl: string;
+}
+
+interface FameInfo {
+  value: number;
+  tierName: string;
+}
+
 interface ProfilePlayer {
   name: string;
   tag: string;
+  iconUrl: string;
   trophies: number;
-  highestTrophies: number;
   totalPrestigeLevel: number;
-  expLevel: number;
   victories3v3: number;
   soloVictories: number;
   duoVictories: number;
   clubName: string | null;
   brawlersOwned: number;
+  fame: FameInfo | null;
+  rankedCurrent: RankInfo | null;
+  rankedHighest: RankInfo | null;
 }
 
 interface ProfileData {
@@ -29,6 +43,30 @@ interface ProfileData {
   memberSince: string;
   player: ProfilePlayer | null;
   playerError: { error: string; code?: string } | null;
+}
+
+function Avatar({ src, name, size = 88 }: { src: string; name: string; size?: number }) {
+  const [failed, setFailed] = useState(false);
+  return (
+    <div
+      className="glow-ring-accent relative flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-background-elevated ring-2 ring-accent/60"
+      style={{ width: size, height: size }}
+    >
+      {!failed ? (
+        <Image
+          src={src}
+          alt={name}
+          width={size}
+          height={size}
+          unoptimized
+          onError={() => setFailed(true)}
+          className="h-full w-full object-cover"
+        />
+      ) : (
+        <span className="font-display text-2xl font-bold text-muted">{name.slice(0, 2).toUpperCase()}</span>
+      )}
+    </div>
+  );
 }
 
 function StatTile({ icon: Icon, label, value }: { icon: typeof Trophy; label: string; value: string | number }) {
@@ -41,6 +79,37 @@ function StatTile({ icon: Icon, label, value }: { icon: typeof Trophy; label: st
         <div className="min-w-0">
           <p className="truncate text-lg font-bold">{value}</p>
           <p className="truncate text-xs text-muted">{label}</p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function RankCard({ label, rank }: { label: string; rank: RankInfo }) {
+  const t = useT();
+  const [iconFailed, setIconFailed] = useState(false);
+  return (
+    <Card interactive>
+      <CardContent className="flex items-center gap-4">
+        <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-background-elevated ring-1 ring-border-strong">
+          {!iconFailed ? (
+            <Image
+              src={rank.iconUrl}
+              alt={rank.rankName}
+              width={48}
+              height={48}
+              unoptimized
+              onError={() => setIconFailed(true)}
+              className="object-contain"
+            />
+          ) : (
+            <Medal className="h-6 w-6 text-accent" />
+          )}
+        </span>
+        <div className="min-w-0">
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-2">{label}</p>
+          <p className="truncate font-display text-base font-bold">{rank.rankName}</p>
+          {rank.elo != null && <p className="text-xs text-muted">{t("profile.ranked.elo", { elo: rank.elo })}</p>}
         </div>
       </CardContent>
     </Card>
@@ -89,8 +158,6 @@ export default function ProfilePage({ params }: { params: Promise<{ username: st
       setLinkError(result.error ?? "Failed to link tag.");
       return;
     }
-    setData((prev) => (prev ? { ...prev, playerTag: tagInput } : prev));
-    // Re-fetch to pull the freshly-linked player's stats.
     const res = await fetch(`/api/profile/${encodeURIComponent(username)}`);
     if (res.ok) setData(await res.json());
   }
@@ -98,9 +165,9 @@ export default function ProfilePage({ params }: { params: Promise<{ username: st
   if (loading) {
     return (
       <div className="flex flex-col gap-4">
-        <div className="h-10 w-64 animate-pulse rounded-lg bg-card/50" />
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, i) => (
+        <div className="h-20 w-full max-w-md animate-pulse rounded-card bg-card/50" />
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {Array.from({ length: 8 }).map((_, i) => (
             <div key={i} className="h-20 animate-pulse rounded-card border border-border bg-card/50" />
           ))}
         </div>
@@ -118,18 +185,23 @@ export default function ProfilePage({ params }: { params: Promise<{ username: st
     );
   }
 
+  const p = data.player;
+
   return (
     <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="font-display text-2xl font-bold sm:text-3xl">{data.username}</h1>
-        <p className="text-sm text-muted">
-          {t("profile.memberSince", { date: new Date(`${data.memberSince.replace(" ", "T")}Z`).toLocaleDateString() })}
-        </p>
+      <div className="flex items-center gap-4">
+        <Avatar src={p?.iconUrl ?? ""} name={data.username} />
+        <div className="min-w-0">
+          <h1 className="truncate font-display text-2xl font-bold sm:text-3xl">{p?.name ?? data.username}</h1>
+          {p && <p className="text-sm text-muted">{data.username}</p>}
+          <p className="text-xs text-muted-2">
+            {[p?.clubName, p?.tag].filter(Boolean).join(" · ") ||
+              t("profile.memberSince", { date: new Date(`${data.memberSince.replace(" ", "T")}Z`).toLocaleDateString() })}
+          </p>
+        </div>
       </div>
 
-      {data.playerError && (
-        <ApiErrorNotice message={data.playerError.error} />
-      )}
+      {data.playerError && <ApiErrorNotice message={data.playerError.error} />}
 
       {!data.playerTag && isOwnProfile && (
         <Card>
@@ -162,25 +234,66 @@ export default function ProfilePage({ params }: { params: Promise<{ username: st
         </Card>
       )}
 
-      {data.player && (
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-          <StatTile icon={Trophy} label={t("profile.stats.trophies")} value={data.player.trophies.toLocaleString()} />
-          <StatTile
-            icon={Crown}
-            label={t("profile.stats.highestTrophies")}
-            value={data.player.highestTrophies.toLocaleString()}
-          />
-          <StatTile icon={Sparkles} label={t("profile.stats.prestigeTotal")} value={data.player.totalPrestigeLevel} />
-          <StatTile icon={Shield} label={t("profile.stats.expLevel")} value={data.player.expLevel} />
-          <StatTile icon={Swords} label={t("profile.stats.victories3v3")} value={data.player.victories3v3.toLocaleString()} />
-          <StatTile icon={Users} label={t("profile.stats.brawlersOwned")} value={data.player.brawlersOwned} />
-        </div>
+      {p && (
+        <>
+          <div className="glow-ring-accent relative overflow-hidden rounded-card border border-accent/40 bg-gradient-to-br from-accent/20 via-card to-card p-6">
+            <div className="flex flex-wrap items-center gap-8">
+              <div className="flex items-center gap-3">
+                <Trophy className="h-8 w-8 text-accent" />
+                <div>
+                  <p className="font-display text-3xl font-bold">{p.trophies.toLocaleString()}</p>
+                  <p className="text-xs text-muted">{t("profile.stats.trophies")}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <Sparkles className="h-8 w-8 text-primary" />
+                <div>
+                  <p className="font-display text-3xl font-bold">{p.totalPrestigeLevel}</p>
+                  <p className="text-xs text-muted">{t("profile.stats.prestigeTotal")}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {(p.rankedCurrent || p.rankedHighest) && (
+            <div className="flex flex-col gap-3">
+              <h2 className="font-display text-sm font-bold uppercase tracking-wide text-muted-2">
+                {t("profile.ranked.title")}
+              </h2>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {p.rankedCurrent && <RankCard label={t("profile.ranked.current")} rank={p.rankedCurrent} />}
+                {p.rankedHighest && <RankCard label={t("profile.ranked.highest")} rank={p.rankedHighest} />}
+              </div>
+            </div>
+          )}
+
+          {p.fame && (
+            <Card interactive>
+              <CardContent className="flex items-center gap-3">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent/15 text-accent">
+                  <Shield className="h-4.5 w-4.5" />
+                </span>
+                <div>
+                  <p className="text-lg font-bold">
+                    {p.fame.value.toLocaleString()} <span className="text-sm font-normal text-muted">— {p.fame.tierName}</span>
+                  </p>
+                  <p className="text-xs text-muted">{t("profile.fame.title")}</p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <StatTile icon={Swords} label={t("profile.stats.victories3v3")} value={p.victories3v3.toLocaleString()} />
+            <StatTile icon={UserRound} label={t("profile.stats.soloShowdownWins")} value={p.soloVictories.toLocaleString()} />
+            <StatTile icon={Users} label={t("profile.stats.duoShowdownWins")} value={p.duoVictories.toLocaleString()} />
+            <StatTile icon={Medal} label={t("profile.stats.brawlersOwned")} value={p.brawlersOwned} />
+          </div>
+        </>
       )}
 
       {data.playerTag && isOwnProfile && (
-        <p className="text-xs text-muted-2">
-          {t("profile.linkedTag", { tag: data.playerTag })}
-        </p>
+        <p className="text-xs text-muted-2">{t("profile.linkedTag", { tag: data.playerTag })}</p>
       )}
     </div>
   );

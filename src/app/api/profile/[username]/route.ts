@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { normalizeUsername } from "@/lib/auth";
+import { playerIconUrl, rankIconUrl } from "@/lib/brawlapi";
 import { getDb } from "@/lib/db";
 import { fetchPlayer } from "@/lib/supercell";
 import { SupercellApiError } from "@/types/brawlstars";
@@ -28,15 +29,30 @@ export async function GET(_request: Request, { params }: { params: Promise<{ use
       player = {
         name: p.name,
         tag: p.tag,
+        iconUrl: playerIconUrl(p.icon.id),
         trophies: p.trophies,
-        highestTrophies: p.highestTrophies,
         totalPrestigeLevel: p.totalPrestigeLevel,
-        expLevel: p.expLevel,
         victories3v3: p["3vs3Victories"],
         soloVictories: p.soloVictories,
         duoVictories: p.duoVictories,
         clubName: "name" in p.club ? p.club.name : null,
         brawlersOwned: p.brawlers.length,
+        fame:
+          p.fame && p.fameTierName
+            ? { value: p.fame, tierName: p.fameTierName }
+            : null,
+        rankedCurrent:
+          p.rankedRank && p.rankedRankName
+            ? { rankName: p.rankedRankName, elo: p.rankedElo ?? null, iconUrl: rankIconUrl(p.rankedRank) }
+            : null,
+        rankedHighest:
+          p.highestAllTimeRankedRank && p.highestAllTimeRankedRankName
+            ? {
+                rankName: p.highestAllTimeRankedRankName,
+                elo: p.highestAllTimeRankedElo ?? null,
+                iconUrl: rankIconUrl(p.highestAllTimeRankedRank),
+              }
+            : null,
       };
     } catch (err) {
       playerError = err instanceof SupercellApiError ? { error: err.message, code: err.reason } : { error: "Unexpected error." };

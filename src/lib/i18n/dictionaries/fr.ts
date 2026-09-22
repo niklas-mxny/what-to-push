@@ -136,11 +136,16 @@ const fr: Record<DictionaryKey, string> = {
   "profile.linkTagButton": "Lier le tag",
   "profile.linkedTag": "Tag lié : {tag}",
   "profile.stats.trophies": "Trophées",
-  "profile.stats.highestTrophies": "Trophées maximum",
   "profile.stats.prestigeTotal": "Prestige total",
-  "profile.stats.expLevel": "Niveau d'expérience",
   "profile.stats.victories3v3": "Victoires 3v3",
+  "profile.stats.soloShowdownWins": "Victoires en Showdown Solo",
+  "profile.stats.duoShowdownWins": "Victoires en Showdown Duo",
   "profile.stats.brawlersOwned": "Brawlers débloqués",
+  "profile.ranked.title": "Classé",
+  "profile.ranked.current": "Actuel",
+  "profile.ranked.highest": "Maximum (historique)",
+  "profile.ranked.elo": "{elo} ELO",
+  "profile.fame.title": "Renommée",
 };
 
 export default fr;

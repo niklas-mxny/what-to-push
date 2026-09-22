@@ -133,11 +133,16 @@ const en = {
   "profile.linkTagButton": "Link tag",
   "profile.linkedTag": "Linked tag: {tag}",
   "profile.stats.trophies": "Trophies",
-  "profile.stats.highestTrophies": "Highest Trophies",
   "profile.stats.prestigeTotal": "Total Prestige",
-  "profile.stats.expLevel": "Experience Level",
   "profile.stats.victories3v3": "3v3 Victories",
+  "profile.stats.soloShowdownWins": "Solo Showdown Wins",
+  "profile.stats.duoShowdownWins": "Duo Showdown Wins",
   "profile.stats.brawlersOwned": "Brawlers Unlocked",
+  "profile.ranked.title": "Ranked",
+  "profile.ranked.current": "Current",
+  "profile.ranked.highest": "Highest (All-Time)",
+  "profile.ranked.elo": "{elo} ELO",
+  "profile.fame.title": "Fame",
 } satisfies Record<string, string>;
 
 export default en;

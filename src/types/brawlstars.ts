@@ -45,6 +45,9 @@ export interface Player {
   trophies: number;
   highestTrophies: number;
   totalPrestigeLevel: number;
+  /** "Fame" (club/season-pass-style progression) — not present on every account. */
+  fame?: number;
+  fameTierName?: string;
   expLevel: number;
   expPoints: number;
   /** The API's actual field name starts with a digit, so it needs quoting here. */
@@ -53,6 +56,16 @@ export interface Player {
   duoVictories: number;
   bestRoboRumbleTime: number;
   bestTimeAsBigBrawler: number;
+  /** Ranked (Power League's successor). Numeric ranks map to an icon: brawlify.com/images/ranked/{58000000 + rank - 1}.png */
+  rankedRank?: number;
+  rankedRankName?: string;
+  rankedElo?: number;
+  highestSeasonRankedRank?: number;
+  highestSeasonRankedRankName?: string;
+  highestSeasonRankedElo?: number;
+  highestAllTimeRankedRank?: number;
+  highestAllTimeRankedRankName?: string;
+  highestAllTimeRankedElo?: number;
   club: { tag: string; name: string } | Record<string, never>;
   brawlers: PlayerBrawler[];
 }

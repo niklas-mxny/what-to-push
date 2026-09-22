@@ -134,11 +134,16 @@ const ko: Record<DictionaryKey, string> = {
   "profile.linkTagButton": "태그 연결",
   "profile.linkedTag": "연결된 태그: {tag}",
   "profile.stats.trophies": "트로피",
-  "profile.stats.highestTrophies": "최고 트로피",
   "profile.stats.prestigeTotal": "총 프레스티지",
-  "profile.stats.expLevel": "경험치 레벨",
   "profile.stats.victories3v3": "3v3 승리",
+  "profile.stats.soloShowdownWins": "솔로 쇼다운 승리",
+  "profile.stats.duoShowdownWins": "듀오 쇼다운 승리",
   "profile.stats.brawlersOwned": "해금된 브롤러",
+  "profile.ranked.title": "랭크전",
+  "profile.ranked.current": "현재",
+  "profile.ranked.highest": "최고 (역대)",
+  "profile.ranked.elo": "{elo} ELO",
+  "profile.fame.title": "페임",
 };
 
 export default ko;

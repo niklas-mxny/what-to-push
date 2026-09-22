@@ -135,11 +135,16 @@ const ja: Record<DictionaryKey, string> = {
   "profile.linkTagButton": "タグを連携",
   "profile.linkedTag": "連携済みタグ: {tag}",
   "profile.stats.trophies": "トロフィー",
-  "profile.stats.highestTrophies": "最高トロフィー",
   "profile.stats.prestigeTotal": "合計プレステージ",
-  "profile.stats.expLevel": "経験値レベル",
   "profile.stats.victories3v3": "3v3勝利数",
+  "profile.stats.soloShowdownWins": "ソロショーダウン勝利数",
+  "profile.stats.duoShowdownWins": "デュオショーダウン勝利数",
   "profile.stats.brawlersOwned": "解放済みブロウラー数",
+  "profile.ranked.title": "ランク",
+  "profile.ranked.current": "現在",
+  "profile.ranked.highest": "最高(歴代)",
+  "profile.ranked.elo": "{elo} ELO",
+  "profile.fame.title": "フェイム",
 };
 
 export default ja;

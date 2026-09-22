@@ -133,11 +133,16 @@ const zh: Record<DictionaryKey, string> = {
   "profile.linkTagButton": "关联标签",
   "profile.linkedTag": "已关联标签:{tag}",
   "profile.stats.trophies": "奖杯",
-  "profile.stats.highestTrophies": "最高奖杯",
   "profile.stats.prestigeTotal": "总荣誉等级",
-  "profile.stats.expLevel": "经验等级",
   "profile.stats.victories3v3": "3v3 胜场",
+  "profile.stats.soloShowdownWins": "单人极限胜场",
+  "profile.stats.duoShowdownWins": "双人极限胜场",
   "profile.stats.brawlersOwned": "已解锁角色数",
+  "profile.ranked.title": "排位",
+  "profile.ranked.current": "当前",
+  "profile.ranked.highest": "历史最高",
+  "profile.ranked.elo": "{elo} ELO",
+  "profile.fame.title": "名望",
 };
 
 export default zh;

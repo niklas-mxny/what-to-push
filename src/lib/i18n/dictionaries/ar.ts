@@ -134,11 +134,16 @@ const ar: Record<DictionaryKey, string> = {
   "profile.linkTagButton": "ربط التاق",
   "profile.linkedTag": "التاق المرتبط: {tag}",
   "profile.stats.trophies": "الكؤوس",
-  "profile.stats.highestTrophies": "أعلى عدد كؤوس",
   "profile.stats.prestigeTotal": "إجمالي المكانة",
-  "profile.stats.expLevel": "مستوى الخبرة",
   "profile.stats.victories3v3": "انتصارات 3v3",
+  "profile.stats.soloShowdownWins": "انتصارات المواجهة الفردية",
+  "profile.stats.duoShowdownWins": "انتصارات مواجهة الثنائي",
   "profile.stats.brawlersOwned": "المقاتلون المفتوحون",
+  "profile.ranked.title": "التصنيفي",
+  "profile.ranked.current": "الحالي",
+  "profile.ranked.highest": "الأعلى (كل العصور)",
+  "profile.ranked.elo": "{elo} ELO",
+  "profile.fame.title": "الشهرة",
 };
 
 export default ar;
