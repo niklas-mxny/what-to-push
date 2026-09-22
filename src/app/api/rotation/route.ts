@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { findMapImageUrl } from "@/lib/brawlapi";
+import { parseSupercellTimestamp } from "@/lib/date";
 import { MissingApiTokenError } from "@/lib/env";
 import { fetchRotation } from "@/lib/supercell";
 import { SupercellApiError } from "@/types/brawlstars";
@@ -17,7 +18,7 @@ export async function GET() {
         modeLabel: getModeInfo(r.event.mode).label,
         mapName: r.event.map,
         mapImageUrl: await findMapImageUrl(r.event.map),
-        endTime: r.endTime,
+        endTime: parseSupercellTimestamp(r.endTime),
       }))
     );
 
