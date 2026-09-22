@@ -18,12 +18,14 @@ export interface GoalConfig {
   target: number;
 }
 
-export const DEFAULT_GOAL: GoalConfig = { type: "power", target: 11 };
+// Prestige (seit dem Februar-2026-Update): ab 1000 Trophäen auf einem Brawler
+// werden die ersten 1000 dauerhaft ("Prestige 1"), ab 2000 "Prestige 2", ab
+// 3000 "Prestige 3" (Maximum). Prestige ist also Trophäen-basiert, nicht an
+// den separaten "Rang"-Wert gekoppelt.
+export const DEFAULT_GOAL: GoalConfig = { type: "trophies", target: 1000 };
 
 export const GOAL_PRESETS: { type: GoalType; target: number; label: string }[] = [
-  { type: "power", target: 11, label: "Jeden Brawler auf Power 11" },
-  { type: "trophies", target: 1000, label: "Jeden Brawler auf 1000+ Trophäen" },
-  { type: "rank", target: 30, label: "Jeden Brawler auf Rang 30 (Prestige)" },
+  { type: "trophies", target: 1000, label: "Alle Brawler auf Prestige 1" },
 ];
 
 export interface MergedBrawler {

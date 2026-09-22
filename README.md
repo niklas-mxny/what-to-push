@@ -1,8 +1,12 @@
 # What to Push
 
 Ein Brawl Stars Tracker: zeigt dir, basierend auf der aktuellen Map-Rotation, deinen
-eigenen Brawler-Stats und deinem persönlichen Ziel (z.B. "jeden Brawler auf Power 11
-bringen"), welchen Brawler du gerade am besten pushen solltest.
+eigenen Brawler-Stats und deinem persönlichen Ziel (Standard: "jeden Brawler auf
+Prestige 1 bringen"), welchen Brawler du gerade am besten pushen solltest.
+
+Prestige (seit dem Februar-2026-Update) ist Trophäen-basiert: Ab 1000 Trophäen auf
+einem Brawler werden diese dauerhaft (kein Saison-Reset mehr) — das ist Prestige 1.
+2000 → Prestige 2, 3000 → Prestige 3 (Maximum).
 
 ## Setup
 

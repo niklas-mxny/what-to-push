@@ -75,8 +75,8 @@ export default function SettingsPage() {
         <CardHeader>
           <CardTitle>Dein Ziel</CardTitle>
           <CardDescription>
-            Bestimmt, welche Brawler priorisiert empfohlen werden — z.B. alle auf Power 11
-            bringen, oder gezielt Trophäen pushen.
+            Bestimmt, welche Brawler priorisiert empfohlen werden — z.B. alle auf Prestige 1
+            (1000 Trophäen) bringen, oder ein eigenes Ziel nach Power-Level oder Rang.
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-3">
@@ -110,8 +110,8 @@ export default function SettingsPage() {
                 className="rounded-lg border border-border-strong bg-background-elevated px-2 py-1.5 text-sm outline-none"
               >
                 <option value="power">Power-Level</option>
-                <option value="trophies">Trophäen</option>
-                <option value="rank">Rang (Prestige)</option>
+                <option value="trophies">Trophäen (Prestige-Stufen: 1000/2000/3000)</option>
+                <option value="rank">Rang</option>
               </select>
               <input
                 type="number"
