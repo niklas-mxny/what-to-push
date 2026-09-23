@@ -1,6 +1,6 @@
 import "server-only";
 import { clubBadgeUrl, playerIconUrl } from "@/lib/brawlapi";
-import { getDb } from "@/lib/db";
+import { dbAll } from "@/lib/db";
 import { rankLeagueIcon } from "@/lib/fankit-ui";
 import { fetchClub, fetchOfficialBrawlers, fetchPlayer, normalizePlayerTag } from "@/lib/supercell";
 import type { Club } from "@/types/brawlstars";
@@ -17,11 +17,12 @@ function nameColorToCss(nameColor: string | undefined): string | null {
 }
 
 /** Site usernames for any of these tags that are linked to an account here. */
-function linkedUsernames(tags: string[]): Map<string, string> {
+async function linkedUsernames(tags: string[]): Promise<Map<string, string>> {
   if (tags.length === 0) return new Map();
-  const rows = getDb()
-    .prepare(`SELECT username, player_tag FROM users WHERE player_tag IN (${tags.map(() => "?").join(",")})`)
-    .all(...tags) as unknown as { username: string; player_tag: string }[];
+  const rows = await dbAll<{ username: string; player_tag: string }>(
+    `SELECT username, player_tag FROM users WHERE player_tag IN (${tags.map(() => "?").join(",")})`,
+    tags
+  );
   return new Map(rows.map((r) => [r.player_tag, r.username]));
 }
 
@@ -81,7 +82,7 @@ export async function loadPublicPlayer(tag: string): Promise<PublicPlayer> {
 export async function loadPublicClub(tag: string): Promise<PublicClub> {
   const c = await fetchClub(tag);
   const members = [...c.members].sort((a, b) => b.trophies - a.trophies);
-  const linked = linkedUsernames(members.map((m) => normalizePlayerTag(m.tag)));
+  const linked = await linkedUsernames(members.map((m) => normalizePlayerTag(m.tag)));
 
   return {
     tag: normalizePlayerTag(c.tag),

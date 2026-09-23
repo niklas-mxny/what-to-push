@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getDb } from "@/lib/db";
+import { dbGet } from "@/lib/db";
 import { MissingApiTokenError } from "@/lib/env";
 import { loadPublicPlayer } from "@/lib/player-profile";
 import { SupercellApiError } from "@/types/brawlstars";
@@ -11,9 +11,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ tag
 
   try {
     const player = await loadPublicPlayer(decodeURIComponent(tag));
-    const linked = getDb().prepare("SELECT username FROM users WHERE player_tag = ?").get(player.tag) as
-      | { username: string }
-      | undefined;
+    const linked = await dbGet<{ username: string }>("SELECT username FROM users WHERE player_tag = ?", [player.tag]);
     return NextResponse.json({ player, linkedUsername: linked?.username ?? null } satisfies PlayerResponse);
   } catch (err) {
     if (err instanceof MissingApiTokenError) {

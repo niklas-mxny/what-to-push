@@ -6,7 +6,7 @@ import {
   isValidUsername,
   normalizeUsername,
 } from "@/lib/auth";
-import { getDb } from "@/lib/db";
+import { dbGet, dbRun } from "@/lib/db";
 
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
@@ -26,9 +26,8 @@ export async function POST(request: Request) {
     );
   }
 
-  const db = getDb();
   const usernameLower = normalizeUsername(username);
-  const existing = db.prepare("SELECT id FROM users WHERE username_lower = ?").get(usernameLower);
+  const existing = await dbGet<{ id: number }>("SELECT id FROM users WHERE username_lower = ?", [usernameLower]);
   if (existing) {
     return NextResponse.json(
       { error: "That username is already taken.", code: "username_taken" },
@@ -37,12 +36,14 @@ export async function POST(request: Request) {
   }
 
   const passwordHash = hashPassword(password);
-  const result = db
-    .prepare("INSERT INTO users (username, username_lower, password_hash) VALUES (?, ?, ?)")
-    .run(username, usernameLower, passwordHash);
+  const result = await dbRun("INSERT INTO users (username, username_lower, password_hash) VALUES (?, ?, ?)", [
+    username,
+    usernameLower,
+    passwordHash,
+  ]);
   const userId = Number(result.lastInsertRowid);
 
-  const { token, expiresAt } = createSession(userId);
+  const { token, expiresAt } = await createSession(userId);
   const res = NextResponse.json({ username, playerTag: null });
   res.cookies.set(SESSION_COOKIE, token, {
     httpOnly: true,

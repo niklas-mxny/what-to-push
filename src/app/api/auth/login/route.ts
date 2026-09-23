@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { SESSION_COOKIE, createSession, normalizeUsername, verifyPassword } from "@/lib/auth";
-import { getDb } from "@/lib/db";
+import { dbGet } from "@/lib/db";
 
 interface UserRow {
   id: number;
@@ -18,16 +18,16 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Username and password are required.", code: "invalid_credentials" }, { status: 400 });
   }
 
-  const db = getDb();
-  const user = db
-    .prepare("SELECT id, username, password_hash, player_tag FROM users WHERE username_lower = ?")
-    .get(normalizeUsername(username)) as unknown as UserRow | undefined;
+  const user = await dbGet<UserRow>(
+    "SELECT id, username, password_hash, player_tag FROM users WHERE username_lower = ?",
+    [normalizeUsername(username)]
+  );
 
   if (!user || !verifyPassword(password, user.password_hash)) {
     return NextResponse.json({ error: "Incorrect username or password.", code: "invalid_credentials" }, { status: 401 });
   }
 
-  const { token, expiresAt } = createSession(user.id);
+  const { token, expiresAt } = await createSession(user.id);
   const res = NextResponse.json({ username: user.username, playerTag: user.player_tag });
   res.cookies.set(SESSION_COOKIE, token, {
     httpOnly: true,

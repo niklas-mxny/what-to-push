@@ -37,12 +37,14 @@ anderen IPs werden abgelehnt.
 
 ### 3. Datenbank (Accounts/Profile)
 
-Nutzt SQLite über Node.js' eingebautes `node:sqlite` (Node ≥ 22.5, experimentell,
-aber stabil genug — kein zusätzliches Paket, keine native Kompilierung nötig). Die
-Datei wird beim ersten Start automatisch unter `data/app.db` angelegt, inkl. Schema.
-Kein manueller Setup-Schritt nötig, aber: Serverless-Hosting (Vercel) funktioniert
-damit **nicht** (kein persistentes Dateisystem) — passt aber zum ohnehin nötigen
-VPS für die feste IP der Supercell API (siehe unten).
+SQLite über [`@libsql/client`](https://github.com/tursodatabase/libsql-client-ts)
+(Zugriff in [`src/lib/db.ts`](src/lib/db.ts)). Lokal ist das die Datei `data/app.db`,
+die beim ersten Start inkl. Schema automatisch angelegt wird — kein Setup nötig.
+Online (Vercel) ist es eine [Turso](https://turso.tech)-Datenbank mit demselben Schema,
+sobald `TURSO_DATABASE_URL`/`TURSO_AUTH_TOKEN` gesetzt sind (siehe Deployment).
+
+Passwort eines Accounts zurücksetzen: `node scripts/reset-password.mjs <username>`
+(mit gesetzten `TURSO_*`-Variablen für die Online-Datenbank).
 
 ### 4. Dev-Server starten
 
@@ -52,19 +54,25 @@ npm run dev
 
 Öffne [http://localhost:3000](http://localhost:3000).
 
-## Deployment / feste IP
+## Deployment (Vercel)
 
-Für den produktiven Betrieb braucht der Server, der die API-Routes ausführt, ebenfalls
-eine feste, bei Supercell freigegebene IP. Klassisches Serverless-Hosting (z.B. Vercel)
-hat **keine** feste ausgehende IP — Optionen:
+Das GitHub-Repo ist mit Vercel verbunden: jeder Push auf `main` wird automatisch
+als Production deployed, andere Branches bekommen eine Preview-URL.
 
-- **VPS mit fester IP** (z.B. Hetzner, DigitalOcean): einfachste Lösung, IP direkt bei
-  Supercell whitelisten.
-- **Vercel + Zwischen-Proxy** mit fester IP (z.B. ein kleiner Server, der die
-  Supercell-Requests weiterleitet).
+Vercel braucht zwei Dinge, die lokal nicht nötig sind:
 
-Das Projekt selbst ist Hosting-agnostisch — die API-Anbindung liegt komplett in
-[`src/lib/supercell.ts`](src/lib/supercell.ts).
+- **Datenbank:** Vercel hat kein dauerhaftes Dateisystem, `data/app.db` würde bei
+  jedem Deploy verschwinden. Deshalb Turso über den Vercel-Marketplace
+  (Projekt → Storage → Turso) mit dem Projekt verbinden; das setzt
+  `TURSO_DATABASE_URL` und `TURSO_AUTH_TOKEN`. Ohne diese Variablen bricht die App auf
+  Vercel mit einer klaren Fehlermeldung ab, statt Accounts still zu verlieren.
+- **Supercell-API ohne feste IP:** Vercel hat keine feste ausgehende IP. Die Anfragen
+  laufen deshalb über den [RoyaleAPI-Proxy](https://docs.royaleapi.com/proxy.html):
+  - auf developer.brawlstars.com einen zweiten Key für die IP `45.79.218.79` anlegen,
+  - in Vercel `BRAWL_STARS_API_TOKEN` = dieser Key,
+  - `BRAWL_STARS_API_BASE_URL` = `https://bsproxy.royaleapi.dev/v1`.
+
+Die API-Anbindung liegt komplett in [`src/lib/supercell.ts`](src/lib/supercell.ts).
 
 ## Architektur
 
@@ -109,7 +117,7 @@ Das Projekt selbst ist Hosting-agnostisch — die API-Anbindung liegt komplett i
 - `src/lib/storage.ts` — Spieler-Tag, Ziel und Sprache für die Empfehlungs-Engine
   werden lokal im Browser (`localStorage`) gespeichert — unabhängig vom Account-System
   (siehe unten), kein Login nötig, um die App zu nutzen.
-- `src/lib/db.ts` + `src/lib/auth.ts` — Accounts/Sessions: SQLite (`node:sqlite`,
+- `src/lib/db.ts` + `src/lib/auth.ts` — Accounts/Sessions: SQLite (libSQL: lokal Datei, online Turso,
   siehe Setup), Passwort-Hashing mit Node's `crypto.scrypt` (kein externes Paket),
   Session-Tokens in einer `sessions`-Tabelle, referenziert über ein httpOnly-Cookie.
   Kein OAuth/Verifizierung des Brawl-Stars-Tags möglich (Supercell bietet keine

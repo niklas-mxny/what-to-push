@@ -1,12 +1,14 @@
-// Local dev helper: set a new password for an existing account.
+// Set a new password for an existing account.
 // Usage: node scripts/reset-password.mjs <username>
-// The password is typed interactively (hidden) and hashed exactly like
-// src/lib/auth.ts#hashPassword. All of the user's sessions are revoked.
+// Online database: TURSO_DATABASE_URL=… TURSO_AUTH_TOKEN=… node scripts/reset-password.mjs <username>
+// (without them it's the local data/app.db). The password is typed
+// interactively (hidden) and hashed exactly like src/lib/auth.ts#hashPassword.
+// All of the user's sessions are revoked.
 
 import { randomBytes, scryptSync } from "node:crypto";
 import path from "node:path";
 import { createInterface } from "node:readline";
-import { DatabaseSync } from "node:sqlite";
+import { createClient } from "@libsql/client";
 
 const username = process.argv[2]?.trim();
 if (!username) {
@@ -14,8 +16,14 @@ if (!username) {
   process.exit(1);
 }
 
-const db = new DatabaseSync(path.join(import.meta.dirname, "..", "data", "app.db"));
-const user = db.prepare("SELECT id, username FROM users WHERE username_lower = ?").get(username.toLowerCase());
+const db = createClient(
+  process.env.TURSO_DATABASE_URL
+    ? { url: process.env.TURSO_DATABASE_URL, authToken: process.env.TURSO_AUTH_TOKEN }
+    : { url: `file:${path.join(import.meta.dirname, "..", "data", "app.db")}` }
+);
+const {
+  rows: [user],
+} = await db.execute({ sql: "SELECT id, username FROM users WHERE username_lower = ?", args: [username.toLowerCase()] });
 if (!user) {
   console.error(`No account named "${username}".`);
   process.exit(1);
@@ -49,6 +57,11 @@ if ((await askHidden("Repeat password: ")) !== password) {
 
 const salt = randomBytes(16).toString("hex");
 const hash = scryptSync(password, salt, 64).toString("hex");
-db.prepare("UPDATE users SET password_hash = ? WHERE id = ?").run(`${salt}:${hash}`, user.id);
-db.prepare("DELETE FROM sessions WHERE user_id = ?").run(user.id);
+await db.batch(
+  [
+    { sql: "UPDATE users SET password_hash = ? WHERE id = ?", args: [`${salt}:${hash}`, user.id] },
+    { sql: "DELETE FROM sessions WHERE user_id = ?", args: [user.id] },
+  ],
+  "write"
+);
 console.log(`Password for ${user.username} updated. Existing sessions were signed out.`);

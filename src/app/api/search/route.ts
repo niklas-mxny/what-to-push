@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { clubBadgeUrl, playerIconUrl } from "@/lib/brawlapi";
-import { getDb } from "@/lib/db";
+import { dbAll, dbGet } from "@/lib/db";
 import { fetchClub, fetchPlayer, normalizePlayerTag } from "@/lib/supercell";
 
 interface UserRow {
@@ -14,12 +14,10 @@ export async function GET(request: Request) {
     return NextResponse.json({ users: [], tagMatch: null, clubMatch: null });
   }
 
-  const db = getDb();
-  const users = db
-    .prepare(
-      "SELECT username, player_tag FROM users WHERE username_lower LIKE ? ORDER BY username COLLATE NOCASE LIMIT 20"
-    )
-    .all(`%${q.toLowerCase()}%`) as unknown as UserRow[];
+  const users = await dbAll<UserRow>(
+    "SELECT username, player_tag FROM users WHERE username_lower LIKE ? ORDER BY username COLLATE NOCASE LIMIT 20",
+    [`%${q.toLowerCase()}%`]
+  );
 
   // Also try the query as a direct player tag and club tag lookup (e.g.
   // "#2Y8VQGCCV") — works for any Brawl Stars tag, not just ones linked to an
@@ -42,9 +40,9 @@ export async function GET(request: Request) {
     if (player) {
       // player_tag is stored without the leading '#' (see normalizePlayerTag), but
       // the Supercell API always returns player.tag with it — strip it to match.
-      const linked = db
-        .prepare("SELECT username FROM users WHERE player_tag = ?")
-        .get(normalizePlayerTag(player.tag)) as { username: string } | undefined;
+      const linked = await dbGet<{ username: string }>("SELECT username FROM users WHERE player_tag = ?", [
+        normalizePlayerTag(player.tag),
+      ]);
       tagMatch = {
         tag: normalizePlayerTag(player.tag),
         name: player.name,

@@ -1,13 +1,13 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { SESSION_COOKIE, getUserBySession } from "@/lib/auth";
-import { getDb } from "@/lib/db";
+import { dbRun } from "@/lib/db";
 import { fetchPlayer, normalizePlayerTag } from "@/lib/supercell";
 import { SupercellApiError } from "@/types/brawlstars";
 
 export async function POST(request: Request) {
   const cookieStore = await cookies();
-  const user = getUserBySession(cookieStore.get(SESSION_COOKIE)?.value);
+  const user = await getUserBySession(cookieStore.get(SESSION_COOKIE)?.value);
   if (!user) {
     return NextResponse.json({ error: "Not signed in.", code: "not_authenticated" }, { status: 401 });
   }
@@ -31,6 +31,6 @@ export async function POST(request: Request) {
     throw err;
   }
 
-  getDb().prepare("UPDATE users SET player_tag = ? WHERE id = ?").run(tag, user.id);
+  await dbRun("UPDATE users SET player_tag = ? WHERE id = ?", [tag, user.id]);
   return NextResponse.json({ username: user.username, playerTag: tag });
 }

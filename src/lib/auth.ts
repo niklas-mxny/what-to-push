@@ -1,7 +1,7 @@
 import "server-only";
 import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
-import { getDb } from "@/lib/db";
+import { dbGet, dbRun } from "@/lib/db";
 
 export const SESSION_COOKIE = "wtp_session";
 const SESSION_DURATION_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
@@ -27,17 +27,19 @@ export function verifyPassword(password: string, stored: string): boolean {
   return timingSafeEqual(hashBuffer, candidate);
 }
 
-export function createSession(userId: number): { token: string; expiresAt: Date } {
+export async function createSession(userId: number): Promise<{ token: string; expiresAt: Date }> {
   const token = randomBytes(32).toString("hex");
   const expiresAt = new Date(Date.now() + SESSION_DURATION_MS);
-  getDb()
-    .prepare("INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)")
-    .run(token, userId, expiresAt.toISOString());
+  await dbRun("INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)", [
+    token,
+    userId,
+    expiresAt.toISOString(),
+  ]);
   return { token, expiresAt };
 }
 
-export function destroySession(token: string): void {
-  getDb().prepare("DELETE FROM sessions WHERE id = ?").run(token);
+export async function destroySession(token: string): Promise<void> {
+  await dbRun("DELETE FROM sessions WHERE id = ?", [token]);
 }
 
 interface SessionRow {
@@ -47,19 +49,18 @@ interface SessionRow {
   expiresAt: string;
 }
 
-export function getUserBySession(token: string | undefined): AuthUser | null {
+export async function getUserBySession(token: string | undefined): Promise<AuthUser | null> {
   if (!token) return null;
-  const row = getDb()
-    .prepare(
-      `SELECT users.id AS id, users.username AS username, users.player_tag AS playerTag, sessions.expires_at AS expiresAt
-       FROM sessions JOIN users ON users.id = sessions.user_id
-       WHERE sessions.id = ?`
-    )
-    .get(token) as unknown as SessionRow | undefined;
+  const row = await dbGet<SessionRow>(
+    `SELECT users.id AS id, users.username AS username, users.player_tag AS playerTag, sessions.expires_at AS expiresAt
+     FROM sessions JOIN users ON users.id = sessions.user_id
+     WHERE sessions.id = ?`,
+    [token]
+  );
 
   if (!row) return null;
   if (new Date(row.expiresAt).getTime() < Date.now()) {
-    destroySession(token);
+    await destroySession(token);
     return null;
   }
   return { id: row.id, username: row.username, playerTag: row.playerTag };

@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { SESSION_COOKIE, getCurrentUser, hashPassword, verifyPassword } from "@/lib/auth";
-import { getDb } from "@/lib/db";
+import { dbGet, dbRun } from "@/lib/db";
 
 /**
  * Change the signed-in user's password (the in-app counterpart of
@@ -25,17 +25,14 @@ export async function POST(request: Request) {
     );
   }
 
-  const db = getDb();
-  const row = db.prepare("SELECT password_hash FROM users WHERE id = ?").get(user.id) as unknown as
-    | { password_hash: string }
-    | undefined;
+  const row = await dbGet<{ password_hash: string }>("SELECT password_hash FROM users WHERE id = ?", [user.id]);
   if (!row || !verifyPassword(currentPassword, row.password_hash)) {
     return NextResponse.json({ error: "Current password is incorrect.", code: "wrong_password" }, { status: 400 });
   }
 
   const currentSession = (await cookies()).get(SESSION_COOKIE)?.value ?? "";
-  db.prepare("UPDATE users SET password_hash = ? WHERE id = ?").run(hashPassword(newPassword), user.id);
-  db.prepare("DELETE FROM sessions WHERE user_id = ? AND id != ?").run(user.id, currentSession);
+  await dbRun("UPDATE users SET password_hash = ? WHERE id = ?", [hashPassword(newPassword), user.id]);
+  await dbRun("DELETE FROM sessions WHERE user_id = ? AND id != ?", [user.id, currentSession]);
 
   return NextResponse.json({ ok: true });
 }

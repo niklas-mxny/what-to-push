@@ -11,7 +11,11 @@ import {
 
 export { normalizePlayerTag };
 
-const BASE_URL = "https://api.brawlstars.com/v1";
+// Supercell keys only work from the IP addresses they were created for. Hosts
+// without a fixed outgoing IP (Vercel) go through the RoyaleAPI proxy instead:
+// BRAWL_STARS_API_BASE_URL=https://bsproxy.royaleapi.dev/v1 with a key created
+// for 45.79.218.79.
+const BASE_URL = process.env.BRAWL_STARS_API_BASE_URL || "https://api.brawlstars.com/v1";
 
 /**
  * `revalidateSeconds` opts a request into Next's data cache. Only use it for
