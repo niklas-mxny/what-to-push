@@ -13,16 +13,22 @@ export { normalizePlayerTag };
 
 const BASE_URL = "https://api.brawlstars.com/v1";
 
-async function scFetch<T>(path: string): Promise<T> {
+/**
+ * `revalidateSeconds` opts a request into Next's data cache. Only use it for
+ * slow-changing data: time-based revalidation is stale-while-revalidate, so the
+ * first request after a long gap (e.g. a dev-server restart the next day) gets
+ * the *old* response — for the rotation that meant yesterday's already-ended
+ * slots, which were then filtered out, leaving just two modes on the dashboard.
+ * Live data (rotation, players, clubs) is therefore always fetched fresh.
+ */
+async function scFetch<T>(path: string, revalidateSeconds?: number): Promise<T> {
   const token = getApiToken();
   const res = await fetch(`${BASE_URL}${path}`, {
     headers: {
       Authorization: `Bearer ${token}`,
       Accept: "application/json",
     },
-    // Rotation and player data change frequently; keep requests fresh but avoid
-    // hammering the API on every render.
-    next: { revalidate: 30 },
+    ...(revalidateSeconds ? { next: { revalidate: revalidateSeconds } } : { cache: "no-store" as const }),
   });
 
   if (!res.ok) {
@@ -66,5 +72,6 @@ export function fetchRotation(): Promise<EventRotation> {
 }
 
 export function fetchOfficialBrawlers(): Promise<SupercellBrawlerList> {
-  return scFetch<SupercellBrawlerList>(`/brawlers`);
+  // The brawler list only changes when a new brawler is released.
+  return scFetch<SupercellBrawlerList>(`/brawlers`, 3600);
 }

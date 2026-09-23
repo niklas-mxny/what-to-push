@@ -48,28 +48,59 @@ function toApiError(err: unknown): ApiError {
   return { message: err instanceof Error ? err.message : String(err) };
 }
 
+const ROTATION_REFRESH_AFTER_HIDDEN_MS = 5 * 60_000;
+
+/**
+ * The current rotation. Refetches on its own when the earliest slot ends and
+ * when the tab becomes visible again after a while, so a dashboard left open
+ * overnight doesn't keep showing (or silently drop) yesterday's slots.
+ */
 export function useRotation(): ApiState<ActiveSlot[]> {
-  const [state, setState] = useState<ApiState<ActiveSlot[]>>({
+  const [state, setState] = useState<ApiState<ActiveSlot[]> & { fetchedAt: number }>({
     data: null,
     error: null,
     loading: true,
+    fetchedAt: 0,
   });
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
     fetchJson<RotationResponse>("/api/rotation")
       .then((res) => {
-        if (!cancelled) setState({ data: res.slots, error: null, loading: false });
+        if (!cancelled) setState({ data: res.slots, error: null, loading: false, fetchedAt: Date.now() });
       })
       .catch((err: unknown) => {
-        if (!cancelled) setState({ data: null, error: toApiError(err), loading: false });
+        if (!cancelled) setState({ data: null, error: toApiError(err), loading: false, fetchedAt: Date.now() });
       });
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [reloadKey]);
 
-  return state;
+  const { data, fetchedAt } = state;
+
+  useEffect(() => {
+    if (!data || data.length === 0) return;
+    const nextEnd = Math.min(...data.map((s) => new Date(s.endTime).getTime()));
+    // A few seconds of slack so the API has already rotated the slot.
+    const delay = Math.max(nextEnd - Date.now() + 5_000, 5_000);
+    // setTimeout can't hold more than ~24.8 days; a rotation slot never lasts that long.
+    const timer = setTimeout(() => setReloadKey((k) => k + 1), Math.min(delay, 2 ** 31 - 1));
+    return () => clearTimeout(timer);
+  }, [data]);
+
+  useEffect(() => {
+    function onVisible() {
+      if (document.visibilityState === "visible" && Date.now() - fetchedAt > ROTATION_REFRESH_AFTER_HIDDEN_MS) {
+        setReloadKey((k) => k + 1);
+      }
+    }
+    document.addEventListener("visibilitychange", onVisible);
+    return () => document.removeEventListener("visibilitychange", onVisible);
+  }, [fetchedAt]);
+
+  return { data: state.data, error: state.error, loading: state.loading };
 }
 
 export function useRoster(tag: string, hydrated: boolean): ApiState<RosterResponse> {
