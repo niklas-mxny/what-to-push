@@ -1,7 +1,6 @@
 "use client";
 
 import { Sparkles } from "lucide-react";
-import { useOpenBrawlerDetails } from "@/components/BrawlerDetails";
 import { BrawlerIcon } from "@/components/BrawlerIcon";
 import { BuildIcons } from "@/components/BuildIcons";
 import { GameIcon } from "@/components/GameIcon";
@@ -11,9 +10,14 @@ import { MODE_ICONS } from "@/lib/fankit-ui";
 import { formatReasons, useT } from "@/lib/i18n";
 import type { SlotRecommendation } from "@/types/domain";
 
-export function BestPickHero({ recommendations }: { recommendations: SlotRecommendation[] }) {
+export function BestPickHero({
+  recommendations,
+  onOpen,
+}: {
+  recommendations: SlotRecommendation[];
+  onOpen: (rec: SlotRecommendation, brawlerKey: string) => void;
+}) {
   const t = useT();
-  const openDetails = useOpenBrawlerDetails();
   let best: { rec: SlotRecommendation } | null = null;
   for (const rec of recommendations) {
     if (rec.picks[0] && (!best || rec.picks[0].score > best.rec.picks[0].score)) {
@@ -29,8 +33,8 @@ export function BestPickHero({ recommendations }: { recommendations: SlotRecomme
       <div className="absolute -right-10 -top-10 h-40 w-40 animate-pulse rounded-full bg-accent/20 blur-3xl" />
       <button
         type="button"
-        onClick={() => openDetails(pick.brawler)}
-        aria-label={t("brawler.details", { name: pick.brawler.name })}
+        onClick={() => onOpen(best.rec, pick.brawler.key)}
+        aria-label={t("slot.open", { mode: best.rec.slot.modeLabel, map: best.rec.slot.mapName })}
         className="absolute inset-0 z-10 rounded-card outline-none focus-visible:ring-2 focus-visible:ring-primary"
       />
       <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

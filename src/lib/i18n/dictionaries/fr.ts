@@ -28,6 +28,12 @@ const fr: Record<DictionaryKey, string> = {
   "dashboard.moreOptions": "Autres options",
   "dashboard.bestPick": "Meilleur choix actuel",
 
+  "slot.open": "{mode} · {map} : carte et builds",
+  "slot.build": "Build",
+  "slot.allDetails": "Tous les détails",
+  "slot.options": "Options de brawler",
+  "slot.top": "Top",
+
   "time.endingSoon": "se termine bientôt",
   "time.days": "encore {d}j {h}h",
   "time.hours": "encore {h}h {m}m",

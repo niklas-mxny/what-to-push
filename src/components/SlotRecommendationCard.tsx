@@ -2,36 +2,37 @@
 
 import Image from "next/image";
 import { Clock } from "lucide-react";
-import { useOpenBrawlerDetails } from "@/components/BrawlerDetails";
 import { BrawlerIcon } from "@/components/BrawlerIcon";
 import { BuildIcons } from "@/components/BuildIcons";
 import { GameIcon } from "@/components/GameIcon";
 import { RoleBadge } from "@/components/RoleBadge";
+import { timeUntil } from "@/components/SlotDetails";
 import { Badge } from "@/components/ui/Badge";
 import { Card, CardContent } from "@/components/ui/Card";
 import { MODE_ICONS } from "@/lib/fankit-ui";
 import { formatReasons, useT } from "@/lib/i18n";
-import type { TFunction } from "@/lib/i18n";
 import type { SlotRecommendation } from "@/types/domain";
 
-function timeUntil(t: TFunction, iso: string): string {
-  const diffMs = new Date(iso).getTime() - Date.now();
-  if (diffMs <= 0) return t("time.endingSoon");
-  const hours = Math.floor(diffMs / 3_600_000);
-  const minutes = Math.floor((diffMs % 3_600_000) / 60_000);
-  if (hours >= 24) return t("time.days", { d: Math.floor(hours / 24), h: hours % 24 });
-  if (hours > 0) return t("time.hours", { h: hours, m: minutes });
-  return t("time.minutes", { m: minutes });
-}
-
-export function SlotRecommendationCard({ rec }: { rec: SlotRecommendation }) {
+/** One rotation slot. Clicking the map header or any brawler opens the slot view (map + build). */
+export function SlotRecommendationCard({
+  rec,
+  onOpen,
+}: {
+  rec: SlotRecommendation;
+  onOpen: (brawlerKey?: string) => void;
+}) {
   const t = useT();
-  const openDetails = useOpenBrawlerDetails();
   const top = rec.picks[0];
 
   return (
     <Card className="overflow-hidden" interactive>
       <div className="relative h-28 w-full bg-background-elevated">
+        <button
+          type="button"
+          onClick={() => onOpen()}
+          aria-label={t("slot.open", { mode: rec.slot.modeLabel, map: rec.slot.mapName })}
+          className="absolute inset-0 z-10 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
+        />
         {rec.slot.mapImageUrl && (
           <Image
             src={rec.slot.mapImageUrl}
@@ -64,8 +65,8 @@ export function SlotRecommendationCard({ rec }: { rec: SlotRecommendation }) {
           <div className="relative flex items-center gap-3 rounded-xl border border-primary/30 bg-primary/10 p-3 transition-colors hover:border-primary/60 hover:bg-primary/15">
             <button
               type="button"
-              onClick={() => openDetails(top.brawler)}
-              aria-label={t("brawler.details", { name: top.brawler.name })}
+              onClick={() => onOpen(top.brawler.key)}
+              aria-label={t("slot.open", { mode: rec.slot.modeLabel, map: rec.slot.mapName })}
               className="absolute inset-0 z-10 rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-primary"
             />
             <BrawlerIcon brawler={top.brawler} size={52} />
@@ -91,26 +92,20 @@ export function SlotRecommendationCard({ rec }: { rec: SlotRecommendation }) {
             </p>
             <div className="flex gap-2 overflow-x-auto scrollbar-thin pb-1">
               {rec.picks.slice(1).map((pick) => (
-                <div
+                <button
                   key={pick.brawler.key}
-                  className="group relative flex shrink-0 flex-col items-center gap-1"
-                  title={formatReasons(t, pick.reasons)}
+                  type="button"
+                  onClick={() => onOpen(pick.brawler.key)}
+                  aria-label={pick.brawler.name}
+                  title={`${pick.brawler.name} — ${formatReasons(t, pick.reasons)}`}
+                  className="group shrink-0 rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-primary"
                 >
-                  <button
-                    type="button"
-                    onClick={() => openDetails(pick.brawler)}
-                    aria-label={t("brawler.details", { name: pick.brawler.name })}
-                    className="absolute inset-0 z-10 rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                  />
                   <BrawlerIcon
                     brawler={pick.brawler}
-                    size={36}
+                    size={40}
                     className="transition-all duration-200 group-hover:-translate-y-0.5 group-hover:ring-2 group-hover:ring-primary/60"
                   />
-                  <span className="max-w-[3.5rem] truncate text-[11px] text-muted">
-                    {pick.brawler.name}
-                  </span>
-                </div>
+                </button>
               ))}
             </div>
           </div>

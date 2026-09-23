@@ -26,6 +26,12 @@ const zh: Record<DictionaryKey, string> = {
   "dashboard.moreOptions": "更多选项",
   "dashboard.bestPick": "当前最佳选择",
 
+  "slot.open": "{mode} · {map}：地图和配置",
+  "slot.build": "配置",
+  "slot.allDetails": "全部详情",
+  "slot.options": "角色选项",
+  "slot.top": "首选",
+
   "time.endingSoon": "即将结束",
   "time.days": "剩余{d}天{h}小时",
   "time.hours": "剩余{h}小时{m}分钟",

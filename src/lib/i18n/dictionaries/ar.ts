@@ -27,6 +27,12 @@ const ar: Record<DictionaryKey, string> = {
   "dashboard.moreOptions": "خيارات أخرى",
   "dashboard.bestPick": "أفضل اختيار الآن",
 
+  "slot.open": "{mode} · {map}: الخريطة والتجهيزات",
+  "slot.build": "التجهيز",
+  "slot.allDetails": "كل التفاصيل",
+  "slot.options": "خيارات المقاتلين",
+  "slot.top": "الأفضل",
+
   "time.endingSoon": "ينتهي قريبًا",
   "time.days": "باقي {d} يوم {h} ساعة",
   "time.hours": "باقي {h} ساعة {m} دقيقة",

@@ -27,6 +27,12 @@ const ru: Record<DictionaryKey, string> = {
   "dashboard.moreOptions": "Другие варианты",
   "dashboard.bestPick": "Лучший выбор прямо сейчас",
 
+  "slot.open": "{mode} · {map}: карта и сборки",
+  "slot.build": "Сборка",
+  "slot.allDetails": "Все подробности",
+  "slot.options": "Варианты бойцов",
+  "slot.top": "Топ",
+
   "time.endingSoon": "скоро закончится",
   "time.days": "осталось {d}д {h}ч",
   "time.hours": "осталось {h}ч {m}м",

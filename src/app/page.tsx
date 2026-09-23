@@ -1,10 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { ApiErrorNotice } from "@/components/ApiErrorNotice";
 import { BestPickHero } from "@/components/BestPickHero";
 import { GoalProgress } from "@/components/GoalProgress";
 import { GoalSelect } from "@/components/GoalSelect";
+import { SlotDetailsModal } from "@/components/SlotDetails";
 import { SlotRecommendationCard } from "@/components/SlotRecommendationCard";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent } from "@/components/ui/Card";
@@ -26,6 +28,10 @@ export default function DashboardPage() {
 
   const recommendations =
     rotation.data && roster.data ? recommendForAllSlots(rotation.data, roster.data.roster, goal) : [];
+
+  // Looked up by slot ID on every render, so the open view follows fresh data.
+  const [openSlot, setOpenSlot] = useState<{ slotId: number; brawlerKey?: string } | null>(null);
+  const openRec = openSlot ? (recommendations.find((r) => r.slot.slotId === openSlot.slotId) ?? null) : null;
 
   return (
     <div className="flex flex-col gap-6">
@@ -71,14 +77,23 @@ export default function DashboardPage() {
 
       {!loading && !error && recommendations.length > 0 && (
         <>
-          <BestPickHero recommendations={recommendations} />
+          <BestPickHero
+            recommendations={recommendations}
+            onOpen={(rec, brawlerKey) => setOpenSlot({ slotId: rec.slot.slotId, brawlerKey })}
+          />
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {recommendations.map((rec) => (
-              <SlotRecommendationCard key={rec.slot.slotId} rec={rec} />
+              <SlotRecommendationCard
+                key={rec.slot.slotId}
+                rec={rec}
+                onOpen={(brawlerKey) => setOpenSlot({ slotId: rec.slot.slotId, brawlerKey })}
+              />
             ))}
           </div>
         </>
       )}
+
+      <SlotDetailsModal rec={openRec} initialBrawlerKey={openSlot?.brawlerKey} onClose={() => setOpenSlot(null)} />
 
       {!loading && !error && recommendations.length === 0 && (
         <Card>

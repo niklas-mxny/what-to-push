@@ -27,6 +27,12 @@ const ko: Record<DictionaryKey, string> = {
   "dashboard.moreOptions": "다른 옵션",
   "dashboard.bestPick": "지금 가장 좋은 선택",
 
+  "slot.open": "{mode} · {map}: 맵 및 빌드",
+  "slot.build": "빌드",
+  "slot.allDetails": "상세 정보",
+  "slot.options": "브롤러 선택지",
+  "slot.top": "최고",
+
   "time.endingSoon": "곧 종료",
   "time.days": "{d}일 {h}시간 남음",
   "time.hours": "{h}시간 {m}분 남음",

@@ -28,6 +28,12 @@ const es: Record<DictionaryKey, string> = {
   "dashboard.moreOptions": "Más opciones",
   "dashboard.bestPick": "Mejor opción ahora mismo",
 
+  "slot.open": "{mode} · {map}: mapa y builds",
+  "slot.build": "Build",
+  "slot.allDetails": "Todos los detalles",
+  "slot.options": "Opciones de brawler",
+  "slot.top": "Top",
+
   "time.endingSoon": "termina pronto",
   "time.days": "quedan {d}d {h}h",
   "time.hours": "quedan {h}h {m}m",

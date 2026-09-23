@@ -25,6 +25,12 @@ const en = {
   "dashboard.moreOptions": "More options",
   "dashboard.bestPick": "Best pick right now",
 
+  "slot.open": "{mode} · {map}: map and builds",
+  "slot.build": "Build",
+  "slot.allDetails": "All details",
+  "slot.options": "Brawler options",
+  "slot.top": "Top",
+
   "time.endingSoon": "ending soon",
   "time.days": "{d}d {h}h left",
   "time.hours": "{h}h {m}m left",

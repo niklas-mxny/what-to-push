@@ -27,6 +27,12 @@ const ja: Record<DictionaryKey, string> = {
   "dashboard.moreOptions": "その他の候補",
   "dashboard.bestPick": "今のベストな選択",
 
+  "slot.open": "{mode} · {map}：マップとビルド",
+  "slot.build": "ビルド",
+  "slot.allDetails": "すべての詳細",
+  "slot.options": "ブロウラーの候補",
+  "slot.top": "トップ",
+
   "time.endingSoon": "まもなく終了",
   "time.days": "残り{d}日{h}時間",
   "time.hours": "残り{h}時間{m}分",
