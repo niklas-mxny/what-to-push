@@ -1,7 +1,7 @@
 import "server-only";
 import { clubBadgeUrl, playerIconUrl } from "@/lib/brawlapi";
 import { getDb } from "@/lib/db";
-import { fameIcon, rankLeagueIcon } from "@/lib/fankit-ui";
+import { rankLeagueIcon } from "@/lib/fankit-ui";
 import { fetchClub, fetchOfficialBrawlers, fetchPlayer, normalizePlayerTag } from "@/lib/supercell";
 import type { Club } from "@/types/brawlstars";
 import type { PlayerClub, PublicClub, PublicPlayer } from "@/types/profile";
@@ -71,10 +71,7 @@ export async function loadPublicPlayer(tag: string): Promise<PublicPlayer> {
     brawlersOwned: p.brawlers.length,
     totalBrawlers: official.items.length,
     brawlerTrophies: p.brawlers.map((b) => b.trophies),
-    fame:
-      p.fame && p.fameTierName
-        ? { value: p.fame, tierName: p.fameTierName, iconUrl: fameIcon(p.fameTierName) ?? null }
-        : null,
+    fame: p.fame && p.fameTierName ? { value: p.fame, tierName: p.fameTierName } : null,
     rankedCurrent: rankInfo(p.rankedRankName, p.rankedElo),
     rankedHighest: rankInfo(p.highestAllTimeRankedRankName, p.highestAllTimeRankedElo),
   };

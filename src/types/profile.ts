@@ -11,7 +11,6 @@ export interface RankInfo {
 export interface FameInfo {
   value: number;
   tierName: string;
-  iconUrl: string | null;
 }
 
 /** The player's club, with details when the club lookup succeeded. */

@@ -1,7 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { Medal, Shield } from "lucide-react";
+import { Medal } from "lucide-react";
+import { FameIcon } from "@/components/FameIcon";
 import { ClubCard } from "@/components/profile/ClubCard";
 import { GameIcon } from "@/components/GameIcon";
 import { GoalComparison } from "@/components/profile/GoalComparison";
@@ -93,14 +94,7 @@ export function PlayerStats({ player: p }: { player: PublicPlayer }) {
       {p.fame && (
         <Card interactive>
           <CardContent className="flex items-center gap-4">
-            <span className="flex h-14 w-14 shrink-0 items-center justify-center">
-              <GameIcon
-                src={p.fame.iconUrl ?? undefined}
-                alt={p.fame.tierName}
-                size={52}
-                fallback={<Shield className="h-6 w-6 text-accent" />}
-              />
-            </span>
+            <FameIcon tierName={p.fame.tierName} size={72} />
             <div className="min-w-0">
               <p className="text-xs font-medium uppercase tracking-wide text-muted-2">{t("profile.fame.title")}</p>
               <p className="truncate font-display text-base font-bold">{p.fame.tierName}</p>

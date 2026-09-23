@@ -47,36 +47,67 @@ export function rankLeagueIcon(rankName: string): string | undefined {
   return file && fanKitImage(file);
 }
 
-// Fame tiers are planets (Earth → Moon → Mars → Saturn → Sun), then Meteoric.
-// Only Earth has a separate icon per division (1–3 stars).
-const FAME_ICONS = {
-  earth: ["eMQPpppj5c1uyTL1wqFz.png", "xoVT9DGrQBzckXcAGZap.png", "G5Jgn2pptXEVXC1NJDc9.png"],
-  moon: "6JAksQ6ynkkPiULUMzwh.png",
-  mars: "C8gzgi2AnUNaWWWK58uw.png",
-  saturn: "YkpeZLvsoZCapkbRwoCs.png",
-  sun: "3exkbMxukiWWgepHHjd6.png",
-  meteoric: "LnD6V648qAvniJ7KJDu1.png",
+// Fame tiers are planets (Earth → Moon → Mars → Saturn → Sun), then Meteoric,
+// each with divisions I–III shown as 1–3 stars under the planet. The fan kit only
+// has all three star variants for Earth; the other planets exist with one star.
+type FamePlanet = "earth" | "moon" | "mars" | "saturn" | "sun" | "meteoric";
+
+const FAME_ART: Record<FamePlanet, { files: string[]; aspect: number; star?: { x: number; y: number; w: number } }> = {
+  // `aspect` = width / height of the art; `star` = the (single) star's centre and
+  // width in % of the art box, measured from the fan kit files.
+  earth: {
+    files: ["eMQPpppj5c1uyTL1wqFz.png", "xoVT9DGrQBzckXcAGZap.png", "G5Jgn2pptXEVXC1NJDc9.png"],
+    aspect: 1024 / 1200,
+    star: { x: 50.3, y: 80.9, w: 36 },
+  },
+  moon: { files: ["6JAksQ6ynkkPiULUMzwh.png"], aspect: 1024 / 1200, star: { x: 50.3, y: 80.9, w: 36 } },
+  mars: { files: ["C8gzgi2AnUNaWWWK58uw.png"], aspect: 1024 / 1200, star: { x: 50.3, y: 80.9, w: 36 } },
+  saturn: { files: ["YkpeZLvsoZCapkbRwoCs.png"], aspect: 1352 / 1200, star: { x: 50, y: 80, w: 28 } },
+  sun: { files: ["3exkbMxukiWWgepHHjd6.png"], aspect: 1333 / 1354, star: { x: 50, y: 82.5, w: 28 } },
+  meteoric: { files: ["LnD6V648qAvniJ7KJDu1.png"], aspect: 996 / 1330 },
 };
 
-/** Icon for a fame tier name like "MARTIAN FAME II"; undefined for an unrecognized tier. */
-export function fameIcon(tierName: string): string | undefined {
+export interface FameArt {
+  url: string;
+  aspect: number;
+  /** 1–3, or null for a tier without divisions (Meteoric). */
+  division: number | null;
+  /**
+   * Set when the art shows the wrong division (only Earth has 2- and 3-star art):
+   * where the art's single star is, so it can be covered by a division badge.
+   */
+  coverStar?: { x: number; y: number; w: number };
+}
+
+/** Art for a fame tier name like "MARTIAN FAME II"; undefined for an unrecognized tier. */
+export function fameArt(tierName: string): FameArt | undefined {
   const name = tierName.toUpperCase();
-  const divisions: Record<string, number> = { I: 0, II: 1, III: 2 };
-  const division = divisions[name.trim().split(/\s+/).pop() ?? ""] ?? 0;
-  const file = /EARTH|TERRA/.test(name)
-    ? FAME_ICONS.earth[division]
+  const planet: FamePlanet | undefined = /EARTH|TERRA/.test(name)
+    ? "earth"
     : /MOON|LUNAR/.test(name)
-      ? FAME_ICONS.moon
+      ? "moon"
       : /MARS|MARTIAN/.test(name)
-        ? FAME_ICONS.mars
+        ? "mars"
         : /SATURN/.test(name)
-          ? FAME_ICONS.saturn
+          ? "saturn"
           : /SUN|SOLAR/.test(name)
-            ? FAME_ICONS.sun
+            ? "sun"
             : /METEOR/.test(name)
-              ? FAME_ICONS.meteoric
+              ? "meteoric"
               : undefined;
-  return file && fanKitImage(file);
+  if (!planet) return undefined;
+
+  const numerals: Record<string, number> = { I: 1, II: 2, III: 3 };
+  const division = numerals[name.trim().split(/\s+/).pop() ?? ""] ?? null;
+  const art = FAME_ART[planet];
+  const file = art.files[(division ?? 1) - 1] ?? art.files[0];
+  const exact = division === null || division <= art.files.length;
+  return {
+    url: fanKitImage(file, 256),
+    aspect: art.aspect,
+    division,
+    coverStar: exact ? undefined : art.star,
+  };
 }
 
 export const CLASS_ICONS: Partial<Record<BrawlerRole, string>> = {
