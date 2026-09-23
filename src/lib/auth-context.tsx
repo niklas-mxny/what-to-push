@@ -22,6 +22,7 @@ interface AuthContextValue {
   login: (username: string, password: string) => Promise<ActionResult>;
   logout: () => Promise<void>;
   linkTag: (tag: string) => Promise<ActionResult>;
+  changePassword: (currentPassword: string, newPassword: string) => Promise<ActionResult>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -80,8 +81,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { ok: true };
   }, []);
 
+  const changePassword = useCallback(async (currentPassword: string, newPassword: string): Promise<ActionResult> => {
+    const { ok, data } = await postJson("/api/account/password", { currentPassword, newPassword });
+    if (!ok) return { ok: false, error: data.error ?? "Couldn't change the password.", code: data.code };
+    return { ok: true };
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ user, loading, signup, login, logout, linkTag }}>
+    <AuthContext.Provider value={{ user, loading, signup, login, logout, linkTag, changePassword }}>
       {children}
     </AuthContext.Provider>
   );

@@ -14,6 +14,7 @@ const KNOWN_CODES = new Set([
   "invalid_credentials",
   "not_authenticated",
   "invalid_tag",
+  "wrong_password",
 ]);
 
 /** Translates a server ApiError by its stable `code`; falls back to the raw (English) server message for an unrecognized code. */

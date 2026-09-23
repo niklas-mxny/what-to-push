@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Check, Link2 } from "lucide-react";
+import { ChangePasswordCard } from "@/components/ChangePasswordCard";
 import { GoalSelect } from "@/components/GoalSelect";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { Button } from "@/components/ui/Button";
@@ -87,6 +88,8 @@ export default function SettingsPage() {
           )}
         </CardContent>
       </Card>
+
+      {user && <ChangePasswordCard />}
 
       <Card className="relative z-20">
         <CardHeader>
