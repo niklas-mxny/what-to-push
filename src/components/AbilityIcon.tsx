@@ -38,9 +38,15 @@ export function AbilityIcon({
   title?: string;
   className?: string;
 }) {
+  // Block-level flex boxes of exactly size×size: inline-block would sit on the
+  // text baseline and pick up descender space, shifting icons out of line.
   if (kind === "hypercharge") {
     return (
-      <span className={cn("inline-block shrink-0", className)} title={title} style={{ width: size, height: size }}>
+      <span
+        className={cn("flex shrink-0 items-center justify-center", className)}
+        title={title}
+        style={{ width: size, height: size }}
+      >
         <GameIcon
           src={src}
           alt={alt}
@@ -53,7 +59,7 @@ export function AbilityIcon({
 
   const inFrame = (
     <span
-      className={cn("relative inline-block shrink-0", className)}
+      className={cn("relative flex shrink-0 items-center justify-center", className)}
       style={{ width: size, height: size }}
       title={title}
       role={alt ? "img" : undefined}
@@ -73,7 +79,11 @@ export function AbilityIcon({
 
   if (!framed || !src) return inFrame;
   return (
-    <span className={cn("inline-block shrink-0", className)} title={title} style={{ width: size, height: size }}>
+    <span
+      className={cn("flex shrink-0 items-center justify-center", className)}
+      title={title}
+      style={{ width: size, height: size }}
+    >
       <GameIcon src={src} alt={alt} size={size} fallback={inFrame} />
     </span>
   );

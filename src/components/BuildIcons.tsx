@@ -1,27 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import { useState } from "react";
 import { AbilityIcon, type AbilityKind } from "@/components/AbilityIcon";
+import { GameIcon } from "@/components/GameIcon";
 import { useT } from "@/lib/i18n";
 import type { MergedBrawler, UnlockedUpgrade } from "@/types/domain";
 
-function GearIcon({ item, size = 22 }: { item: UnlockedUpgrade; size?: number }) {
-  const [failed, setFailed] = useState(false);
-  if (!item.iconUrl || failed) return null;
-  return (
-    <Image
-      src={item.iconUrl}
-      alt={item.name}
-      title={item.name}
-      width={size}
-      height={size}
-      unoptimized
-      onError={() => setFailed(true)}
-      className="object-contain drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]"
-    />
-  );
-}
+const ICON_SHADOW = "drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]";
 
 /**
  * Only one Star Power and one Gadget can ever be active in a match at a time —
@@ -33,36 +17,36 @@ function GearIcon({ item, size = 22 }: { item: UnlockedUpgrade; size?: number })
 function UpgradeSlot({
   kind,
   items,
-  size = 22,
+  size,
   title,
 }: {
   kind: AbilityKind;
   items: UnlockedUpgrade[];
-  size?: number;
+  size: number;
   title?: string;
 }) {
   if (items.length === 0) return null;
   const extra = items.length - 1;
   return (
-    <div className="relative" title={title ?? items.map((i) => i.name).join(" / ")}>
+    <span className="relative flex shrink-0" title={title ?? items.map((i) => i.name).join(" / ")}>
       <AbilityIcon
         kind={kind}
         src={items[0].iconUrl}
         framed={items[0].framed}
         alt={items[0].name}
         size={size}
-        className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]"
+        className={ICON_SHADOW}
       />
       {extra > 0 && (
-        <span className="absolute -bottom-1 -right-1 flex h-3.5 min-w-[14px] items-center justify-center rounded-full bg-background-elevated px-0.5 text-[9px] font-bold leading-none text-muted ring-1 ring-border-strong">
+        <span className="absolute -bottom-1 -end-1 flex h-3 min-w-3 items-center justify-center rounded-full bg-background-elevated px-0.5 text-[8px] font-bold leading-none text-muted ring-1 ring-border-strong">
           +{extra}
         </span>
       )}
-    </div>
+    </span>
   );
 }
 
-/** Icons for this brawler's actually-unlocked upgrades — not a claimed "best" build, just what's really available. Gadget/Star Power show one representative icon each (only one is ever active at once); Gears can all be equipped together. */
+/** Icons for this brawler's actually-unlocked upgrades — not a claimed "best" build, just what's really available. Gadget/Star Power show one representative icon each (only one is ever active at once); Gears can all be equipped together. Every icon gets the same size×size box so they line up regardless of each artwork's proportions. */
 export function BuildIcons({ brawler, size = 22 }: { brawler: MergedBrawler; size?: number }) {
   const t = useT();
   if (!brawler.owned) return null;
@@ -78,7 +62,9 @@ export function BuildIcons({ brawler, size = 22 }: { brawler: MergedBrawler; siz
       <UpgradeSlot kind="gadget" items={brawler.gadgets} size={size} />
       <UpgradeSlot kind="starPower" items={brawler.starPowers} size={size} />
       {brawler.gears.map((g) => (
-        <GearIcon key={`gear-${g.id}`} item={g} size={size} />
+        <span key={`gear-${g.id}`} className="flex shrink-0" title={g.name}>
+          <GameIcon src={g.iconUrl} alt={g.name} size={size} className={ICON_SHADOW} />
+        </span>
       ))}
       <UpgradeSlot
         kind="hypercharge"
