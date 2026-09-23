@@ -17,12 +17,15 @@ export interface BrawlApiStarPower {
   id: number;
   name: string;
   imageUrl: string;
+  /** Game text; may contain unresolved stat placeholders like "<!card.value1>". */
+  description?: string;
 }
 
 export interface BrawlApiGadget {
   id: number;
   name: string;
   imageUrl: string;
+  description?: string;
 }
 
 export interface BrawlApiBrawler {

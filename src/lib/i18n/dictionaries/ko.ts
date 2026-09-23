@@ -46,6 +46,7 @@ const ko: Record<DictionaryKey, string> = {
   "settings.tag.description": "Brawl Stars 프로필에서 확인할 수 있습니다. 예: #2Y8VQGCCV",
   "settings.tag.placeholder": "2Y8VQGCCV",
   "settings.tag.save": "저장",
+  "settings.tag.account": "계정 @{username}에 저장되며, 로그인하면 자동으로 불러옵니다.",
   "settings.goal.title": "목표",
   "settings.goal.description":
     "어떤 브롤러를 우선 추천할지 결정합니다 — 예: 모든 브롤러를 프레스티지 1(트로피 1000개)로 만들기. 대시보드에서 바로 변경할 수도 있습니다.",
@@ -62,6 +63,24 @@ const ko: Record<DictionaryKey, string> = {
   "goal.hint.none": "로테이션 최고의 선택, 목표 없음",
 
   "build.hypercharge": "하이퍼차지",
+
+  "brawler.details": "상세 정보: {name}",
+  "brawler.close": "닫기",
+  "brawler.power": "파워 {power}/{max}",
+  "brawler.gadgets": "가젯",
+  "brawler.starPowers": "스타 파워",
+  "brawler.gears": "기어",
+  "brawler.unlocked": "해금됨",
+  "brawler.locked": "잠김",
+  "brawler.noGears": "아직 해금된 기어가 없습니다.",
+  "brawler.noHypercharge": "아직 하이퍼차지가 없습니다.",
+  "brawler.goalProgress": "목표 진행도",
+  "brawler.nextPrestige": "다음: 프레스티지 {n}",
+  "brawler.maxPrestige": "최대 프레스티지 달성",
+  "brawler.goalReached": "목표 달성!",
+  "brawler.remaining": "트로피 {count}개 남음",
+  "brawler.prestige": "프레스티지 {n}",
+  "brawler.highest": "최고: {trophies}",
 
   "role.Tank": "탱커",
   "role.DamageDealer": "딜러",

@@ -11,11 +11,12 @@ import { Card, CardContent } from "@/components/ui/Card";
 import { useRoster, useRotation } from "@/lib/hooks";
 import { translateApiError, useT } from "@/lib/i18n";
 import { recommendForAllSlots } from "@/lib/recommend";
-import { useGoal, usePlayerTag } from "@/lib/storage";
+import { useGoal } from "@/lib/storage";
+import { useActivePlayerTag } from "@/lib/use-viewer-tag";
 
 export default function DashboardPage() {
   const t = useT();
-  const { tag, hydrated } = usePlayerTag();
+  const { tag, hydrated } = useActivePlayerTag();
   const { goal } = useGoal();
   const rotation = useRotation();
   const roster = useRoster(tag, hydrated);

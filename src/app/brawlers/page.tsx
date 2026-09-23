@@ -3,24 +3,27 @@
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import { ApiErrorNotice } from "@/components/ApiErrorNotice";
+import { useOpenBrawlerDetails } from "@/components/BrawlerDetails";
 import { BrawlerIcon } from "@/components/BrawlerIcon";
 import { GameIcon } from "@/components/GameIcon";
 import { GoalProgress } from "@/components/GoalProgress";
 import { RoleBadge } from "@/components/RoleBadge";
 import { Card, CardContent } from "@/components/ui/Card";
 import { ProgressBar } from "@/components/ui/ProgressBar";
+import { cn } from "@/lib/cn";
 import { UI_ICONS } from "@/lib/fankit-ui";
 import { goalMetricValue, isGoalless } from "@/lib/goal";
 import { useRoster } from "@/lib/hooks";
 import { translateApiError, useT } from "@/lib/i18n";
 import type { TFunction } from "@/lib/i18n";
 import { buildQualityFactor } from "@/lib/recommend";
-import { useGoal, usePlayerTag } from "@/lib/storage";
+import { useGoal } from "@/lib/storage";
+import { useActivePlayerTag } from "@/lib/use-viewer-tag";
 import type { GoalConfig, MergedBrawler } from "@/types/domain";
 
 export default function BrawlersPage() {
   const t = useT();
-  const { tag, hydrated } = usePlayerTag();
+  const { tag, hydrated } = useActivePlayerTag();
   const { goal } = useGoal();
   const { data, loading, error } = useRoster(tag, hydrated);
   const [query, setQuery] = useState("");
@@ -134,8 +137,15 @@ function BrawlerTile({
   goalless: boolean;
   t: TFunction;
 }) {
+  const openDetails = useOpenBrawlerDetails();
   return (
-    <Card className={done ? "border-success/25 bg-success/[0.03]" : undefined} interactive>
+    <Card className={cn("relative", done && "border-success/25 bg-success/[0.03]")} interactive>
+      <button
+        type="button"
+        onClick={() => openDetails(brawler)}
+        aria-label={t("brawler.details", { name: brawler.name })}
+        className="absolute inset-0 z-10 rounded-card outline-none focus-visible:ring-2 focus-visible:ring-primary"
+      />
       <CardContent className="flex flex-col items-center gap-2 p-3 text-center">
         <BrawlerIcon brawler={brawler} size={56} />
         <p className="truncate text-sm font-semibold">{brawler.name}</p>

@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { Zap } from "lucide-react";
+import { AbilityIcon, type AbilityKind } from "@/components/AbilityIcon";
 import { useT } from "@/lib/i18n";
 import type { MergedBrawler, UnlockedUpgrade } from "@/types/domain";
 
-function UpgradeIcon({ item, size = 22 }: { item: UnlockedUpgrade; size?: number }) {
+function GearIcon({ item, size = 22 }: { item: UnlockedUpgrade; size?: number }) {
   const [failed, setFailed] = useState(false);
   if (!item.iconUrl || failed) return null;
   return (
@@ -30,12 +30,29 @@ function UpgradeIcon({ item, size = 22 }: { item: UnlockedUpgrade; size?: number
  * just the first as a representative icon, with a "+N" badge for the rest
  * (still unlocked, just not implied to be simultaneously active).
  */
-function UpgradeSlot({ items, size = 22 }: { items: UnlockedUpgrade[]; size?: number }) {
+function UpgradeSlot({
+  kind,
+  items,
+  size = 22,
+  title,
+}: {
+  kind: AbilityKind;
+  items: UnlockedUpgrade[];
+  size?: number;
+  title?: string;
+}) {
   if (items.length === 0) return null;
   const extra = items.length - 1;
   return (
-    <div className="relative" title={items.map((i) => i.name).join(" / ")}>
-      <UpgradeIcon item={items[0]} size={size} />
+    <div className="relative" title={title ?? items.map((i) => i.name).join(" / ")}>
+      <AbilityIcon
+        kind={kind}
+        src={items[0].iconUrl}
+        framed={items[0].framed}
+        alt={items[0].name}
+        size={size}
+        className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]"
+      />
       {extra > 0 && (
         <span className="absolute -bottom-1 -right-1 flex h-3.5 min-w-[14px] items-center justify-center rounded-full bg-background-elevated px-0.5 text-[9px] font-bold leading-none text-muted ring-1 ring-border-strong">
           +{extra}
@@ -58,26 +75,17 @@ export function BuildIcons({ brawler, size = 22 }: { brawler: MergedBrawler; siz
 
   return (
     <div className="flex flex-wrap items-center gap-1.5">
-      <UpgradeSlot items={brawler.gadgets} size={size} />
-      <UpgradeSlot items={brawler.starPowers} size={size} />
+      <UpgradeSlot kind="gadget" items={brawler.gadgets} size={size} />
+      <UpgradeSlot kind="starPower" items={brawler.starPowers} size={size} />
       {brawler.gears.map((g) => (
-        <UpgradeIcon key={`gear-${g.id}`} item={g} size={size} />
+        <GearIcon key={`gear-${g.id}`} item={g} size={size} />
       ))}
-      {brawler.hyperCharges.length > 0 &&
-        (brawler.hyperCharges[0].iconUrl ? (
-          <UpgradeIcon
-            item={{ ...brawler.hyperCharges[0], name: `${brawler.hyperCharges[0].name} (${t("build.hypercharge")})` }}
-            size={size}
-          />
-        ) : (
-          <span
-            className="flex items-center justify-center rounded-md bg-accent/20 ring-1 ring-accent/40"
-            style={{ width: size, height: size }}
-            title={`${brawler.hyperCharges[0].name} (${t("build.hypercharge")})`}
-          >
-            <Zap className="h-3.5 w-3.5 text-accent" />
-          </span>
-        ))}
+      <UpgradeSlot
+        kind="hypercharge"
+        items={brawler.hyperCharges}
+        size={size}
+        title={brawler.hyperCharges[0] && `${brawler.hyperCharges[0].name} (${t("build.hypercharge")})`}
+      />
     </div>
   );
 }

@@ -47,6 +47,7 @@ const ru: Record<DictionaryKey, string> = {
   "settings.tag.description": "Найди его в Brawl Stars в своём профиле, напр. #2Y8VQGCCV.",
   "settings.tag.placeholder": "2Y8VQGCCV",
   "settings.tag.save": "Сохранить",
+  "settings.tag.account": "Сохраняется в аккаунте @{username} — загружается автоматически, когда ты вошёл.",
   "settings.goal.title": "Твоя цель",
   "settings.goal.description":
     "Определяет, какие бойцы рекомендуются в первую очередь — напр. довести всех до Престижа 1 (1000 трофеев). Цель можно сменить и прямо на панели.",
@@ -63,6 +64,24 @@ const ru: Record<DictionaryKey, string> = {
   "goal.hint.none": "Лучший выбор для ротации, без цели",
 
   "build.hypercharge": "Гиперзаряд",
+
+  "brawler.details": "Подробнее: {name}",
+  "brawler.close": "Закрыть",
+  "brawler.power": "Сила {power}/{max}",
+  "brawler.gadgets": "Гаджеты",
+  "brawler.starPowers": "Звёздные силы",
+  "brawler.gears": "Снаряжение",
+  "brawler.unlocked": "Открыто",
+  "brawler.locked": "Закрыто",
+  "brawler.noGears": "Снаряжение ещё не открыто.",
+  "brawler.noHypercharge": "Гиперзаряда пока нет.",
+  "brawler.goalProgress": "Прогресс цели",
+  "brawler.nextPrestige": "Далее: Престиж {n}",
+  "brawler.maxPrestige": "Максимальный Престиж",
+  "brawler.goalReached": "Цель достигнута!",
+  "brawler.remaining": "Осталось {count} трофеев",
+  "brawler.prestige": "Престиж {n}",
+  "brawler.highest": "Рекорд: {trophies}",
 
   "role.Tank": "Танк",
   "role.DamageDealer": "Урон",

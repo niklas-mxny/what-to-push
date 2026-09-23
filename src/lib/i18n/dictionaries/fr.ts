@@ -48,6 +48,7 @@ const fr: Record<DictionaryKey, string> = {
   "settings.tag.description": "Trouvable dans Brawl Stars sur votre profil, ex. #2Y8VQGCCV.",
   "settings.tag.placeholder": "2Y8VQGCCV",
   "settings.tag.save": "Enregistrer",
+  "settings.tag.account": "Enregistré sur votre compte @{username} — chargé automatiquement dès que vous êtes connecté.",
   "settings.goal.title": "Votre objectif",
   "settings.goal.description":
     "Détermine quels brawlers sont recommandés en priorité — p. ex. amener tout le monde au Prestige 1 (1000 trophées). Vous pouvez aussi le changer directement depuis le tableau de bord.",
@@ -64,6 +65,24 @@ const fr: Record<DictionaryKey, string> = {
   "goal.hint.none": "Meilleur choix pour la rotation, sans objectif",
 
   "build.hypercharge": "Hypercharge",
+
+  "brawler.details": "Détails : {name}",
+  "brawler.close": "Fermer",
+  "brawler.power": "Puissance {power}/{max}",
+  "brawler.gadgets": "Gadgets",
+  "brawler.starPowers": "Pouvoirs stellaires",
+  "brawler.gears": "Équipements",
+  "brawler.unlocked": "Débloqué",
+  "brawler.locked": "Verrouillé",
+  "brawler.noGears": "Aucun équipement débloqué pour l'instant.",
+  "brawler.noHypercharge": "Pas encore d'hypercharge.",
+  "brawler.goalProgress": "Progression de l'objectif",
+  "brawler.nextPrestige": "Suivant : Prestige {n}",
+  "brawler.maxPrestige": "Prestige max atteint",
+  "brawler.goalReached": "Objectif atteint !",
+  "brawler.remaining": "Encore {count} trophées",
+  "brawler.prestige": "Prestige {n}",
+  "brawler.highest": "Record : {trophies}",
 
   "role.Tank": "Tank",
   "role.DamageDealer": "Dégâts",

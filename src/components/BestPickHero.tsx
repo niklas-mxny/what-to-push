@@ -1,6 +1,7 @@
 "use client";
 
 import { Sparkles } from "lucide-react";
+import { useOpenBrawlerDetails } from "@/components/BrawlerDetails";
 import { BrawlerIcon } from "@/components/BrawlerIcon";
 import { BuildIcons } from "@/components/BuildIcons";
 import { GameIcon } from "@/components/GameIcon";
@@ -12,6 +13,7 @@ import type { SlotRecommendation } from "@/types/domain";
 
 export function BestPickHero({ recommendations }: { recommendations: SlotRecommendation[] }) {
   const t = useT();
+  const openDetails = useOpenBrawlerDetails();
   let best: { rec: SlotRecommendation } | null = null;
   for (const rec of recommendations) {
     if (rec.picks[0] && (!best || rec.picks[0].score > best.rec.picks[0].score)) {
@@ -23,8 +25,14 @@ export function BestPickHero({ recommendations }: { recommendations: SlotRecomme
   const pick = best.rec.picks[0];
 
   return (
-    <div className="glow-ring-accent relative overflow-hidden rounded-card border border-primary/40 bg-gradient-to-br from-primary/25 via-card to-card p-6">
+    <div className="glow-ring-accent relative overflow-hidden rounded-card border border-primary/40 bg-gradient-to-br from-primary/25 via-card to-card p-6 transition-colors hover:border-primary/70">
       <div className="absolute -right-10 -top-10 h-40 w-40 animate-pulse rounded-full bg-accent/20 blur-3xl" />
+      <button
+        type="button"
+        onClick={() => openDetails(pick.brawler)}
+        aria-label={t("brawler.details", { name: pick.brawler.name })}
+        className="absolute inset-0 z-10 rounded-card outline-none focus-visible:ring-2 focus-visible:ring-primary"
+      />
       <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-4">
           <BrawlerIcon

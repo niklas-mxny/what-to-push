@@ -45,6 +45,7 @@ const en = {
   "settings.tag.description": "Find it in Brawl Stars under your profile, e.g. #2Y8VQGCCV.",
   "settings.tag.placeholder": "2Y8VQGCCV",
   "settings.tag.save": "Save",
+  "settings.tag.account": "Saved to your account @{username} — loaded automatically whenever you're logged in.",
   "settings.goal.title": "Your Goal",
   "settings.goal.description":
     "Determines which brawlers get recommended first — e.g. push everyone to Prestige 1 (1000 trophies). You can also switch it right on the dashboard.",
@@ -61,6 +62,24 @@ const en = {
   "goal.hint.none": "Best pick for the rotation, no target",
 
   "build.hypercharge": "Hypercharge",
+
+  "brawler.details": "Details: {name}",
+  "brawler.close": "Close",
+  "brawler.power": "Power {power}/{max}",
+  "brawler.gadgets": "Gadgets",
+  "brawler.starPowers": "Star Powers",
+  "brawler.gears": "Gears",
+  "brawler.unlocked": "Unlocked",
+  "brawler.locked": "Locked",
+  "brawler.noGears": "No gears unlocked yet.",
+  "brawler.noHypercharge": "No hypercharge yet.",
+  "brawler.goalProgress": "Goal progress",
+  "brawler.nextPrestige": "Next: Prestige {n}",
+  "brawler.maxPrestige": "Max Prestige reached",
+  "brawler.goalReached": "Goal reached!",
+  "brawler.remaining": "{count} trophies to go",
+  "brawler.prestige": "Prestige {n}",
+  "brawler.highest": "Highest: {trophies}",
 
   "role.Tank": "Tank",
   "role.DamageDealer": "Damage Dealer",

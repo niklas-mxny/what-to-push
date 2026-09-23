@@ -74,6 +74,15 @@ export function clubBadgeUrl(badgeId: number): string {
   return `https://cdn.brawlify.com/club-badges/regular/${badgeId}.png`;
 }
 
+/**
+ * Official in-game hypercharge badge (the purple flame), extracted from the game
+ * files and served by Brawlify per hypercharge ID. Used instead of the fan kit,
+ * which only has the badge for about two thirds of the brawlers.
+ */
+export function hyperchargeIconUrl(hyperchargeId: number): string {
+  return `https://brawlify.com/images/hypercharges/${hyperchargeId}.png`;
+}
+
 /** The player's own profile icon (distinct from any brawler icon). */
 export function playerIconUrl(iconId: number): string {
   return `https://cdn.brawlify.com/profile-icons/regular/${iconId}.png`;

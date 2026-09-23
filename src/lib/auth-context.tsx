@@ -11,6 +11,8 @@ export interface AuthUser {
 interface ActionResult {
   ok: boolean;
   error?: string;
+  /** Stable error code from the API, for translateApiError. */
+  code?: string;
 }
 
 interface AuthContextValue {
@@ -73,7 +75,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const linkTag = useCallback(async (tag: string): Promise<ActionResult> => {
     const { ok, data } = await postJson("/api/account/link-tag", { tag });
-    if (!ok) return { ok: false, error: data.error ?? "Couldn't link that tag." };
+    if (!ok) return { ok: false, error: data.error ?? "Couldn't link that tag.", code: data.code };
     setUser((prev) => (prev ? { ...prev, playerTag: data.playerTag } : prev));
     return { ok: true };
   }, []);

@@ -112,6 +112,7 @@ export interface SupercellBrawler {
   name: string;
   starPowers: SupercellStarPower[];
   gadgets: SupercellGadget[];
+  hyperCharges?: SupercellHyperCharge[];
 }
 
 export interface SupercellBrawlerList {

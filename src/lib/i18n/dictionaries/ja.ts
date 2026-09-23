@@ -47,6 +47,7 @@ const ja: Record<DictionaryKey, string> = {
   "settings.tag.description": "Brawl Starsのプロフィールで確認できます。例: #2Y8VQGCCV",
   "settings.tag.placeholder": "2Y8VQGCCV",
   "settings.tag.save": "保存",
+  "settings.tag.account": "アカウント @{username} に保存され、ログイン中は自動で読み込まれます。",
   "settings.goal.title": "あなたの目標",
   "settings.goal.description":
     "どのブロウラーを優先的におすすめするかを決めます — 例: 全員をプレステージ1(1000トロフィー)にする。ダッシュボードから直接切り替えることもできます。",
@@ -63,6 +64,24 @@ const ja: Record<DictionaryKey, string> = {
   "goal.hint.none": "ローテーションのベストな選択、目標なし",
 
   "build.hypercharge": "ハイパーチャージ",
+
+  "brawler.details": "詳細: {name}",
+  "brawler.close": "閉じる",
+  "brawler.power": "パワー {power}/{max}",
+  "brawler.gadgets": "ガジェット",
+  "brawler.starPowers": "スターパワー",
+  "brawler.gears": "ギア",
+  "brawler.unlocked": "解放済み",
+  "brawler.locked": "未解放",
+  "brawler.noGears": "まだギアが解放されていません。",
+  "brawler.noHypercharge": "ハイパーチャージはまだありません。",
+  "brawler.goalProgress": "目標の進捗",
+  "brawler.nextPrestige": "次: プレステージ{n}",
+  "brawler.maxPrestige": "最大プレステージ達成",
+  "brawler.goalReached": "目標達成！",
+  "brawler.remaining": "あと{count}トロフィー",
+  "brawler.prestige": "プレステージ{n}",
+  "brawler.highest": "最高: {trophies}",
 
   "role.Tank": "タンク",
   "role.DamageDealer": "アタッカー",

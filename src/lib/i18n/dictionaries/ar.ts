@@ -46,6 +46,7 @@ const ar: Record<DictionaryKey, string> = {
   "settings.tag.description": "تجده في Brawl Stars ضمن ملفك الشخصي، مثال: #2Y8VQGCCV.",
   "settings.tag.placeholder": "2Y8VQGCCV",
   "settings.tag.save": "حفظ",
+  "settings.tag.account": "يُحفظ في حسابك @{username} — ويُحمَّل تلقائيًا عند تسجيل الدخول.",
   "settings.goal.title": "هدفك",
   "settings.goal.description":
     "يحدد أي المقاتلين تتم التوصية بهم أولاً — مثل الوصول بالجميع إلى المكانة 1 (1000 كأس). يمكنك أيضًا تغييره مباشرةً من لوحة التحكم.",
@@ -62,6 +63,24 @@ const ar: Record<DictionaryKey, string> = {
   "goal.hint.none": "أفضل اختيار للدورة، بلا هدف",
 
   "build.hypercharge": "الشحن الفائق",
+
+  "brawler.details": "التفاصيل: {name}",
+  "brawler.close": "إغلاق",
+  "brawler.power": "القوة {power}/{max}",
+  "brawler.gadgets": "الأدوات",
+  "brawler.starPowers": "قوى النجوم",
+  "brawler.gears": "المعدات",
+  "brawler.unlocked": "مفتوح",
+  "brawler.locked": "مقفل",
+  "brawler.noGears": "لم تُفتح أي معدات بعد.",
+  "brawler.noHypercharge": "لا يوجد شحن فائق بعد.",
+  "brawler.goalProgress": "التقدم نحو الهدف",
+  "brawler.nextPrestige": "التالي: المكانة {n}",
+  "brawler.maxPrestige": "تم بلوغ أعلى مكانة",
+  "brawler.goalReached": "تم تحقيق الهدف!",
+  "brawler.remaining": "تبقى {count} كأس",
+  "brawler.prestige": "المكانة {n}",
+  "brawler.highest": "الأعلى: {trophies}",
 
   "role.Tank": "دبابة",
   "role.DamageDealer": "ضرر",

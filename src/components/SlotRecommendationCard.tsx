@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Clock } from "lucide-react";
+import { useOpenBrawlerDetails } from "@/components/BrawlerDetails";
 import { BrawlerIcon } from "@/components/BrawlerIcon";
 import { BuildIcons } from "@/components/BuildIcons";
 import { GameIcon } from "@/components/GameIcon";
@@ -25,6 +26,7 @@ function timeUntil(t: TFunction, iso: string): string {
 
 export function SlotRecommendationCard({ rec }: { rec: SlotRecommendation }) {
   const t = useT();
+  const openDetails = useOpenBrawlerDetails();
   const top = rec.picks[0];
 
   return (
@@ -59,7 +61,13 @@ export function SlotRecommendationCard({ rec }: { rec: SlotRecommendation }) {
 
       <CardContent className="flex flex-col gap-4">
         {top ? (
-          <div className="flex items-center gap-3 rounded-xl border border-primary/30 bg-primary/10 p-3">
+          <div className="relative flex items-center gap-3 rounded-xl border border-primary/30 bg-primary/10 p-3 transition-colors hover:border-primary/60 hover:bg-primary/15">
+            <button
+              type="button"
+              onClick={() => openDetails(top.brawler)}
+              aria-label={t("brawler.details", { name: top.brawler.name })}
+              className="absolute inset-0 z-10 rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            />
             <BrawlerIcon brawler={top.brawler} size={52} />
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
@@ -85,9 +93,15 @@ export function SlotRecommendationCard({ rec }: { rec: SlotRecommendation }) {
               {rec.picks.slice(1).map((pick) => (
                 <div
                   key={pick.brawler.key}
-                  className="group flex shrink-0 flex-col items-center gap-1"
+                  className="group relative flex shrink-0 flex-col items-center gap-1"
                   title={formatReasons(t, pick.reasons)}
                 >
+                  <button
+                    type="button"
+                    onClick={() => openDetails(pick.brawler)}
+                    aria-label={t("brawler.details", { name: pick.brawler.name })}
+                    className="absolute inset-0 z-10 rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  />
                   <BrawlerIcon
                     brawler={pick.brawler}
                     size={36}

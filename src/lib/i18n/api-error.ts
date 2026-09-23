@@ -8,6 +8,12 @@ const KNOWN_CODES = new Set([
   "generic",
   "rotation_generic",
   "roster_generic",
+  "invalid_username",
+  "weak_password",
+  "username_taken",
+  "invalid_credentials",
+  "not_authenticated",
+  "invalid_tag",
 ]);
 
 /** Translates a server ApiError by its stable `code`; falls back to the raw (English) server message for an unrecognized code. */

@@ -48,6 +48,7 @@ const pt: Record<DictionaryKey, string> = {
   "settings.tag.description": "Encontre no Brawl Stars no seu perfil, ex.: #2Y8VQGCCV.",
   "settings.tag.placeholder": "2Y8VQGCCV",
   "settings.tag.save": "Salvar",
+  "settings.tag.account": "Salvo na sua conta @{username} — carregado automaticamente sempre que você estiver conectado.",
   "settings.goal.title": "Sua meta",
   "settings.goal.description":
     "Define quais brawlers são recomendados primeiro — ex.: levar todos ao Prestígio 1 (1000 troféus). Você também pode trocar direto no painel.",
@@ -64,6 +65,24 @@ const pt: Record<DictionaryKey, string> = {
   "goal.hint.none": "Melhor escolha para a rotação, sem meta",
 
   "build.hypercharge": "Hypercharge",
+
+  "brawler.details": "Detalhes: {name}",
+  "brawler.close": "Fechar",
+  "brawler.power": "Poder {power}/{max}",
+  "brawler.gadgets": "Acessórios",
+  "brawler.starPowers": "Poderes Estelares",
+  "brawler.gears": "Engrenagens",
+  "brawler.unlocked": "Desbloqueado",
+  "brawler.locked": "Bloqueado",
+  "brawler.noGears": "Nenhuma engrenagem desbloqueada ainda.",
+  "brawler.noHypercharge": "Nenhuma hipercarga ainda.",
+  "brawler.goalProgress": "Progresso da meta",
+  "brawler.nextPrestige": "Próximo: Prestígio {n}",
+  "brawler.maxPrestige": "Prestígio máximo alcançado",
+  "brawler.goalReached": "Meta alcançada!",
+  "brawler.remaining": "Faltam {count} troféus",
+  "brawler.prestige": "Prestígio {n}",
+  "brawler.highest": "Recorde: {trophies}",
 
   "role.Tank": "Tanque",
   "role.DamageDealer": "Dano",

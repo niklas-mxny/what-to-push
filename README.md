@@ -77,7 +77,7 @@ Das Projekt selbst ist Hosting-agnostisch — die API-Anbindung liegt komplett i
   wofür das Fan Kit kein per ID/Name zuordenbares Asset hat (die offizielle API liefert
   keine Bild-URLs). Außerdem Fallback, falls ein Fan-Kit-Asset fehlt.
 - `src/lib/fankit.ts` + `src/lib/fankit-ui.ts` — Brawler-Porträts sowie Gadget-,
-  Star-Power-, Hypercharge- und Gear-Icons, dazu Trophäe/Logo, Prestige, Ranked-Ligen,
+  Star-Power- und Gear-Icons, dazu Trophäe/Logo, Prestige, Ranked-Ligen,
   Fame-Stufen, Rollen- und Modus-Icons kommen aus dem offiziellen
   [Supercell Fan Kit](https://fankit.supercell.com/d/YvtsWV4pUQVm/game-assets)
   (öffentliches Frontify-Portal, direkt vom Frontify-CDN eingebunden — nichts wird
@@ -87,6 +87,12 @@ Das Projekt selbst ist Hosting-agnostisch — die API-Anbindung liegt komplett i
   alle Brawler per Bildvergleich geprüft, Abweichungen (vertauschte oder falsch
   benannte Assets) stehen als kleine Korrekturliste im Modul. Fehlt ein Asset im Fan
   Kit oder ist das Portal nicht erreichbar, greift das BrawlAPI/Brawlify-Icon als Fallback.
+  Das Fan Kit mischt Badges mit Rahmen und nackte Symbole: gerahmte Varianten haben
+  Vorrang, nackte Symbole werden in den offiziellen leeren Rahmen des Fan Kits gesetzt
+  (grün für Gadgets, goldener Zackenstern für Star Powers), sodass alle gleich aussehen.
+- Hypercharge-Icons: das offizielle Flammen-Badge aus den Spieldateien, über Brawlify
+  per Hypercharge-ID (`hyperchargeIconUrl` in `src/lib/brawlapi.ts`) — das Fan Kit hat
+  es nur für etwa zwei Drittel der Brawler und keinen leeren Rahmen dafür.
 - `src/lib/roles.ts` + `src/lib/mode-weights.ts` — Eigene, heuristische
   Empfehlungs-Datenbasis (Brawler-Rolle × Spielmodus-Gewichtung). **Wichtig:** Es gibt
   aktuell keine verlässliche öffentliche API für echte Meta-Winrate-Daten pro
@@ -139,11 +145,11 @@ Das Projekt selbst ist Hosting-agnostisch — die API-Anbindung liegt komplett i
   (Quelle: Brawl Stars Wiki, da keine API sie liefert) und muss bei neuen Brawlern
   von Hand ergänzt werden — bis dahin fallen sie auf eine neutrale Gewichtung zurück.
 - Nicht jede Fähigkeit hat ein Asset im Fan Kit (z. B. sehr neue Brawler, einzelne
-  Star Powers, viele Hypercharges) — dort erscheint das BrawlAPI-Icon bzw. bei
-  Hypercharges ein Blitz-Symbol. Spieler-Profilbilder und Map-Bilder gibt es im Fan
+  Star Powers) — dort erscheint das BrawlAPI-Symbol im offiziellen Rahmen. Spieler-Profilbilder und Map-Bilder gibt es im Fan
   Kit nicht zuordenbar (Profilbilder sind nach Thema statt ID benannt, bei Maps gibt es
-  nur Event-Banner), Ranked-Icons nur pro Liga (nicht pro Stufe I/II/III). Neue Brawler mit ungewöhnlichen Dateinamen brauchen
-  ggf. einen Eintrag in der Korrekturliste in `src/lib/fankit.ts`.
+  nur Event-Banner), Ranked-Icons nur pro Liga (nicht pro Stufe I/II/III). Neue Brawler
+  mit ungewöhnlichen Dateinamen brauchen ggf. einen Eintrag in der Korrekturliste in
+  `src/lib/fankit.ts`.
 - Star Power und Gadget: die Supercell API liefert nur, was freigeschaltet ist, nicht
   welches gerade ausgerüstet ist (nur eins von beiden ist gleichzeitig aktiv). Die
   Build-Icons zeigen deshalb nur eins stellvertretend an, mit einem "+N"-Hinweis für

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Baloo_2, Inter } from "next/font/google";
+import { BrawlerDetailsProvider } from "@/components/BrawlerDetails";
 import { Footer } from "@/components/Footer";
 import { NavBar } from "@/components/NavBar";
 import { AuthProvider } from "@/lib/auth-context";
@@ -31,9 +32,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <I18nProvider>
           <AuthProvider>
             <FavoritesProvider>
-              <NavBar />
-              <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6">{children}</main>
-              <Footer />
+              <BrawlerDetailsProvider>
+                <NavBar />
+                <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6">{children}</main>
+                <Footer />
+              </BrawlerDetailsProvider>
             </FavoritesProvider>
           </AuthProvider>
         </I18nProvider>

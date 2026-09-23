@@ -1,7 +1,8 @@
 import type { BrawlApiBrawlerList } from "@/types/brawlapi";
 import type { Player, SupercellBrawlerList } from "@/types/brawlstars";
-import type { MergedBrawler, UnlockedUpgrade } from "@/types/domain";
-import { brawlerKey, fanKitGearUrl, type FanKitIcons } from "@/lib/fankit";
+import type { Ability, MergedBrawler, UnlockedUpgrade } from "@/types/domain";
+import { brawlerKey, fanKitGearUrl, type AbilityIconRef, type FanKitIcons } from "@/lib/fankit";
+import { hyperchargeIconUrl } from "@/lib/brawlapi";
 import { resolveRole } from "@/lib/roles";
 
 function normalizeName(name: string): string {
@@ -17,6 +18,16 @@ function gearIconUrl(id: number): string {
 /** 1-based slot of an ability within the brawler's kit, in ID order (= the in-game "Gadget 1/2" order). */
 function slotOf(abilities: { id: number }[], id: number): number {
   return [...abilities].sort((a, b) => a.id - b.id).findIndex((a) => a.id === id) + 1;
+}
+
+/**
+ * BrawlAPI descriptions are raw game strings; about a quarter still contain
+ * unresolved stat placeholders ("slows for <!card.value1.ticksasseconds> sec").
+ * Show those as "x" (BrawlAPI's own convention elsewhere) rather than leaking template syntax.
+ */
+function cleanDescription(text: string | undefined): string | undefined {
+  const cleaned = text?.replace(/<![^>]*>/g, "x").replace(/\s+/g, " ").trim();
+  return cleaned || undefined;
 }
 
 /**
@@ -50,17 +61,32 @@ export function buildRoster(
     const fanStarPowers = fanKit.starPowers[kitKey] ?? [];
     const fanGadgets = fanKit.gadgets[kitKey] ?? [];
 
+    // Fan kit art first; BrawlAPI's icons are bare symbols (unframed) and only a fallback.
+    const gadgetIcon = (id: number): AbilityIconRef | undefined => {
+      const fallback = gadgetIconById.get(id);
+      return fanGadgets[slotOf(official.gadgets, id) - 1] ?? (fallback ? { url: fallback, framed: false } : undefined);
+    };
+    const starPowerIcon = (id: number): AbilityIconRef | undefined => {
+      const fallback = starPowerIconById.get(id);
+      return (
+        fanStarPowers[slotOf(official.starPowers, id) - 1] ?? (fallback ? { url: fallback, framed: false } : undefined)
+      );
+    };
+    const hyperchargeIcon = (id: number): AbilityIconRef => ({ url: hyperchargeIconUrl(id), framed: true });
+
     const starPowers: UnlockedUpgrade[] =
       owned?.starPowers.map((sp) => ({
         id: sp.id,
         name: sp.name,
-        iconUrl: fanStarPowers[slotOf(official.starPowers, sp.id) - 1] ?? starPowerIconById.get(sp.id),
+        iconUrl: starPowerIcon(sp.id)?.url,
+        framed: starPowerIcon(sp.id)?.framed,
       })) ?? [];
     const gadgets: UnlockedUpgrade[] =
       owned?.gadgets.map((g) => ({
         id: g.id,
         name: g.name,
-        iconUrl: fanGadgets[slotOf(official.gadgets, g.id) - 1] ?? gadgetIconById.get(g.id),
+        iconUrl: gadgetIcon(g.id)?.url,
+        framed: gadgetIcon(g.id)?.framed,
       })) ?? [];
     const gears: UnlockedUpgrade[] =
       owned?.gears.map((g) => ({
@@ -69,7 +95,36 @@ export function buildRoster(
         iconUrl: fanKitGearUrl(fanKit, g.name, official.name) ?? gearIconUrl(g.id),
       })) ?? [];
     const hyperCharges: UnlockedUpgrade[] =
-      owned?.hyperCharges.map((h) => ({ id: h.id, name: h.name, iconUrl: fanKit.hypercharges[kitKey] })) ?? [];
+      owned?.hyperCharges.map((h) => ({
+        id: h.id,
+        name: h.name,
+        iconUrl: hyperchargeIcon(h.id).url,
+        framed: true,
+      })) ?? [];
+
+    const descriptionById = new Map(
+      [...(meta?.gadgets ?? []), ...(meta?.starPowers ?? [])].map((a) => [a.id, cleanDescription(a.description)])
+    );
+    const unlockedIds = new Set([...starPowers, ...gadgets, ...hyperCharges].map((u) => u.id));
+    const toAbilities = (
+      all: { id: number; name: string }[],
+      iconFor: (id: number) => AbilityIconRef | undefined
+    ): Ability[] =>
+      [...all]
+        .sort((a, b) => a.id - b.id)
+        .map((a) => ({
+          id: a.id,
+          name: a.name,
+          iconUrl: iconFor(a.id)?.url,
+          framed: iconFor(a.id)?.framed,
+          description: descriptionById.get(a.id),
+          unlocked: unlockedIds.has(a.id),
+        }));
+    const kit = {
+      gadgets: toAbilities(official.gadgets, gadgetIcon),
+      starPowers: toAbilities(official.starPowers, starPowerIcon),
+      hyperCharges: toAbilities(official.hyperCharges ?? [], hyperchargeIcon),
+    };
 
     const merged: MergedBrawler = {
       key,
@@ -90,6 +145,7 @@ export function buildRoster(
       gadgetsTotal: official.gadgets.length,
       gears,
       hyperCharges,
+      kit,
     };
     return merged;
   });

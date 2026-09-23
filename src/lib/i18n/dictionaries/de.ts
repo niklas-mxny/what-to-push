@@ -47,6 +47,7 @@ const de: Record<DictionaryKey, string> = {
   "settings.tag.description": "Zu finden in Brawl Stars unter deinem Profil, z.B. #2Y8VQGCCV.",
   "settings.tag.placeholder": "2Y8VQGCCV",
   "settings.tag.save": "Speichern",
+  "settings.tag.account": "Wird in deinem Account @{username} gespeichert — lädt automatisch, sobald du eingeloggt bist.",
   "settings.goal.title": "Dein Ziel",
   "settings.goal.description":
     "Bestimmt, welche Brawler zuerst empfohlen werden — z. B. alle auf Prestige 1 (1000 Trophäen) bringen. Du kannst es auch direkt im Dashboard umstellen.",
@@ -63,6 +64,24 @@ const de: Record<DictionaryKey, string> = {
   "goal.hint.none": "Bester Pick für die Rotation, ohne Ziel",
 
   "build.hypercharge": "Hypercharge",
+
+  "brawler.details": "Details: {name}",
+  "brawler.close": "Schließen",
+  "brawler.power": "Power {power}/{max}",
+  "brawler.gadgets": "Gadgets",
+  "brawler.starPowers": "Star Powers",
+  "brawler.gears": "Gears",
+  "brawler.unlocked": "Freigeschaltet",
+  "brawler.locked": "Gesperrt",
+  "brawler.noGears": "Noch keine Gears freigeschaltet.",
+  "brawler.noHypercharge": "Noch keine Hypercharge.",
+  "brawler.goalProgress": "Ziel-Fortschritt",
+  "brawler.nextPrestige": "Nächstes: Prestige {n}",
+  "brawler.maxPrestige": "Max. Prestige erreicht",
+  "brawler.goalReached": "Ziel erreicht!",
+  "brawler.remaining": "Noch {count} Trophäen",
+  "brawler.prestige": "Prestige {n}",
+  "brawler.highest": "Höchststand: {trophies}",
 
   "role.Tank": "Tank",
   "role.DamageDealer": "Damage Dealer",

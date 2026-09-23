@@ -23,6 +23,12 @@ export const UI_ICONS = {
   clubTrophy: "RDnbx4XHp8hbpLrUzECr.png", // icon_club_trophy_point
 } as const;
 
+/** Empty in-game badge frames, for drawing bare ability symbols the way the game shows them. */
+export const ABILITY_FRAMES = {
+  gadget: "qF4wWgQRJZLVVoSuG4Gp.png", // gadget_base_empty
+  starPower: "HZkLR5iHXb28bGkYQ4gG.png", // starpower_base01_empty — the gold jagged star
+} as const;
+
 const RANK_LEAGUE_ICONS: Record<string, string> = {
   BRONZE: "hXp8z4ZrZnQivujA6b4r.png",
   SILVER: "yKvWPrnD4HFqDraq7Prk.png",

@@ -45,6 +45,7 @@ const zh: Record<DictionaryKey, string> = {
   "settings.tag.description": "可在 Brawl Stars 的个人资料中找到,例如 #2Y8VQGCCV。",
   "settings.tag.placeholder": "2Y8VQGCCV",
   "settings.tag.save": "保存",
+  "settings.tag.account": "保存到你的账号 @{username}——登录后会自动加载。",
   "settings.goal.title": "你的目标",
   "settings.goal.description":
     "决定优先推荐哪些角色——例如让所有角色达到荣誉等级1(1000奖杯)。也可以直接在仪表盘中切换。",
@@ -61,6 +62,24 @@ const zh: Record<DictionaryKey, string> = {
   "goal.hint.none": "当前轮换的最佳选择,无目标",
 
   "build.hypercharge": "超能量",
+
+  "brawler.details": "详情：{name}",
+  "brawler.close": "关闭",
+  "brawler.power": "力量 {power}/{max}",
+  "brawler.gadgets": "随身妙具",
+  "brawler.starPowers": "星徽之力",
+  "brawler.gears": "装备",
+  "brawler.unlocked": "已解锁",
+  "brawler.locked": "未解锁",
+  "brawler.noGears": "尚未解锁装备。",
+  "brawler.noHypercharge": "暂无超能量。",
+  "brawler.goalProgress": "目标进度",
+  "brawler.nextPrestige": "下一级：荣誉等级{n}",
+  "brawler.maxPrestige": "已达最高荣誉等级",
+  "brawler.goalReached": "目标已达成！",
+  "brawler.remaining": "还差{count}奖杯",
+  "brawler.prestige": "荣誉等级{n}",
+  "brawler.highest": "最高：{trophies}",
 
   "role.Tank": "坦克",
   "role.DamageDealer": "输出",

@@ -56,6 +56,19 @@ export interface UnlockedUpgrade {
   id: number;
   name: string;
   iconUrl?: string;
+  /** Icon already includes the in-game badge frame (see AbilityIcon); false = bare symbol. */
+  framed?: boolean;
+}
+
+/** One gadget/star power/hypercharge of a brawler's full kit, unlocked or not. */
+export interface Ability {
+  id: number;
+  name: string;
+  iconUrl?: string;
+  /** Icon already includes the in-game badge frame; false = bare symbol. */
+  framed?: boolean;
+  description?: string;
+  unlocked: boolean;
 }
 
 export interface MergedBrawler {
@@ -79,6 +92,12 @@ export interface MergedBrawler {
   gadgetsTotal: number;
   gears: UnlockedUpgrade[];
   hyperCharges: UnlockedUpgrade[];
+  /** Everything the brawler can unlock, in slot order — for the details popup. */
+  kit: {
+    gadgets: Ability[];
+    starPowers: Ability[];
+    hyperCharges: Ability[];
+  };
 }
 
 export interface ActiveSlot {
