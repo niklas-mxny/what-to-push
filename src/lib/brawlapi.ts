@@ -43,27 +43,43 @@ interface MapCandidate {
   imageUrl: string;
 }
 
-let mapCandidatesByName: Map<string, MapCandidate[]> | null = null;
+interface MapIndex {
+  byId: Map<number, string>;
+  byName: Map<string, MapCandidate[]>;
+}
 
-async function loadMapCandidates(): Promise<Map<string, MapCandidate[]>> {
-  if (mapCandidatesByName) return mapCandidatesByName;
+/**
+ * BrawlAPI drops punctuation from names ("Belles Rock", "Brawlers Rift") while
+ * the official rotation keeps it ("Belle's Rock"), so names are compared
+ * without anything but letters and digits.
+ */
+function mapNameKey(name: string): string {
+  return name.toUpperCase().replace(/[^\p{L}\p{N}]/gu, "");
+}
+
+let mapIndex: MapIndex | null = null;
+
+async function loadMapIndex(): Promise<MapIndex> {
+  if (mapIndex) return mapIndex;
 
   const res = await fetch(`${BASE_URL}/maps`, {
     headers: { Accept: "application/json" },
     next: { revalidate: 86400 },
   });
-  const map = new Map<string, MapCandidate[]>();
+  const index: MapIndex = { byId: new Map(), byName: new Map() };
   if (res.ok) {
     const data = (await res.json()) as BrawlApiMapList;
     for (const m of data.list) {
-      const key = m.name.trim().toUpperCase();
-      const list = map.get(key) ?? [];
+      index.byId.set(m.id, m.imageUrl);
+      const key = mapNameKey(m.name);
+      const list = index.byName.get(key) ?? [];
       list.push({ modeName: m.gameMode?.name, disabled: m.disabled, imageUrl: m.imageUrl });
-      map.set(key, list);
+      index.byName.set(key, list);
     }
+    // Only cache a successful load; a failed one is retried on the next request.
+    mapIndex = index;
   }
-  mapCandidatesByName = map;
-  return map;
+  return index;
 }
 
 /** Our merged "Showdown" mode label can match any of these BrawlAPI mode names. */
@@ -89,14 +105,22 @@ export function playerIconUrl(iconId: number): string {
 }
 
 /**
- * Bildet (Map-Name, Modus) auf ein Vorschaubild ab (nur fürs UI — die offizielle
- * Rotation liefert selbst keine Bild-URL). Bevorzugt einen aktiven (nicht
- * deaktivierten) Eintrag, dessen Modus zum aktuellen Rotations-Slot passt; fällt
- * andernfalls auf einen aktiven Eintrag mit anderem Modus zurück, statt gar kein
- * Bild zu zeigen.
+ * Preview image for a rotation slot (the official rotation has no image URL).
+ * The rotation's event ID is the map's ID on BrawlAPI, so that's an exact
+ * match — including which of several same-named variants is meant. Falls back
+ * to the name for maps BrawlAPI lists under a different ID, preferring an
+ * active entry whose mode matches the slot.
  */
-export async function findMapImageUrl(mapName: string, modeLabel: string): Promise<string | undefined> {
-  const candidates = (await loadMapCandidates()).get(mapName.trim().toUpperCase());
+export async function findMapImageUrl(
+  mapId: number,
+  mapName: string,
+  modeLabel: string
+): Promise<string | undefined> {
+  const index = await loadMapIndex();
+  const exact = index.byId.get(mapId);
+  if (exact) return exact;
+
+  const candidates = index.byName.get(mapNameKey(mapName));
   if (!candidates || candidates.length === 0) return undefined;
 
   const modeMatches = (candidateMode: string | undefined) => {

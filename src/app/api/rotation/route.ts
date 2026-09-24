@@ -20,7 +20,7 @@ export async function GET() {
           modeKey: normalizeModeKey(r.event.mode),
           modeLabel,
           mapName: r.event.map,
-          mapImageUrl: await findMapImageUrl(r.event.map, modeLabel),
+          mapImageUrl: await findMapImageUrl(r.event.id, r.event.map, modeLabel),
           endTime: parseSupercellTimestamp(r.endTime),
         };
       })
