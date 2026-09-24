@@ -119,6 +119,23 @@ export interface SupercellBrawlerList {
   items: SupercellBrawler[];
 }
 
+/**
+ * One of the player's last 25 battles. `trophyChange` is only present for
+ * battles that count for trophies (not ranked, friendly or event battles).
+ */
+export interface BattleLogEntry {
+  battleTime: string;
+  battle: {
+    mode?: string;
+    type?: string;
+    trophyChange?: number;
+  };
+}
+
+export interface BattleLog {
+  items: BattleLogEntry[];
+}
+
 export class SupercellApiError extends Error {
   constructor(
     message: string,

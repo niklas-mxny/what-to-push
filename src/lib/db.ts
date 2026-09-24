@@ -28,6 +28,19 @@ const SCHEMA = [
     created_at TEXT NOT NULL DEFAULT (datetime('now')),
     PRIMARY KEY (user_id, player_tag)
   )`,
+  // Trophy history, which the Supercell API doesn't keep: the player's total
+  // trophies at a moment (Unix ms) — from snapshots and, reconstructed, after
+  // each battle of the battle log. See src/lib/trophy-history.ts.
+  `CREATE TABLE IF NOT EXISTS trophy_points (
+    player_tag TEXT NOT NULL,
+    at INTEGER NOT NULL,
+    trophies INTEGER NOT NULL,
+    PRIMARY KEY (player_tag, at)
+  )`,
+  `CREATE TABLE IF NOT EXISTS trophy_ingests (
+    player_tag TEXT PRIMARY KEY,
+    last_ingest INTEGER NOT NULL
+  )`,
 ];
 
 /**
@@ -94,4 +107,10 @@ export async function dbGet<T>(sql: string, args: InArgs = []): Promise<T | unde
 export async function dbRun(sql: string, args: InArgs = []): Promise<{ lastInsertRowid: number | undefined }> {
   const result = await (await getDb()).execute({ sql, args });
   return { lastInsertRowid: result.lastInsertRowid === undefined ? undefined : Number(result.lastInsertRowid) };
+}
+
+/** Several writes in one round trip and one transaction. */
+export async function dbBatch(statements: { sql: string; args: InArgs }[]): Promise<void> {
+  if (statements.length === 0) return;
+  await (await getDb()).batch(statements, "write");
 }

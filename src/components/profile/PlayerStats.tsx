@@ -6,6 +6,7 @@ import { FameIcon } from "@/components/FameIcon";
 import { ClubCard } from "@/components/profile/ClubCard";
 import { GameIcon } from "@/components/GameIcon";
 import { GoalComparison } from "@/components/profile/GoalComparison";
+import { TrophyActivity } from "@/components/profile/TrophyActivity";
 import { Card, CardContent } from "@/components/ui/Card";
 import { UI_ICONS } from "@/lib/fankit-ui";
 import { useT } from "@/lib/i18n";
@@ -78,6 +79,8 @@ export function PlayerStats({ player: p }: { player: PublicPlayer }) {
       {p.club && <ClubCard club={p.club} />}
 
       <GoalComparison player={p} />
+
+      <TrophyActivity player={p} />
 
       {(p.rankedCurrent || p.rankedHighest) && (
         <div className="flex flex-col gap-3">

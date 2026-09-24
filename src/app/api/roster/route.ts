@@ -1,9 +1,10 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { fetchBrawlerMeta } from "@/lib/brawlapi";
 import { MissingApiTokenError } from "@/lib/env";
 import { fetchFanKitIcons } from "@/lib/fankit";
 import { buildRoster } from "@/lib/merge";
 import { fetchOfficialBrawlers, fetchPlayer } from "@/lib/supercell";
+import { recordTrophyHistory } from "@/lib/trophy-history";
 import { SupercellApiError } from "@/types/brawlstars";
 
 export async function GET(request: Request) {
@@ -21,6 +22,9 @@ export async function GET(request: Request) {
     if (tag) {
       try {
         player = await fetchPlayer(tag);
+        // Every dashboard visit is also a data point for the trophy history.
+        const trophies = player.trophies;
+        after(() => recordTrophyHistory(tag, trophies).catch(() => {}));
       } catch (err) {
         if (err instanceof SupercellApiError) {
           playerError = { error: err.message, code: err.reason };

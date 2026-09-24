@@ -3,6 +3,7 @@ import { getApiToken } from "@/lib/env";
 import { normalizePlayerTag } from "@/lib/tag";
 import {
   SupercellApiError,
+  type BattleLog,
   type Club,
   type EventRotation,
   type Player,
@@ -65,6 +66,11 @@ async function scFetch<T>(path: string, revalidateSeconds?: number): Promise<T> 
 export function fetchPlayer(tag: string): Promise<Player> {
   const normalized = normalizePlayerTag(tag);
   return scFetch<Player>(`/players/%23${normalized}`);
+}
+
+/** The player's last 25 battles, newest first. */
+export function fetchBattleLog(tag: string): Promise<BattleLog> {
+  return scFetch<BattleLog>(`/players/%23${normalizePlayerTag(tag)}/battlelog`);
 }
 
 export function fetchClub(tag: string): Promise<Club> {

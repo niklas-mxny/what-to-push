@@ -17,6 +17,9 @@
   --success: #34d399;
   --danger: #f87171;
   --heart: #ff4f8b;
+  /* Chart series (validated against --card: lightness band, CVD, contrast). */
+  --chart-player: #8b5cf6;
+  --chart-you: #c4870c;
   --radius: 1rem;
 }
 

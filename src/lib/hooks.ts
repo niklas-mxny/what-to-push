@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { normalizePlayerTag } from "@/lib/tag";
+import type { TrophyHistory, TrophyRange } from "@/lib/trophy-activity";
 import type { MergedBrawler, ActiveSlot } from "@/types/domain";
 import type { PlayerResponse, PublicClub } from "@/types/profile";
 
@@ -171,4 +172,54 @@ export function usePublicPlayer(tag: string | null): ApiState<PlayerResponse> {
 export function usePublicClub(tag: string): ApiState<{ club: PublicClub }> {
   const key = normalizePlayerTag(tag);
   return useResource<{ club: PublicClub }>(key ? `/api/club/${encodeURIComponent(key)}` : null);
+}
+
+/**
+ * Recorded trophy history for the activity chart. While another range loads,
+ * the previous one stays (`stale: true`), so the chart holds its frame instead
+ * of flashing a skeleton.
+ */
+export function useTrophyHistory(
+  tag: string | null,
+  range: TrophyRange
+): {
+  data: TrophyHistory | null;
+  /** The range `data` belongs to — while loading, the previous one. */
+  dataRange: TrophyRange;
+  error: ApiError | null;
+  loading: boolean;
+  stale: boolean;
+} {
+  const key = tag ? normalizePlayerTag(tag) : "";
+  const url = key ? `/api/player/${encodeURIComponent(key)}/trophies?range=${range}` : null;
+  const [state, setState] = useState<{
+    url: string | null;
+    tag: string;
+    range: TrophyRange;
+    data: TrophyHistory | null;
+    error: ApiError | null;
+  }>({ url: null, tag: "", range, data: null, error: null });
+
+  useEffect(() => {
+    if (!url) return;
+    let cancelled = false;
+    fetchJson<TrophyHistory>(url)
+      .then((res) => {
+        if (!cancelled) setState({ url, tag: key, range, data: res, error: null });
+      })
+      .catch((err: unknown) => {
+        if (!cancelled) setState({ url, tag: key, range, data: null, error: toApiError(err) });
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [url, key, range]);
+
+  if (!url) return { data: null, dataRange: range, error: null, loading: false, stale: false };
+  if (state.url === url) {
+    return { data: state.data, dataRange: state.range, error: state.error, loading: false, stale: false };
+  }
+  // Only the same player's data may stand in for the new range.
+  const previous = state.tag === key ? state.data : null;
+  return { data: previous, dataRange: state.range, error: null, loading: true, stale: previous !== null };
 }

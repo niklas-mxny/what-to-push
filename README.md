@@ -74,6 +74,19 @@ Vercel braucht zwei Dinge, die lokal nicht nötig sind:
 
 Die API-Anbindung liegt komplett in [`src/lib/supercell.ts`](src/lib/supercell.ts).
 
+### Trophäen-Verlauf
+
+Die Supercell-API kennt nur den aktuellen Trophäenstand, den Verlauf zeichnet die Seite
+deshalb selbst auf ([`src/lib/trophy-history.ts`](src/lib/trophy-history.ts)): bei jedem
+Profil- oder Dashboard-Aufruf (höchstens alle 10 Minuten pro Spieler) plus den Stand nach
+jedem der letzten 25 Kämpfe aus dem Battle-Log. Dazu einmal täglich ein Vercel-Cron
+(`vercel.json`) für alle verknüpften und favorisierten Spieler. Er läuft nur mit gesetztem
+`CRON_SECRET` (Vercel schickt es automatisch als Bearer-Token mit):
+
+```bash
+openssl rand -hex 32 | npx vercel env add CRON_SECRET production
+```
+
 ## Architektur
 
 - **Next.js App Router**, TypeScript, Tailwind CSS.
