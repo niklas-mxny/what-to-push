@@ -46,6 +46,12 @@
   border-color: var(--border);
 }
 
+/* Base color under the fixed gradient, so overscroll (rubber-band on iOS/macOS)
+   shows the page color instead of white. */
+html {
+  background-color: var(--background);
+}
+
 body {
   background: radial-gradient(ellipse 120% 60% at 50% -10%, #241c46 0%, var(--background) 55%);
   background-attachment: fixed;
