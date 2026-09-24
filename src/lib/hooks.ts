@@ -174,10 +174,14 @@ export function usePublicClub(tag: string): ApiState<{ club: PublicClub }> {
   return useResource<{ club: PublicClub }>(key ? `/api/club/${encodeURIComponent(key)}` : null);
 }
 
+/** How often an open trophy chart asks for new data (only while the tab is visible). */
+const TROPHY_REFRESH_MS = 2 * 60 * 1000;
+
 /**
- * Recorded trophy history for the activity chart. While another range loads,
- * the previous one stays (`stale: true`), so the chart holds its frame instead
- * of flashing a skeleton.
+ * Recorded trophy history for the activity chart, refreshed every couple of
+ * minutes while the page is visible. While another range loads, the previous
+ * one stays (`stale: true`), so the chart holds its frame instead of flashing
+ * a skeleton; a failed background refresh keeps the data it had.
  */
 export function useTrophyHistory(
   tag: string | null,
@@ -198,22 +202,45 @@ export function useTrophyHistory(
     range: TrophyRange;
     data: TrophyHistory | null;
     error: ApiError | null;
-  }>({ url: null, tag: "", range, data: null, error: null });
+    fetchedAt: number;
+  }>({ url: null, tag: "", range, data: null, error: null, fetchedAt: 0 });
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
     if (!url) return;
     let cancelled = false;
     fetchJson<TrophyHistory>(url)
       .then((res) => {
-        if (!cancelled) setState({ url, tag: key, range, data: res, error: null });
+        if (!cancelled) setState({ url, tag: key, range, data: res, error: null, fetchedAt: Date.now() });
       })
       .catch((err: unknown) => {
-        if (!cancelled) setState({ url, tag: key, range, data: null, error: toApiError(err) });
+        if (cancelled) return;
+        setState((prev) =>
+          prev.url === url && prev.data
+            ? { ...prev, fetchedAt: Date.now() }
+            : { url, tag: key, range, data: null, error: toApiError(err), fetchedAt: Date.now() }
+        );
       });
     return () => {
       cancelled = true;
     };
-  }, [url, key, range]);
+  }, [url, key, range, reloadKey]);
+
+  const { fetchedAt } = state;
+  useEffect(() => {
+    if (!url || !fetchedAt) return;
+    const refresh = () => setReloadKey((k) => k + 1);
+    // A hidden tab skips its turn and catches up when it's shown again.
+    const timer = setTimeout(() => document.visibilityState === "visible" && refresh(), TROPHY_REFRESH_MS);
+    function onVisible() {
+      if (document.visibilityState === "visible" && Date.now() - fetchedAt >= TROPHY_REFRESH_MS) refresh();
+    }
+    document.addEventListener("visibilitychange", onVisible);
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
+  }, [url, fetchedAt]);
 
   if (!url) return { data: null, dataRange: range, error: null, loading: false, stale: false };
   if (state.url === url) {

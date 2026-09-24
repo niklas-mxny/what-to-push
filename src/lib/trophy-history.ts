@@ -12,16 +12,24 @@ import { TROPHY_RANGE_MS, type TrophyHistory, type TrophyPoint, type TrophyRange
  * each battle's trophyChange — that gives hour-level detail without polling.
  */
 
-/** Don't ask the API about the same player more often than this. */
-const INGEST_INTERVAL_MS = 10 * 60 * 1000;
+/**
+ * Don't ask the API about the same player more often than this. Below the
+ * chart's 2-minute refresh, so every refresh of an open chart brings news;
+ * however many people watch, it's at most two API calls per player a minute.
+ */
+const INGEST_INTERVAL_MS = 60 * 1000;
 const HOUR = 60 * 60 * 1000;
 const DAY = 24 * HOUR;
 
 export async function recordTrophyHistory(rawTag: string, knownTrophies?: number): Promise<void> {
   const tag = normalizePlayerTag(rawTag);
   const now = Date.now();
-  const last = await dbGet<{ last_ingest: number }>("SELECT last_ingest FROM trophy_ingests WHERE player_tag = ?", [
-    tag,
+  const [last, latest] = await Promise.all([
+    dbGet<{ last_ingest: number }>("SELECT last_ingest FROM trophy_ingests WHERE player_tag = ?", [tag]),
+    dbGet<{ at: number; trophies: number }>(
+      "SELECT at, trophies FROM trophy_points WHERE player_tag = ? ORDER BY at DESC LIMIT 1",
+      [tag]
+    ),
   ]);
   if (last && now - Number(last.last_ingest) < INGEST_INTERVAL_MS) return;
 
@@ -31,11 +39,18 @@ export async function recordTrophyHistory(rawTag: string, knownTrophies?: number
     fetchBattleLog(tag).catch(() => null),
   ]);
 
-  const points: TrophyPoint[] = [[now, trophies]];
   const battles = (log?.items ?? [])
     .map((b) => ({ at: Date.parse(parseSupercellTimestamp(b.battleTime)), change: b.battle.trophyChange ?? 0 }))
     .filter((b) => Number.isFinite(b.at) && b.at < now)
     .sort((a, b) => b.at - a.at);
+  // Nothing happened since the last stored point: the chart carries that
+  // value forward to "now" anyway, so an identical snapshot every minute
+  // would only bloat the table.
+  const unchanged =
+    latest !== undefined &&
+    Number(latest.trophies) === trophies &&
+    !battles.some((b) => b.at > Number(latest.at));
+  const points: TrophyPoint[] = unchanged ? [] : [[now, trophies]];
   // Newest first: after a battle the player had `running`; before it, that
   // minus the battle's change.
   let running = trophies;
